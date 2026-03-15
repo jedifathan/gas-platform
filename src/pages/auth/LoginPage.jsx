@@ -8,7 +8,7 @@ import { getDashboardPath } from '../../utils/permissions'
 import Button from '../../components/ui/Button'
 
 const DEMO_ACCOUNTS = [
-  { label: 'Admin',         email: 'admin@gas-program.id',          role: 'admin' },
+  { label: 'Admin',         email: 'admin@gas-program.my.id',          role: 'admin' },
   { label: 'Guru (Ani)',    email: 'ani.rahayu@tktunasbangsa.id',   role: 'teacher' },
   { label: 'Guru (Doni)',   email: 'doni.kusuma@paudmelati.id',     role: 'teacher' },
   { label: 'Pengamat Dinas',email: 'a.fauzi@dinkes-tangsel.go.id', role: 'gov_observer' },

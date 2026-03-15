@@ -2,7 +2,7 @@
   {
     "id": "usr-001",
     "name": "Admin GAS Pusat",
-    "email": "admin@gas-program.id",
+    "email": "admin@gas-program.my.id",
     "password": "password123",
     "role": "admin",
     "school_id": null,
