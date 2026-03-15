@@ -1,0 +1,20 @@
+[
+  {
+    "id": "reg-001",
+    "name": "Kota Tangerang Selatan",
+    "province": "Banten",
+    "created_at": "2024-01-01T00:00:00Z"
+  },
+  {
+    "id": "reg-002",
+    "name": "Kabupaten Tangerang",
+    "province": "Banten",
+    "created_at": "2024-01-01T00:00:00Z"
+  },
+  {
+    "id": "reg-003",
+    "name": "Kota Tangerang",
+    "province": "Banten",
+    "created_at": "2024-01-01T00:00:00Z"
+  }
+]

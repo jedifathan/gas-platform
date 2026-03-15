@@ -1,0 +1,80 @@
+[
+  {
+    "id": "sch-001",
+    "name": "TK Tunas Bangsa",
+    "region_id": "reg-001",
+    "district": "Ciputat",
+    "address": "Jl. Dewi Sartika No. 12, Ciputat",
+    "principal_name": "Ibu Sari Dewi",
+    "phone": "021-7441234",
+    "enrollment_year": 2024,
+    "program_start_date": "2024-02-01",
+    "status": "active",
+    "created_at": "2024-01-15T08:00:00Z"
+  },
+  {
+    "id": "sch-002",
+    "name": "PAUD Melati Indah",
+    "region_id": "reg-001",
+    "district": "Pamulang",
+    "address": "Jl. Pamulang Permai Blok C No. 5",
+    "principal_name": "Bapak Hendra Saputra",
+    "phone": "021-7456789",
+    "enrollment_year": 2024,
+    "program_start_date": "2024-03-01",
+    "status": "active",
+    "created_at": "2024-02-01T08:00:00Z"
+  },
+  {
+    "id": "sch-003",
+    "name": "TK Bintang Harapan",
+    "region_id": "reg-002",
+    "district": "Tigaraksa",
+    "address": "Jl. Raya Tigaraksa No. 88",
+    "principal_name": "Ibu Rina Marlina",
+    "phone": "021-5983210",
+    "enrollment_year": 2024,
+    "program_start_date": "2024-02-15",
+    "status": "active",
+    "created_at": "2024-01-20T08:00:00Z"
+  },
+  {
+    "id": "sch-004",
+    "name": "TK Cahaya Bangsa",
+    "region_id": "reg-003",
+    "district": "Batu Ceper",
+    "address": "Jl. Merdeka No. 45, Batu Ceper",
+    "principal_name": "Ibu Wulan Sari",
+    "phone": "021-5512345",
+    "enrollment_year": 2024,
+    "program_start_date": "2024-04-01",
+    "status": "active",
+    "created_at": "2024-03-10T08:00:00Z"
+  },
+  {
+    "id": "sch-005",
+    "name": "PAUD Pelangi Ceria",
+    "region_id": "reg-001",
+    "district": "Serpong",
+    "address": "Jl. BSD Raya No. 7, Serpong",
+    "principal_name": "Ibu Dewi Susanti",
+    "phone": "021-5387654",
+    "enrollment_year": 2024,
+    "program_start_date": "2024-02-01",
+    "status": "active",
+    "created_at": "2024-01-25T08:00:00Z"
+  },
+  {
+    "id": "sch-006",
+    "name": "TK Al-Ikhlas",
+    "region_id": "reg-002",
+    "district": "Pasar Kemis",
+    "address": "Jl. Pasar Kemis Blok B No. 3",
+    "principal_name": "Ibu Fatimah",
+    "phone": "021-5901234",
+    "enrollment_year": 2025,
+    "program_start_date": "2025-01-15",
+    "status": "pending",
+    "created_at": "2024-12-01T08:00:00Z"
+  }
+]

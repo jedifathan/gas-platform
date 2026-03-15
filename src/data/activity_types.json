@@ -1,0 +1,34 @@
+[
+  {
+    "id": "at-001",
+    "code": "brushing_demo",
+    "label": "Demonstrasi Sikat Gigi",
+    "description": "Kegiatan demonstrasi cara menyikat gigi yang benar kepada anak-anak bersama guru.",
+    "score_weight": 10,
+    "is_active": true
+  },
+  {
+    "id": "at-002",
+    "code": "oral_health_talk",
+    "label": "Penyuluhan Kesehatan Gigi",
+    "description": "Sesi edukasi interaktif tentang kesehatan gigi dan mulut untuk anak-anak.",
+    "score_weight": 8,
+    "is_active": true
+  },
+  {
+    "id": "at-003",
+    "code": "parent_engagement",
+    "label": "Keterlibatan Orang Tua",
+    "description": "Pertemuan, komunikasi, atau kegiatan bersama orang tua mengenai program GAS.",
+    "score_weight": 12,
+    "is_active": true
+  },
+  {
+    "id": "at-004",
+    "code": "checkup_referral",
+    "label": "Rujukan Pemeriksaan",
+    "description": "Fasilitasi rujukan anak ke puskesmas atau dokter gigi untuk pemeriksaan.",
+    "score_weight": 15,
+    "is_active": true
+  }
+]

@@ -1,0 +1,67 @@
+[
+  {
+    "id": "ss-001",
+    "school_id": "sch-001",
+    "period": "2025-02",
+    "lms_score": 34,
+    "activity_score": 32,
+    "consistency_bonus": 15,
+    "total_score": 81,
+    "rank": 1,
+    "national_rank": 1,
+    "badge_id": "bdg-003",
+    "computed_at": "2025-03-01T00:00:00Z"
+  },
+  {
+    "id": "ss-002",
+    "school_id": "sch-002",
+    "period": "2025-02",
+    "lms_score": 10,
+    "activity_score": 8,
+    "consistency_bonus": 0,
+    "total_score": 18,
+    "rank": 3,
+    "national_rank": 3,
+    "badge_id": "bdg-001",
+    "computed_at": "2025-03-01T00:00:00Z"
+  },
+  {
+    "id": "ss-003",
+    "school_id": "sch-003",
+    "period": "2025-02",
+    "lms_score": 28,
+    "activity_score": 22,
+    "consistency_bonus": 10,
+    "total_score": 60,
+    "rank": 2,
+    "national_rank": 2,
+    "badge_id": "bdg-002",
+    "computed_at": "2025-03-01T00:00:00Z"
+  },
+  {
+    "id": "ss-004",
+    "school_id": "sch-001",
+    "period": "2025-01",
+    "lms_score": 30,
+    "activity_score": 20,
+    "consistency_bonus": 0,
+    "total_score": 50,
+    "rank": 1,
+    "national_rank": 1,
+    "badge_id": "bdg-002",
+    "computed_at": "2025-02-01T00:00:00Z"
+  },
+  {
+    "id": "ss-005",
+    "school_id": "sch-003",
+    "period": "2025-01",
+    "lms_score": 20,
+    "activity_score": 10,
+    "consistency_bonus": 0,
+    "total_score": 30,
+    "rank": 2,
+    "national_rank": 2,
+    "badge_id": "bdg-001",
+    "computed_at": "2025-02-01T00:00:00Z"
+  }
+]

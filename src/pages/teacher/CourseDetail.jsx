@@ -1,0 +1,190 @@
+import { useParams, useNavigate } from 'react-router-dom'
+import { BookOpen, CheckCircle, Lock, ChevronRight, Award, Play, FileText, HelpCircle } from 'lucide-react'
+import { useLMS }      from '../../hooks/useLMS'
+import Card            from '../../components/ui/Card'
+import Button          from '../../components/ui/Button'
+import ProgressBar     from '../../components/ui/ProgressBar'
+
+const CONTENT_ICONS = {
+  article: <FileText size={14} />,
+  video:   <Play size={14} />,
+  pdf:     <FileText size={14} />,
+  quiz:    <HelpCircle size={14} />,
+}
+
+const CONTENT_LABELS = {
+  article: 'Artikel',
+  video:   'Video',
+  pdf:     'PDF',
+  quiz:    'Kuis',
+}
+
+export default function CourseDetail() {
+  const { courseId }    = useParams()
+  const navigate        = useNavigate()
+  const { getCourse, getProgress, quizUnlocked, enroll } = useLMS()
+
+  const course   = getCourse(courseId)
+  const progress = getProgress(courseId)
+  const unlocked = quizUnlocked(courseId)
+
+  if (!course) {
+    return (
+      <div className="page-wrapper text-center py-20 text-gray-400">
+        Kursus tidak ditemukan.
+      </div>
+    )
+  }
+
+  const completedIds  = progress?.lessons_completed ?? []
+  const pct           = Math.round((completedIds.length / course.total_lessons) * 100)
+  const isCertified   = progress?.status === 'certified'
+  const isEnrolled    = !!progress
+
+  function handleEnrollAndStart(lesson) {
+    if (!isEnrolled) {
+      const res = enroll(courseId)
+      if (!res.success && res.error !== 'ALREADY_ENROLLED') return
+    }
+    if (lesson.content_type === 'quiz') {
+      if (unlocked || isCertified) navigate(`/app/teacher/lms/${courseId}/quiz`)
+    } else {
+      navigate(`/app/teacher/lms/${courseId}/lesson/${lesson.id}`)
+    }
+  }
+
+  return (
+    <div className="page-wrapper max-w-3xl">
+      {/* Course header */}
+      <div className="card p-6 mb-5">
+        <div className="flex items-start gap-4">
+          <div
+            className="w-16 h-16 rounded-xl flex items-center justify-center shrink-0"
+            style={{ backgroundColor: course.thumbnail_color ?? '#E1F5EE' }}
+          >
+            <BookOpen size={24} className="text-teal-700" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <span className="text-xs text-teal-600 font-medium bg-teal-50 px-2 py-0.5 rounded-full">
+              {course.category_label}
+            </span>
+            <h1 className="text-xl font-bold text-gray-900 mt-2 mb-1">{course.title}</h1>
+            <p className="text-sm text-gray-500 leading-relaxed">{course.description}</p>
+          </div>
+        </div>
+
+        {/* Progress */}
+        <div className="mt-5">
+          <div className="flex items-center justify-between text-xs text-gray-600 mb-2">
+            <span>{completedIds.length}/{course.total_lessons} pelajaran selesai</span>
+            <span className="font-semibold text-teal-700">{pct}%</span>
+          </div>
+          <ProgressBar value={pct} color={isCertified ? 'teal' : 'amber'} size="sm" />
+        </div>
+
+        {/* Certificate banner */}
+        {isCertified && (
+          <div className="mt-4 flex items-center gap-3 p-3 rounded-xl bg-teal-50 border border-teal-200">
+            <Award size={20} className="text-teal-600 shrink-0" />
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-semibold text-teal-800">Sertifikat Diterbitkan</p>
+              <p className="text-xs text-teal-600">Skor kuis: {progress?.quiz_score}% · Lulus ✓</p>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Lesson list */}
+      <Card title="Daftar Pelajaran">
+        <div className="divide-y divide-gray-100">
+          {course.lessons.map((lesson, idx) => {
+            const isDone    = completedIds.includes(lesson.id)
+            const isQuiz    = lesson.content_type === 'quiz'
+            const isLocked  = isQuiz && !unlocked && !isCertified
+            const Icon      = CONTENT_ICONS[lesson.content_type] ?? <FileText size={14} />
+
+            return (
+              <div
+                key={lesson.id}
+                onClick={() => !isLocked && handleEnrollAndStart(lesson)}
+                className={`flex items-center gap-4 py-3.5 px-1 rounded-lg transition-colors ${
+                  isLocked
+                    ? 'opacity-50 cursor-not-allowed'
+                    : 'cursor-pointer hover:bg-gray-50 group'
+                }`}
+              >
+                {/* Status indicator */}
+                <div className="shrink-0">
+                  {isDone ? (
+                    <CheckCircle size={20} className="text-teal-500" />
+                  ) : isLocked ? (
+                    <Lock size={18} className="text-gray-400" />
+                  ) : (
+                    <div className="w-5 h-5 rounded-full border-2 border-gray-300
+                                    group-hover:border-teal-400 transition-colors" />
+                  )}
+                </div>
+
+                {/* Lesson info */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] font-medium text-gray-400">
+                      {idx + 1}
+                    </span>
+                    <p className={`text-sm font-medium truncate ${
+                      isDone ? 'text-gray-500 line-through' : 'text-gray-800 group-hover:text-teal-700'
+                    }`}>
+                      {lesson.title}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2 mt-0.5 ml-4">
+                    <span className="text-[10px] text-gray-400 flex items-center gap-1">
+                      {Icon} {CONTENT_LABELS[lesson.content_type]}
+                    </span>
+                    {lesson.duration_minutes && (
+                      <span className="text-[10px] text-gray-400">· {lesson.duration_minutes} mnt</span>
+                    )}
+                    {isLocked && (
+                      <span className="text-[10px] text-amber-600">
+                        Selesaikan pelajaran sebelumnya
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Arrow */}
+                {!isLocked && (
+                  <ChevronRight size={16} className="text-gray-300 group-hover:text-teal-500 shrink-0 transition-colors" />
+                )}
+              </div>
+            )
+          })}
+        </div>
+
+        {/* Start / Continue CTA */}
+        <div className="pt-4 border-t border-gray-100 mt-2">
+          {isCertified ? (
+            <p className="text-xs text-center text-gray-400">
+              Kursus ini sudah selesai. Anda bisa mengulang pelajaran kapan saja.
+            </p>
+          ) : (
+            <Button
+              variant="primary"
+              className="w-full justify-center"
+              onClick={() => {
+                const firstIncomplete = course.lessons.find(l =>
+                  !completedIds.includes(l.id) && l.content_type !== 'quiz'
+                )
+                if (firstIncomplete) handleEnrollAndStart(firstIncomplete)
+                else if (unlocked) navigate(`/app/teacher/lms/${courseId}/quiz`)
+              }}
+            >
+              {!isEnrolled ? 'Mulai Kursus' :
+               unlocked    ? 'Kerjakan Kuis' : 'Lanjutkan Belajar'}
+            </Button>
+          )}
+        </div>
+      </Card>
+    </div>
+  )
+}

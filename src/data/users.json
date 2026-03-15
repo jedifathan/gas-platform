@@ -1,0 +1,74 @@
+[
+  {
+    "id": "usr-001",
+    "name": "Admin GAS Pusat",
+    "email": "admin@gas-program.id",
+    "password": "password123",
+    "role": "admin",
+    "school_id": null,
+    "region_id": null,
+    "is_active": true,
+    "created_at": "2024-01-01T00:00:00Z",
+    "last_login": "2025-03-14T09:00:00Z"
+  },
+  {
+    "id": "usr-002",
+    "name": "Ibu Ani Rahayu",
+    "email": "ani.rahayu@tktunasbangsa.id",
+    "password": "password123",
+    "role": "teacher",
+    "school_id": "sch-001",
+    "region_id": null,
+    "is_active": true,
+    "created_at": "2024-02-01T00:00:00Z",
+    "last_login": "2025-03-13T14:30:00Z"
+  },
+  {
+    "id": "usr-003",
+    "name": "Bapak Doni Kusuma",
+    "email": "doni.kusuma@paudmelati.id",
+    "password": "password123",
+    "role": "teacher",
+    "school_id": "sch-002",
+    "region_id": null,
+    "is_active": true,
+    "created_at": "2024-03-01T00:00:00Z",
+    "last_login": "2025-03-10T11:00:00Z"
+  },
+  {
+    "id": "usr-004",
+    "name": "Drs. Ahmad Fauzi",
+    "email": "a.fauzi@dinkes-tangsel.go.id",
+    "password": "password123",
+    "role": "gov_observer",
+    "school_id": null,
+    "region_id": "reg-001",
+    "is_active": true,
+    "created_at": "2024-01-10T00:00:00Z",
+    "last_login": "2025-03-12T08:00:00Z"
+  },
+  {
+    "id": "usr-005",
+    "name": "Ibu Sri Wahyuni",
+    "email": "sri.wahyuni@tkbintang.id",
+    "password": "password123",
+    "role": "teacher",
+    "school_id": "sch-003",
+    "region_id": null,
+    "is_active": true,
+    "created_at": "2024-02-15T00:00:00Z",
+    "last_login": "2025-03-11T10:00:00Z"
+  },
+  {
+    "id": "usr-006",
+    "name": "Bapak Eko Prasetyo",
+    "email": "eko.prasetyo@dinkes-tangerang.go.id",
+    "password": "password123",
+    "role": "gov_observer",
+    "school_id": null,
+    "region_id": "reg-002",
+    "is_active": true,
+    "created_at": "2024-01-15T00:00:00Z",
+    "last_login": "2025-03-08T09:00:00Z"
+  }
+]

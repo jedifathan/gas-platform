@@ -1,0 +1,38 @@
+[
+  {
+    "id": "bdg-001",
+    "name": "Sekolah Pemula GAS",
+    "description": "Telah memulai program dan berhasil mengirim laporan pertama.",
+    "tier": "bronze",
+    "min_score": 10,
+    "color": "#993C1D",
+    "bg_color": "#FAECE7"
+  },
+  {
+    "id": "bdg-002",
+    "name": "Sekolah Aktif GAS",
+    "description": "Konsisten melaporkan kegiatan dan guru aktif belajar di LMS.",
+    "tier": "silver",
+    "min_score": 40,
+    "color": "#5F5E5A",
+    "bg_color": "#D3D1C7"
+  },
+  {
+    "id": "bdg-003",
+    "name": "Sekolah Berprestasi GAS",
+    "description": "Unggul dalam pelaporan, pelatihan guru, dan konsistensi program.",
+    "tier": "gold",
+    "min_score": 70,
+    "color": "#854F0B",
+    "bg_color": "#FAEEDA"
+  },
+  {
+    "id": "bdg-004",
+    "name": "Sekolah Gigi Emas",
+    "description": "Pencapaian tertinggi — program berjalan sempurna selama tiga bulan berturut-turut.",
+    "tier": "platinum",
+    "min_score": 90,
+    "color": "#3C3489",
+    "bg_color": "#EEEDFE"
+  }
+]
