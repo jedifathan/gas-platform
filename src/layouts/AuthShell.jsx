@@ -1,18 +1,21 @@
-import { Outlet } from 'react-router-dom'
-import { useAuth } from '../hooks/useAuth'
-import { useApp }  from '../hooks/useApp'
-import Sidebar     from '../components/navigation/Sidebar'
-import TopBar      from '../components/navigation/TopBar'
-import Toast       from '../components/ui/Toast'
+import { Outlet }    from 'react-router-dom'
+import { useAuth }   from '../hooks/useAuth'
+import { useApp }    from '../hooks/useApp'
+import { useIsMobile } from '../hooks/useBreakpoint'
+import Sidebar  from '../components/navigation/Sidebar'
+import TopBar   from '../components/navigation/TopBar'
+import Toast    from '../components/ui/Toast'
 
 /**
  * AuthShell — authenticated layout wrapper.
- * Renders the role-aware Sidebar, TopBar, and the page content (Outlet).
- * Also renders the global Toast stack.
+ * - Desktop: persistent sidebar with ml-64 offset.
+ * - Mobile (<768px): sidebar renders as a fixed drawer above an overlay.
+ *   Tapping the overlay closes the sidebar.
  */
 export default function AuthShell() {
-  const { isLoading }       = useAuth()
-  const { sidebarOpen, toasts, removeToast } = useApp()
+  const { isLoading }                          = useAuth()
+  const { sidebarOpen, toggleSidebar, toasts, removeToast } = useApp()
+  const isMobile                               = useIsMobile()
 
   if (isLoading) {
     return (
@@ -26,20 +29,28 @@ export default function AuthShell() {
     )
   }
 
+  // On mobile, content is always full-width regardless of sidebar state.
+  // The sidebar slides over content (drawer pattern) rather than pushing it.
+  const mainOffset = !isMobile && sidebarOpen ? 'ml-64' : 'ml-0'
+
   return (
     <div className="min-h-screen flex bg-gray-50">
       {/* ── Sidebar ── */}
       <Sidebar />
 
+      {/* ── Mobile overlay — closes sidebar on tap ── */}
+      {isMobile && sidebarOpen && (
+        <div
+          onClick={toggleSidebar}
+          className="fixed inset-0 z-20 bg-black/40 backdrop-blur-sm"
+          aria-hidden="true"
+        />
+      )}
+
       {/* ── Main area ── */}
-      <div
-        className={`flex-1 flex flex-col min-w-0 transition-all duration-200 ${
-          sidebarOpen ? 'ml-64' : 'ml-0'
-        }`}
-      >
+      <div className={`flex-1 flex flex-col min-w-0 transition-all duration-200 ${mainOffset}`}>
         <TopBar />
 
-        {/* Page content */}
         <main className="flex-1 overflow-y-auto">
           <Outlet />
         </main>
@@ -48,11 +59,7 @@ export default function AuthShell() {
       {/* ── Global toast stack ── */}
       <div className="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none">
         {toasts.map(t => (
-          <Toast
-            key={t.id}
-            toast={t}
-            onDismiss={() => removeToast(t.id)}
-          />
+          <Toast key={t.id} toast={t} onDismiss={() => removeToast(t.id)} />
         ))}
       </div>
     </div>

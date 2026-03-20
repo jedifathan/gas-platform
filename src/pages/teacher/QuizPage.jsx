@@ -18,8 +18,8 @@ export default function QuizPage() {
   const unlocked  = quizUnlocked(courseId)
   const questions = getQuestions(courseId)
 
-  const [answers,   setAnswers]   = useState({})
-  const [result,    setResult]    = useState(null)
+  const [answers,    setAnswers]    = useState({})
+  const [result,     setResult]     = useState(null)
   const [submitting, setSubmitting] = useState(false)
 
   if (!course || !questions.length) {
@@ -33,12 +33,16 @@ export default function QuizPage() {
           <Award size={48} className="text-teal-500 mx-auto mb-4" />
           <h2 className="text-xl font-bold text-gray-900 mb-2">Anda Sudah Bersertifikat!</h2>
           <p className="text-sm text-gray-500 mb-6">
-            Skor kuis: <strong>{progress.quiz_score}%</strong> ·
-            Threshold: {course.passing_score}%
+            Skor kuis: <strong>{progress.quiz_score}%</strong> · Threshold: {course.passing_score}%
           </p>
-          <Button variant="primary" onClick={() => navigate(`/app/teacher/lms/${courseId}`)}>
-            Kembali ke Kursus
-          </Button>
+          <div className="flex gap-3 justify-center">
+            <Button variant="secondary" onClick={() => navigate(`/app/teacher/lms/${courseId}`)}>
+              Kembali ke Kursus
+            </Button>
+            <Button variant="primary" onClick={() => navigate(`/app/teacher/lms/${courseId}/certificate`)}>
+              Lihat Sertifikat
+            </Button>
+          </div>
         </Card>
       </div>
     )
@@ -65,7 +69,7 @@ export default function QuizPage() {
   const answeredCount = Object.keys(answers).length
 
   function handleAnswer(qIdx, optIdx) {
-    if (result) return // lock after submit
+    if (result) return
     setAnswers(prev => ({ ...prev, [qIdx]: optIdx }))
   }
 
@@ -75,7 +79,7 @@ export default function QuizPage() {
       return
     }
     setSubmitting(true)
-    await new Promise(r => setTimeout(r, 600)) // simulate latency
+    await new Promise(r => setTimeout(r, 600))
     const answerArray = questions.map((_, i) => answers[i])
     const res         = submitQuiz(courseId, answerArray)
     setSubmitting(false)
@@ -119,16 +123,19 @@ export default function QuizPage() {
                     : <XCircle    size={15} className="text-red-500 shrink-0 mt-0.5" />}
                   <p className="text-sm font-medium text-gray-900">{item.question}</p>
                 </div>
-                <div className={`text-xs ml-5 mb-1 px-2 py-1 rounded-md inline-block ${
-                  item.correct ? 'bg-teal-50 text-teal-700' : 'bg-red-50 text-red-700'
-                }`}>
-                  Jawaban Anda: {item.your_answer}
-                </div>
-                {!item.correct && (
-                  <div className="text-xs ml-5 px-2 py-1 rounded-md bg-teal-50 text-teal-700 inline-block ml-2">
-                    Jawaban benar: {item.correct_answer}
+                {/* BUG FIX: removed duplicate ml-2 class from the second badge */}
+                <div className="flex flex-wrap gap-2 ml-5">
+                  <div className={`text-xs px-2 py-1 rounded-md inline-block ${
+                    item.correct ? 'bg-teal-50 text-teal-700' : 'bg-red-50 text-red-700'
+                  }`}>
+                    Jawaban Anda: {item.your_answer}
                   </div>
-                )}
+                  {!item.correct && (
+                    <div className="text-xs px-2 py-1 rounded-md bg-teal-50 text-teal-700 inline-block">
+                      Jawaban benar: {item.correct_answer}
+                    </div>
+                  )}
+                </div>
                 {item.explanation && (
                   <p className="text-xs text-gray-500 ml-5 mt-1.5 leading-relaxed">
                     💡 {item.explanation}
@@ -150,8 +157,8 @@ export default function QuizPage() {
             </Button>
           )}
           {result.passed && (
-            <Button variant="primary" onClick={() => navigate('/app/teacher/lms')}>
-              Ke Daftar Kursus
+            <Button variant="primary" onClick={() => navigate(`/app/teacher/lms/${courseId}/certificate`)}>
+              Lihat Sertifikat
             </Button>
           )}
         </div>
@@ -162,7 +169,6 @@ export default function QuizPage() {
   // ── Quiz form ─────────────────────────────────────────────────────────────
   return (
     <div className="page-wrapper max-w-2xl">
-      {/* Header */}
       <div className="flex items-center gap-3 mb-5">
         <Button variant="ghost" size="sm" icon={<ChevronLeft size={15} />}
           onClick={() => navigate(`/app/teacher/lms/${courseId}`)}>
@@ -208,14 +214,8 @@ export default function QuizPage() {
                     }`}>
                       {selected && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
                     </div>
-                    <input
-                      type="radio"
-                      name={`q-${qIdx}`}
-                      value={optIdx}
-                      checked={selected}
-                      onChange={() => handleAnswer(qIdx, optIdx)}
-                      className="sr-only"
-                    />
+                    <input type="radio" name={`q-${qIdx}`} value={optIdx} checked={selected}
+                      onChange={() => handleAnswer(qIdx, optIdx)} className="sr-only" />
                     {opt}
                   </label>
                 )
@@ -227,13 +227,8 @@ export default function QuizPage() {
 
       {/* Submit */}
       <div className="sticky bottom-4 mt-5">
-        <Button
-          variant="primary"
-          loading={submitting}
-          disabled={!allAnswered}
-          className="w-full justify-center shadow-lg"
-          onClick={handleSubmit}
-        >
+        <Button variant="primary" loading={submitting} disabled={!allAnswered}
+          className="w-full justify-center shadow-lg" onClick={handleSubmit}>
           {submitting ? 'Menilai...' : `Kirim Jawaban (${answeredCount}/${questions.length})`}
         </Button>
       </div>

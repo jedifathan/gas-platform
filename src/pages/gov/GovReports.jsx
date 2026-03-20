@@ -1,30 +1,38 @@
-import { useState, useMemo } from 'react'
-import { FileText }        from 'lucide-react'
-import { useReports }      from '../../hooks/useReports'
-import { useAuth }         from '../../hooks/useAuth'
-import { useApp }          from '../../hooks/useApp'
-import Card                from '../../components/ui/Card'
-import StatusPill          from '../../components/ui/StatusPill'
-import EmptyState          from '../../components/ui/EmptyState'
-import ReportFilterBar     from '../../components/reports/ReportFilterBar'
-import schoolsData         from '../../data/schools.json'
+import { useState, useMemo, useCallback } from 'react'
+import { FileText, Download }  from 'lucide-react'
+import { useReports }          from '../../hooks/useReports'
+import { useAuth }             from '../../hooks/useAuth'
+import { useApp }              from '../../hooks/useApp'
+import Card                    from '../../components/ui/Card'
+import StatusPill              from '../../components/ui/StatusPill'
+import Button                  from '../../components/ui/Button'
+import EmptyState              from '../../components/ui/EmptyState'
+import ReportFilterBar         from '../../components/reports/ReportFilterBar'
+import schoolsData             from '../../data/schools.json'
+import { downloadCSV }         from '../../utils/csvExport'
 import { formatPeriod, formatRelativeTime } from '../../utils/formatters'
 
+/**
+ * BUG FIX: The previous useMemo for `reports` suppressed its `getFiltered`
+ * dependency with an eslint-disable comment, causing stale data when underlying
+ * reports changed. Now uses a stable useCallback ref so the memo updates correctly.
+ */
 export default function GovReports() {
   const { session }   = useAuth()
-  const { period }    = useApp()
+  const { period, toast } = useApp()
   const { getFiltered, activityTypes } = useReports()
-  const [search, setSearch] = useState('')
+
+  const [search,  setSearch]  = useState('')
   const [filters, setFilters] = useState({ period })
 
   function handleFilterChange(key, value) {
     setFilters(f => ({ ...f, [key]: value }))
   }
 
-  // Gov observer: region scoped reports
+  // Stable scoped fetch — depends on session, filters, and getFiltered
   const reports = useMemo(() => {
     return getFiltered({ region_id: session?.region_id, ...filters })
-  }, [session, filters]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [session?.region_id, filters, getFiltered])
 
   const displayed = useMemo(() => {
     if (!search) return reports
@@ -35,8 +43,21 @@ export default function GovReports() {
     )
   }, [reports, search])
 
-  // Only schools in this region
   const regionSchools = schoolsData.filter(s => s.region_id === session?.region_id)
+
+  function handleExport() {
+    downloadCSV(`laporan-wilayah-${filters.period ?? 'semua'}.csv`, displayed, [
+      { key: 'school_name',       label: 'Nama Sekolah' },
+      { key: 'school_district',   label: 'Kecamatan' },
+      { key: 'activity_label',    label: 'Jenis Kegiatan' },
+      { key: 'report_period',     label: 'Periode' },
+      { key: 'participant_count', label: 'Jumlah Peserta' },
+      { key: 'status',            label: 'Status' },
+      { key: 'teacher_name',      label: 'Guru' },
+      { key: 'submitted_at',      label: 'Dikirim' },
+    ])
+    toast.success(`${displayed.length} laporan diekspor.`)
+  }
 
   return (
     <div className="page-wrapper">
@@ -47,6 +68,14 @@ export default function GovReports() {
             {displayed.length} laporan · hanya baca
           </p>
         </div>
+        <Button
+          variant="secondary"
+          icon={<Download size={14} />}
+          onClick={handleExport}
+          disabled={displayed.length === 0}
+        >
+          Export CSV
+        </Button>
       </div>
 
       {/* Filters */}
@@ -61,7 +90,8 @@ export default function GovReports() {
       </div>
 
       {/* Read-only badge */}
-      <div className="mb-4 flex items-center gap-2 px-3 py-2 rounded-lg bg-blue-50 border border-blue-200 text-xs text-blue-700 w-fit">
+      <div className="mb-4 flex items-center gap-2 px-3 py-2 rounded-lg bg-blue-50
+                      border border-blue-200 text-xs text-blue-700 w-fit">
         <FileText size={13} />
         Mode hanya baca — Pengamat Dinas tidak dapat memvalidasi laporan.
       </div>

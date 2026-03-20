@@ -1,20 +1,34 @@
 import { useState } from 'react'
-import { Search, Users, Shield, School } from 'lucide-react'
-import { getAllUsers, toggleUserActive } from '../../services/authService'
+import { Search, Users, Plus, Eye, EyeOff } from 'lucide-react'
+import { getAllUsers, toggleUserActive, createUser } from '../../services/authService'
+import schoolsData from '../../data/schools.json'
+import regionsData from '../../data/regions.json'
 import { useApp }    from '../../hooks/useApp'
 import Card          from '../../components/ui/Card'
 import Badge         from '../../components/ui/Badge'
 import Button        from '../../components/ui/Button'
+import Modal         from '../../components/ui/Modal'
 import EmptyState    from '../../components/ui/EmptyState'
+import TextInput     from '../../components/forms/TextInput'
+import SelectInput   from '../../components/forms/SelectInput'
 import { getRoleLabel, formatDateTime } from '../../utils/formatters'
 
 const ROLE_COLOR = { admin: 'blue', teacher: 'green', gov_observer: 'purple' }
 
+const EMPTY_FORM = {
+  name: '', email: '', password: '', role: 'teacher', school_id: '', region_id: '',
+}
+
 export default function UserManagement() {
-  const { toast }                = useApp()
-  const [users, setUsers]        = useState(() => getAllUsers())
-  const [search, setSearch]      = useState('')
-  const [roleFilter, setRoleFilter] = useState('')
+  const { toast }                    = useApp()
+  const [users, setUsers]            = useState(() => getAllUsers())
+  const [search, setSearch]          = useState('')
+  const [roleFilter, setRoleFilter]  = useState('')
+  const [modal, setModal]            = useState(false)
+  const [form, setForm]              = useState(EMPTY_FORM)
+  const [errors, setErrors]          = useState({})
+  const [saving, setSaving]          = useState(false)
+  const [showPwd, setShowPwd]        = useState(false)
 
   const filtered = users.filter(u => {
     const q = search.toLowerCase()
@@ -34,6 +48,49 @@ export default function UserManagement() {
     }
   }
 
+  function set(field, value) {
+    setForm(f => ({ ...f, [field]: value }))
+    setErrors(e => ({ ...e, [field]: undefined }))
+  }
+
+  function openModal() {
+    setForm(EMPTY_FORM)
+    setErrors({})
+    setShowPwd(false)
+    setModal(true)
+  }
+
+  async function handleCreate() {
+    setSaving(true)
+    await new Promise(r => setTimeout(r, 400))
+
+    const payload = {
+      ...form,
+      school_id: form.role === 'teacher'      ? form.school_id  : null,
+      region_id: form.role === 'gov_observer'  ? form.region_id : null,
+    }
+    const result = createUser(payload)
+    setSaving(false)
+
+    if (!result.success) {
+      if (result.field) setErrors({ [result.field]: result.message })
+      else toast.error(result.message ?? 'Gagal membuat pengguna.')
+      return
+    }
+
+    setUsers(getAllUsers())
+    toast.success(`Akun ${result.user.name} berhasil dibuat.`)
+    setModal(false)
+  }
+
+  const schoolOpts  = schoolsData.map(s => ({ value: s.id, label: s.name }))
+  const regionOpts  = regionsData.map(r => ({ value: r.id, label: r.name }))
+  const roleOpts    = [
+    { value: 'teacher',      label: 'Guru' },
+    { value: 'gov_observer', label: 'Pengamat Dinas' },
+    { value: 'admin',        label: 'Administrator' },
+  ]
+
   return (
     <div className="page-wrapper">
       <div className="page-header">
@@ -41,6 +98,9 @@ export default function UserManagement() {
           <h1 className="page-title">Manajemen Pengguna</h1>
           <p className="text-sm text-gray-500 mt-0.5">{users.length} pengguna terdaftar</p>
         </div>
+        <Button variant="primary" icon={<Plus size={14} />} onClick={openModal}>
+          Tambah Pengguna
+        </Button>
       </div>
 
       {/* Filters */}
@@ -71,7 +131,7 @@ export default function UserManagement() {
                 <th className="th">Sekolah / Wilayah</th>
                 <th className="th w-32">Login Terakhir</th>
                 <th className="th w-24 text-center">Status</th>
-                <th className="th w-24 text-center">Aksi</th>
+                <th className="th w-28 text-center">Aksi</th>
               </tr>
             </thead>
             <tbody>
@@ -97,9 +157,7 @@ export default function UserManagement() {
                   <td className="td text-sm text-gray-600">
                     {user.school?.name ?? user.region?.name ?? <span className="text-gray-400">—</span>}
                   </td>
-                  <td className="td text-xs text-gray-500">
-                    {formatDateTime(user.last_login)}
-                  </td>
+                  <td className="td text-xs text-gray-500">{formatDateTime(user.last_login)}</td>
                   <td className="td text-center">
                     <Badge color={user.is_active ? 'green' : 'gray'} size="sm">
                       {user.is_active ? 'Aktif' : 'Nonaktif'}
@@ -107,11 +165,8 @@ export default function UserManagement() {
                   </td>
                   <td className="td text-center">
                     {user.role !== 'admin' && (
-                      <Button
-                        size="sm"
-                        variant={user.is_active ? 'danger' : 'secondary'}
-                        onClick={() => handleToggle(user.id)}
-                      >
+                      <Button size="sm" variant={user.is_active ? 'danger' : 'secondary'}
+                        onClick={() => handleToggle(user.id)}>
                         {user.is_active ? 'Nonaktifkan' : 'Aktifkan'}
                       </Button>
                     )}
@@ -122,6 +177,69 @@ export default function UserManagement() {
           </table>
         )}
       </Card>
+
+      {/* Add User Modal */}
+      <Modal
+        open={modal}
+        onClose={() => setModal(false)}
+        title="Tambah Pengguna Baru"
+        size="md"
+        footer={
+          <>
+            <Button variant="secondary" onClick={() => setModal(false)}>Batal</Button>
+            <Button variant="primary" loading={saving} onClick={handleCreate}>
+              Buat Akun
+            </Button>
+          </>
+        }
+      >
+        <div className="space-y-4">
+          <TextInput label="Nama Lengkap" required value={form.name}
+            onChange={e => set('name', e.target.value)} error={errors.name}
+            placeholder="Nama lengkap pengguna" />
+
+          <TextInput label="Email" required type="email" value={form.email}
+            onChange={e => set('email', e.target.value)} error={errors.email}
+            placeholder="email@sekolah.id" />
+
+          {/* Password with show/hide */}
+          <div className="flex flex-col gap-1">
+            <label className="label">
+              Password <span className="text-red-500">*</span>
+            </label>
+            <div className="relative">
+              <input
+                type={showPwd ? 'text' : 'password'}
+                value={form.password}
+                onChange={e => set('password', e.target.value)}
+                placeholder="Minimal 6 karakter"
+                className={`input pr-10 ${errors.password ? 'input-error' : ''}`}
+              />
+              <button type="button" onClick={() => setShowPwd(v => !v)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                tabIndex={-1}>
+                {showPwd ? <EyeOff size={16} /> : <Eye size={16} />}
+              </button>
+            </div>
+            {errors.password && <p className="text-xs text-red-600">{errors.password}</p>}
+          </div>
+
+          <SelectInput label="Role" required options={roleOpts} value={form.role}
+            onChange={e => set('role', e.target.value)} placeholder={null} />
+
+          {/* Conditional school / region selector */}
+          {form.role === 'teacher' && (
+            <SelectInput label="Sekolah" options={schoolOpts} value={form.school_id}
+              onChange={e => set('school_id', e.target.value)}
+              placeholder="Pilih sekolah..." />
+          )}
+          {form.role === 'gov_observer' && (
+            <SelectInput label="Wilayah" options={regionOpts} value={form.region_id}
+              onChange={e => set('region_id', e.target.value)}
+              placeholder="Pilih wilayah..." />
+          )}
+        </div>
+      </Modal>
     </div>
   )
 }

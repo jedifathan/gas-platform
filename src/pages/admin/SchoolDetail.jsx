@@ -1,11 +1,12 @@
 import { useParams, useNavigate } from 'react-router-dom'
 import { ChevronLeft, School, MapPin, Phone, User, Calendar } from 'lucide-react'
-import schoolsData  from '../../data/schools.json'
-import usersData    from '../../data/users.json'
-import regionsData  from '../../data/regions.json'
-import { getReports }       from '../../services/reportService'
-import { getSchoolScore }   from '../../services/leaderboardService'
+import schoolsData             from '../../data/schools.json'
+import usersData               from '../../data/users.json'
+import regionsData             from '../../data/regions.json'
+import { getReports }          from '../../services/reportService'
+import { getSchoolScore }      from '../../services/leaderboardService'
 import { getLMSCompletionRate } from '../../services/lmsService'
+import { useApp }          from '../../hooks/useApp'
 import Card          from '../../components/ui/Card'
 import Button        from '../../components/ui/Button'
 import Badge         from '../../components/ui/Badge'
@@ -13,17 +14,20 @@ import StatusPill    from '../../components/ui/StatusPill'
 import ProgressBar   from '../../components/ui/ProgressBar'
 import { formatDate, formatPeriod, getBadgeConfig } from '../../utils/formatters'
 
-const CURRENT_PERIOD = '2025-02'
-
+/**
+ * BUG FIX: CURRENT_PERIOD was hardcoded as '2025-02'.
+ * Now uses the global period from the TopBar period selector via useApp().
+ */
 export default function SchoolDetail() {
   const { schoolId } = useParams()
   const navigate     = useNavigate()
+  const { period }   = useApp()
 
-  const school  = schoolsData.find(s => s.id === schoolId)
-  const region  = school ? regionsData.find(r => r.id === school.region_id) : null
+  const school   = schoolsData.find(s => s.id === schoolId)
+  const region   = school ? regionsData.find(r => r.id === school.region_id) : null
   const teachers = usersData.filter(u => u.role === 'teacher' && u.school_id === schoolId)
   const reports  = getReports({ school_id: schoolId })
-  const score    = getSchoolScore(schoolId, CURRENT_PERIOD)
+  const score    = getSchoolScore(schoolId, period)
   const lmsData  = getLMSCompletionRate(schoolId, teachers)
 
   if (!school) {
@@ -76,13 +80,13 @@ export default function SchoolDetail() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-5">
         {/* Score breakdown */}
-        {score && (
-          <Card title={`Skor ${formatPeriod(CURRENT_PERIOD)}`} className="lg:col-span-1">
+        {score ? (
+          <Card title={`Skor ${formatPeriod(period)}`} className="lg:col-span-1">
             <div className="space-y-3">
               {[
-                { label: 'LMS',        value: score.lms_score,        max: 40, color: 'teal' },
-                { label: 'Kegiatan',   value: score.activity_score,   max: 40, color: 'blue' },
-                { label: 'Konsistensi',value: score.consistency_bonus,max: 20, color: 'amber' },
+                { label: 'LMS',         value: score.lms_score,         max: 40, color: 'teal' },
+                { label: 'Kegiatan',    value: score.activity_score,    max: 40, color: 'blue' },
+                { label: 'Konsistensi', value: score.consistency_bonus, max: 20, color: 'amber' },
               ].map(({ label, value, max, color }) => (
                 <div key={label}>
                   <div className="flex justify-between text-xs text-gray-600 mb-1">
@@ -96,6 +100,10 @@ export default function SchoolDetail() {
                 <span className="text-teal-700">{score.total_score}/100</span>
               </div>
             </div>
+          </Card>
+        ) : (
+          <Card title={`Skor ${formatPeriod(period)}`} className="lg:col-span-1">
+            <p className="text-xs text-gray-400 py-4 text-center">Belum ada skor untuk periode ini.</p>
           </Card>
         )}
 

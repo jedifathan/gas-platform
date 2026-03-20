@@ -1,11 +1,12 @@
+import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { School, FileText, Users, BarChart2, ArrowRight, CheckCircle, XCircle } from 'lucide-react'
-import { useDashboard }  from '../../hooks/useDashboard'
+import { useDashboard }        from '../../hooks/useDashboard'
+import { getMultiPeriodStats } from '../../services/dashboardService'
 import StatCard          from '../../components/ui/StatCard'
 import Card              from '../../components/ui/Card'
 import Button            from '../../components/ui/Button'
-import Badge             from '../../components/ui/Badge'
-import CoverageChart     from '../../components/charts/CoverageChart'
+import BarChart          from '../../components/charts/BarChart'
 import LeaderboardTable  from '../../components/leaderboard/LeaderboardTable'
 import Spinner           from '../../components/ui/Spinner'
 import { formatPeriod, getBadgeConfig } from '../../utils/formatters'
@@ -13,6 +14,11 @@ import { formatPeriod, getBadgeConfig } from '../../utils/formatters'
 export default function GovDashboard() {
   const { stats, loading, period } = useDashboard()
   const navigate = useNavigate()
+
+  const trendData = useMemo(
+    () => stats ? getMultiPeriodStats(period, 4, stats.region_id) : [],
+    [period, stats]
+  )
 
   if (loading || !stats) return <Spinner center />
 
@@ -38,7 +44,8 @@ export default function GovDashboard() {
         <StatCard label="Laporan Validated"  value={kpis.validated_reports}  sub="periode ini"                  color="teal"  icon={<FileText size={18} />} />
         <StatCard label="Rata-rata Skor"     value={kpis.avg_score}          sub="dari 100 poin"                color="amber" icon={<BarChart2 size={18} />} />
         <StatCard label="Guru Bersertifikat" value={kpis.certified_teachers} sub={`dari ${kpis.total_teachers}`} color="blue"  icon={<Users size={18} />} />
-        <StatCard label="Tidak Melapor"      value={inactiveCount}           sub="sekolah bulan ini"            color={inactiveCount > 0 ? 'red' : 'gray'} icon={<XCircle size={18} />} />
+        <StatCard label="Tidak Melapor"      value={inactiveCount}           sub="sekolah bulan ini"
+          color={inactiveCount > 0 ? 'red' : 'gray'} icon={<XCircle size={18} />} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
@@ -63,9 +70,7 @@ export default function GovDashboard() {
                   {rank && (
                     <span className="text-xs font-bold text-teal-700 shrink-0">{rank.total_score} pts</span>
                   )}
-                  {badgeCfg && (
-                    <span className="text-sm shrink-0">{badgeCfg.emoji}</span>
-                  )}
+                  {badgeCfg && <span className="text-sm shrink-0">{badgeCfg.emoji}</span>}
                 </div>
               )
             })}
@@ -83,6 +88,26 @@ export default function GovDashboard() {
           noPadding
         >
           <LeaderboardTable rankings={rankings.slice(0, 5)} showBreakdown={false} />
+        </Card>
+      </div>
+
+      {/* Trend charts */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <Card title="Laporan Tervalidasi" subtitle="4 bulan terakhir">
+          <BarChart
+            data={trendData}
+            bars={[{ key: 'validated', color: '#0F6E56', label: 'Tervalidasi' }]}
+            height={180}
+            formatter={v => `${v} laporan`}
+          />
+        </Card>
+        <Card title="Sekolah Aktif Melapor" subtitle="4 bulan terakhir">
+          <BarChart
+            data={trendData}
+            bars={[{ key: 'reporting', color: '#185FA5', label: 'Sekolah Melapor' }]}
+            height={180}
+            formatter={v => `${v} sekolah`}
+          />
         </Card>
       </div>
     </div>

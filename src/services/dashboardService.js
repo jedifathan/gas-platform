@@ -3,9 +3,10 @@
  * Role-scoped KPI aggregation for the three dashboard variants.
  *
  * Production swap:
- *   getAdminStats()   → GET /api/dashboard/stats?role=admin&period=
- *   getTeacherStats() → GET /api/dashboard/stats?role=teacher&period=
- *   getGovStats()     → GET /api/dashboard/stats?role=gov&period=
+ *   getAdminStats()        → GET /api/dashboard/stats?role=admin&period=
+ *   getTeacherStats()      → GET /api/dashboard/stats?role=teacher&period=
+ *   getGovStats()          → GET /api/dashboard/stats?role=gov&period=
+ *   getMultiPeriodStats()  → GET /api/dashboard/trend?n=4&region=
  */
 
 import schoolsData  from '../data/schools.json'
@@ -14,6 +15,21 @@ import regionsData  from '../data/regions.json'
 import { getReports }           from './reportService'
 import { getTeacherProgress, getCourses } from './lmsService'
 import { computeLeaderboard }   from './leaderboardService'
+
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** Build N period strings ending at (and including) currentPeriod, oldest first */
+function recentPeriods(currentPeriod, n) {
+  const [year, month] = currentPeriod.split('-').map(Number)
+  const result = []
+  for (let i = n - 1; i >= 0; i--) {
+    let m = month - i
+    let y = year
+    while (m <= 0) { m += 12; y-- }
+    result.push(`${y}-${String(m).padStart(2, '0')}`)
+  }
+  return result
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -34,8 +50,8 @@ export function getAdminStats(period) {
     : 0
 
   const coverage = regionsData.map(reg => {
-    const regSchools     = activeSchools.filter(s => s.region_id === reg.id)
-    const regReporting   = regSchools.filter(s => reportingIds.includes(s.id))
+    const regSchools   = activeSchools.filter(s => s.region_id === reg.id)
+    const regReporting = regSchools.filter(s => reportingIds.includes(s.id))
     return {
       region_id:   reg.id,
       region_name: reg.name,
@@ -71,16 +87,16 @@ export function getTeacherStats(teacherId, period) {
   const teacher = usersData.find(u => u.id === teacherId)
   if (!teacher) return null
 
-  const progress       = getTeacherProgress(teacherId)
+  const progress         = getTeacherProgress(teacherId)
   const publishedCourses = getCourses()
-  const certified      = progress.filter(p => p.status === 'certified').length
-  const inProgress     = progress.filter(p => p.status === 'in_progress').length
+  const certified        = progress.filter(p => p.status === 'certified').length
+  const inProgress       = progress.filter(p => p.status === 'in_progress').length
 
-  const myReports      = getReports({ school_id: teacher.school_id, teacher_id: teacherId })
-  const periodReports  = myReports.filter(r => r.report_period === period)
+  const myReports       = getReports({ school_id: teacher.school_id, teacher_id: teacherId })
+  const periodReports   = myReports.filter(r => r.report_period === period)
   const validatedPeriod = periodReports.filter(r => r.status === 'validated')
 
-  const rankings  = computeLeaderboard(period)
+  const rankings   = computeLeaderboard(period)
   const schoolRank = rankings.find(r => r.school_id === teacher.school_id)
 
   return {
@@ -89,19 +105,19 @@ export function getTeacherStats(teacherId, period) {
     teacher_name: teacher.name,
     school_id:    teacher.school_id,
     kpis: {
-      courses_certified:      certified,
-      courses_in_progress:    inProgress,
-      total_courses:          publishedCourses.length,
-      reports_this_period:    periodReports.length,
-      validated_this_period:  validatedPeriod.length,
-      school_rank:            schoolRank?.rank  ?? null,
-      school_score:           schoolRank?.total_score ?? 0,
-      school_badge:           schoolRank?.badge ?? null,
+      courses_certified:     certified,
+      courses_in_progress:   inProgress,
+      total_courses:         publishedCourses.length,
+      reports_this_period:   periodReports.length,
+      validated_this_period: validatedPeriod.length,
+      school_rank:           schoolRank?.rank        ?? null,
+      school_score:          schoolRank?.total_score ?? 0,
+      school_badge:          schoolRank?.badge       ?? null,
     },
     course_progress: publishedCourses.map(c => {
       const prog = progress.find(p => p.course_id === c.id)
       return {
-        course: c,
+        course:   c,
         progress: prog || null,
         status:   prog?.status || 'not_started',
         pct: prog
@@ -122,15 +138,15 @@ export function getGovStats(regionId, period) {
   const regionTeachers = usersData.filter(u =>
     u.role === 'teacher' && regionSchools.some(s => s.id === u.school_id)
   )
-  const allProgress    = regionTeachers.flatMap(t => getTeacherProgress(t.id))
-  const certifiedIds   = [...new Set(allProgress.filter(p => p.status === 'certified').map(p => p.teacher_id))]
+  const allProgress  = regionTeachers.flatMap(t => getTeacherProgress(t.id))
+  const certifiedIds = [...new Set(allProgress.filter(p => p.status === 'certified').map(p => p.teacher_id))]
 
-  const regionReports  = getReports({ region_id: regionId, period })
-  const validated      = regionReports.filter(r => r.status === 'validated')
-  const reportingIds   = [...new Set(validated.map(r => r.school_id))]
+  const regionReports = getReports({ region_id: regionId, period })
+  const validated     = regionReports.filter(r => r.status === 'validated')
+  const reportingIds  = [...new Set(validated.map(r => r.school_id))]
 
-  const rankings  = computeLeaderboard(period, regionId)
-  const avgScore  = rankings.length
+  const rankings = computeLeaderboard(period, regionId)
+  const avgScore = rankings.length
     ? Math.round((rankings.reduce((s, r) => s + r.total_score, 0) / rankings.length) * 10) / 10
     : 0
 
@@ -157,4 +173,41 @@ export function getGovStats(regionId, period) {
     school_status: schoolStatus,
     rankings,
   }
+}
+
+/**
+ * Multi-period trend data for dashboard charts.
+ * Returns the last N months (oldest → newest) for bar/line charts.
+ *
+ * @param {string} currentPeriod  e.g. "2025-02"
+ * @param {number} n              number of periods to include (default 4)
+ * @param {string|null} regionId  scope to a region (gov/admin filter)
+ */
+export function getMultiPeriodStats(currentPeriod, n = 4, regionId = null) {
+  const periods = recentPeriods(currentPeriod, n)
+
+  return periods.map(period => {
+    const allReports = regionId
+      ? getReports({ region_id: regionId, period })
+      : getReports({ period })
+
+    const validated = allReports.filter(r => r.status === 'validated')
+    const rankings  = computeLeaderboard(period, regionId)
+    const avgScore  = rankings.length
+      ? Math.round(rankings.reduce((s, r) => s + r.total_score, 0) / rankings.length)
+      : 0
+
+    // Short month label for chart x-axis
+    const [y, m] = period.split('-')
+    const MONTHS = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des']
+    const label  = `${MONTHS[parseInt(m) - 1]} '${y.slice(2)}`
+
+    return {
+      period,
+      name:       label,
+      validated:  validated.length,
+      avg_score:  avgScore,
+      reporting:  new Set(validated.map(r => r.school_id)).size,
+    }
+  })
 }

@@ -12,11 +12,16 @@ import TextArea          from '../../components/forms/TextArea'
 import Modal             from '../../components/ui/Modal'
 import { formatPeriod, getPeriodOptions } from '../../utils/formatters'
 
+/**
+ * BUG FIX: "Simpan Draft" previously called createDraft() every time, causing a
+ * DUPLICATE_PERIOD error on the second press. Now it calls editDraft() on the
+ * existing draftId if one already exists.
+ */
 export default function SubmitReport() {
-  const navigate               = useNavigate()
-  const { session }            = useAuth()
-  const { toast }              = useApp()
-  const { activityTypes, createDraft, submit, getById } = useReports()
+  const navigate                   = useNavigate()
+  const { session }                = useAuth()
+  const { toast }                  = useApp()
+  const { activityTypes, createDraft, editDraft, submit } = useReports()
 
   const periodOptions = getPeriodOptions(6)
 
@@ -27,11 +32,11 @@ export default function SubmitReport() {
     description:       '',
     evidence_notes:    '',
   })
-  const [errors,       setErrors]       = useState({})
-  const [saving,       setSaving]       = useState(false)
-  const [submitting,   setSubmitting]   = useState(false)
-  const [confirmOpen,  setConfirmOpen]  = useState(false)
-  const [draftId,      setDraftId]      = useState(null)
+  const [errors,      setErrors]      = useState({})
+  const [saving,      setSaving]      = useState(false)
+  const [submitting,  setSubmitting]  = useState(false)
+  const [confirmOpen, setConfirmOpen] = useState(false)
+  const [draftId,     setDraftId]     = useState(null)
 
   function set(field, value) {
     setForm(f => ({ ...f, [field]: value }))
@@ -53,10 +58,19 @@ export default function SubmitReport() {
   async function handleSaveDraft() {
     setSaving(true)
     await new Promise(r => setTimeout(r, 400))
-    const result = createDraft(form)
+
+    let result
+    if (draftId) {
+      // BUG FIX: update existing draft instead of creating a duplicate
+      result = editDraft(draftId, form)
+    } else {
+      result = createDraft(form)
+    }
+
     setSaving(false)
+
     if (result.success) {
-      setDraftId(result.report.id)
+      if (!draftId) setDraftId(result.report.id)
       toast.success('Draft laporan tersimpan.')
     } else {
       toast.error(result.message ?? 'Gagal menyimpan draft.')
@@ -76,7 +90,6 @@ export default function SubmitReport() {
     setSubmitting(true)
     await new Promise(r => setTimeout(r, 600))
 
-    // Save draft first if not yet saved
     let id = draftId
     if (!id) {
       const draftResult = createDraft(form)
@@ -116,20 +129,13 @@ export default function SubmitReport() {
       <Card>
         <div className="space-y-5">
           {/* Period */}
-          <SelectInput
-            label="Periode Laporan"
-            required
-            options={periodOptions}
-            value={form.report_period}
-            onChange={e => set('report_period', e.target.value)}
-            error={errors.report_period}
-            placeholder={null}
-          />
+          <SelectInput label="Periode Laporan" required options={periodOptions}
+            value={form.report_period} onChange={e => set('report_period', e.target.value)}
+            error={errors.report_period} placeholder={null} />
 
           {/* Activity type */}
           <SelectInput
-            label="Jenis Kegiatan"
-            required
+            label="Jenis Kegiatan" required
             options={activityTypes.map(t => ({
               value: t.id,
               label: `${t.label} (${t.score_weight} pts)`,
@@ -140,7 +146,6 @@ export default function SubmitReport() {
             placeholder="Pilih jenis kegiatan..."
           />
 
-          {/* Activity type description hint */}
           {selectedType && (
             <div className="flex gap-2 p-3 rounded-lg bg-teal-50 border border-teal-100">
               <AlertCircle size={14} className="text-teal-600 shrink-0 mt-0.5" />
@@ -148,42 +153,23 @@ export default function SubmitReport() {
             </div>
           )}
 
-          {/* Participant count */}
-          <TextInput
-            label="Jumlah Peserta"
-            required
-            type="number"
-            min="1"
-            placeholder="contoh: 25"
-            value={form.participant_count}
+          <TextInput label="Jumlah Peserta" required type="number" min="1"
+            placeholder="contoh: 25" value={form.participant_count}
             onChange={e => set('participant_count', e.target.value)}
             error={errors.participant_count}
-            hint="Jumlah anak yang berpartisipasi dalam kegiatan."
-          />
+            hint="Jumlah anak yang berpartisipasi dalam kegiatan." />
 
-          {/* Description */}
-          <TextArea
-            label="Deskripsi Kegiatan"
-            required
-            rows={5}
-            maxLength={500}
-            placeholder="Ceritakan kegiatan yang dilakukan, bagaimana respon anak-anak, dan hal menarik yang terjadi..."
+          <TextArea label="Deskripsi Kegiatan" required rows={5} maxLength={500}
+            placeholder="Ceritakan kegiatan yang dilakukan, bagaimana respon anak-anak..."
             value={form.description}
             onChange={e => set('description', e.target.value)}
-            error={errors.description}
-          />
+            error={errors.description} />
 
-          {/* Evidence notes */}
-          <TextArea
-            label="Catatan Dokumentasi"
-            rows={3}
-            maxLength={300}
-            placeholder="Contoh: foto kegiatan tersedia, daftar hadir tercatat, notulensi dibuat..."
+          <TextArea label="Catatan Dokumentasi" rows={3} maxLength={300}
+            placeholder="Contoh: foto kegiatan tersedia, daftar hadir tercatat..."
             value={form.evidence_notes}
-            onChange={e => set('evidence_notes', e.target.value)}
-          />
+            onChange={e => set('evidence_notes', e.target.value)} />
 
-          {/* Warning */}
           <div className="flex gap-2 p-3 rounded-lg bg-amber-50 border border-amber-200">
             <AlertCircle size={14} className="text-amber-600 shrink-0 mt-0.5" />
             <p className="text-xs text-amber-700">
@@ -192,25 +178,16 @@ export default function SubmitReport() {
             </p>
           </div>
 
-          {/* Actions */}
           <div className="flex items-center gap-3 pt-2 border-t border-gray-100">
             <Button variant="secondary" onClick={() => navigate('/app/teacher/reports')}>
               Batal
             </Button>
-            <Button
-              variant="ghost"
-              loading={saving}
-              onClick={handleSaveDraft}
-              icon={<FileText size={14} />}
-            >
-              Simpan Draft
+            <Button variant="ghost" loading={saving} onClick={handleSaveDraft}
+              icon={<FileText size={14} />}>
+              {draftId ? 'Update Draft' : 'Simpan Draft'}
             </Button>
-            <Button
-              variant="primary"
-              loading={submitting}
-              onClick={handleOpenConfirm}
-              className="ml-auto"
-            >
+            <Button variant="primary" loading={submitting} onClick={handleOpenConfirm}
+              className="ml-auto">
               Kirim Laporan →
             </Button>
           </div>

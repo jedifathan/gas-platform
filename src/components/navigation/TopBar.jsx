@@ -1,24 +1,23 @@
-import { useNavigate, useLocation } from 'react-router-dom'
-import { Bell, LogOut, User } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
+import { LogOut } from 'lucide-react'
 import { useAuth }    from '../../hooks/useAuth'
 import { useApp }     from '../../hooks/useApp'
-import { useReports } from '../../hooks/useReports'
-import { getRoleLabel, formatPeriod, getPeriodOptions } from '../../utils/formatters'
-import Breadcrumb from './Breadcrumb'
+import { getRoleLabel, getPeriodOptions } from '../../utils/formatters'
+import Breadcrumb         from './Breadcrumb'
+import NotificationPanel  from './NotificationPanel'
 
 /**
  * TopBar — fixed header inside AuthShell.
- * Shows breadcrumb, period selector, notification badge, and user menu.
+ * Shows breadcrumb, period selector, notification bell (admin only), and user pill.
+ *
+ * Performance fix: useReports() was called here on every authenticated page.
+ * Replaced with NotificationPanel which reads the service directly — no hook overhead.
  */
 export default function TopBar() {
-  const { session, logout }      = useAuth()
-  const { period, setPeriod }    = useApp()
-  const navigate                 = useNavigate()
-  const periodOptions            = getPeriodOptions(6)
-
-  // Show pending badge only for admin
-  const { pendingCount } = useReports()
-  const showBadge = session?.role === 'admin' && pendingCount > 0
+  const { session, logout } = useAuth()
+  const { period, setPeriod } = useApp()
+  const navigate              = useNavigate()
+  const periodOptions         = getPeriodOptions(6)
 
   function handleLogout() {
     logout()
@@ -46,18 +45,8 @@ export default function TopBar() {
           ))}
         </select>
 
-        {/* Notification bell (admin: shows pending reports badge) */}
-        <button className="relative p-2 rounded-lg text-gray-500 hover:bg-gray-100
-                           hover:text-gray-700 transition-colors">
-          <Bell size={18} />
-          {showBadge && (
-            <span className="absolute top-1 right-1 w-4 h-4 bg-red-500 rounded-full
-                             text-white text-[9px] font-bold flex items-center justify-center
-                             ring-2 ring-white">
-              {pendingCount > 9 ? '9+' : pendingCount}
-            </span>
-          )}
-        </button>
+        {/* Notification bell — admin only */}
+        {session?.role === 'admin' && <NotificationPanel />}
 
         {/* User pill */}
         <div className="flex items-center gap-2 pl-3 border-l border-gray-200">

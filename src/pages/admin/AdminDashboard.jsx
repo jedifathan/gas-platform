@@ -1,13 +1,16 @@
+import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { School, FileText, Users, BarChart2, AlertCircle, ArrowRight, RefreshCw } from 'lucide-react'
-import { useDashboard }  from '../../hooks/useDashboard'
-import { useApp }        from '../../hooks/useApp'
-import { recomputeScores } from '../../services/leaderboardService'
+import { useDashboard }       from '../../hooks/useDashboard'
+import { useApp }             from '../../hooks/useApp'
+import { recomputeScores }    from '../../services/leaderboardService'
+import { getMultiPeriodStats } from '../../services/dashboardService'
 import StatCard          from '../../components/ui/StatCard'
 import Card              from '../../components/ui/Card'
 import Button            from '../../components/ui/Button'
 import StatusPill        from '../../components/ui/StatusPill'
 import CoverageChart     from '../../components/charts/CoverageChart'
+import BarChart          from '../../components/charts/BarChart'
 import LeaderboardTable  from '../../components/leaderboard/LeaderboardTable'
 import Spinner           from '../../components/ui/Spinner'
 import { formatPeriod, formatRelativeTime } from '../../utils/formatters'
@@ -16,6 +19,9 @@ export default function AdminDashboard() {
   const { stats, loading, period, refresh } = useDashboard()
   const { toast }   = useApp()
   const navigate    = useNavigate()
+
+  // Multi-period trend data for the last 4 months
+  const trendData = useMemo(() => getMultiPeriodStats(period, 4), [period])
 
   if (loading || !stats) return <Spinner center />
 
@@ -79,10 +85,10 @@ export default function AdminDashboard() {
 
       {/* Second KPI row */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <StatCard label="Laporan Tervalidasi"  value={kpis.validated_reports}  sub="periode ini"  color="teal"  icon={<FileText size={18} />} />
-        <StatCard label="Sekolah Melapor"      value={kpis.reporting_schools}  sub="periode ini"  color="blue"  icon={<School size={18} />} />
-        <StatCard label="Total Sekolah"        value={kpis.total_schools}      sub="terdaftar"    color="gray"  icon={<School size={18} />} />
-        <StatCard label="Total Guru"           value={kpis.total_teachers}     sub="aktif"        color="gray"  icon={<Users size={18} />} />
+        <StatCard label="Laporan Tervalidasi" value={kpis.validated_reports} sub="periode ini" color="teal"  icon={<FileText size={18} />} />
+        <StatCard label="Sekolah Melapor"     value={kpis.reporting_schools} sub="periode ini" color="blue"  icon={<School size={18} />} />
+        <StatCard label="Total Sekolah"       value={kpis.total_schools}     sub="terdaftar"   color="gray"  icon={<School size={18} />} />
+        <StatCard label="Total Guru"          value={kpis.total_teachers}    sub="aktif"       color="gray"  icon={<Users size={18} />} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
@@ -127,6 +133,26 @@ export default function AdminDashboard() {
               ))}
             </div>
           )}
+        </Card>
+      </div>
+
+      {/* Trend charts */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
+        <Card title="Laporan Tervalidasi" subtitle="4 bulan terakhir">
+          <BarChart
+            data={trendData}
+            bars={[{ key: 'validated', color: '#0F6E56', label: 'Tervalidasi' }]}
+            height={180}
+            formatter={v => `${v} laporan`}
+          />
+        </Card>
+        <Card title="Rata-rata Skor Sekolah" subtitle="4 bulan terakhir">
+          <BarChart
+            data={trendData}
+            bars={[{ key: 'avg_score', color: '#BA7517', label: 'Rata-rata Skor' }]}
+            height={180}
+            formatter={v => `${v} pts`}
+          />
         </Card>
       </div>
 

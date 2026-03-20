@@ -1,11 +1,12 @@
 import { NavLink, useNavigate } from 'react-router-dom'
 import {
   LayoutDashboard, BookOpen, FileText, Trophy,
-  School, Users, BarChart2, LogOut, User,
+  School, Users, LogOut, User,
   ChevronLeft, ChevronRight, Map,
 } from 'lucide-react'
-import { useAuth } from '../../hooks/useAuth'
-import { useApp }  from '../../hooks/useApp'
+import { useAuth }      from '../../hooks/useAuth'
+import { useApp }       from '../../hooks/useApp'
+import { useIsMobile }  from '../../hooks/useBreakpoint'
 import { getRoleLabel } from '../../utils/formatters'
 
 // ── Nav configs per role ──────────────────────────────────────────────────────
@@ -27,10 +28,10 @@ const ADMIN_NAV = [
 ]
 
 const GOV_NAV = [
-  { to: '/app/gov/dashboard',    icon: LayoutDashboard, label: 'Dashboard' },
-  { to: '/app/gov/monitoring',   icon: Map,             label: 'Monitoring' },
-  { to: '/app/gov/reports',      icon: FileText,        label: 'Laporan Wilayah' },
-  { to: '/app/gov/leaderboard',  icon: Trophy,          label: 'Peringkat' },
+  { to: '/app/gov/dashboard',   icon: LayoutDashboard, label: 'Dashboard' },
+  { to: '/app/gov/monitoring',  icon: Map,             label: 'Monitoring' },
+  { to: '/app/gov/reports',     icon: FileText,        label: 'Laporan Wilayah' },
+  { to: '/app/gov/leaderboard', icon: Trophy,          label: 'Peringkat' },
 ]
 
 function getNavItems(role) {
@@ -43,14 +44,20 @@ function getNavItems(role) {
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export default function Sidebar() {
-  const { session, logout }         = useAuth()
-  const { sidebarOpen, toggleSidebar } = useApp()
-  const navigate = useNavigate()
-  const navItems = getNavItems(session?.role)
+  const { session, logout }              = useAuth()
+  const { sidebarOpen, toggleSidebar }   = useApp()
+  const isMobile                         = useIsMobile()
+  const navigate                         = useNavigate()
+  const navItems                         = getNavItems(session?.role)
 
   function handleLogout() {
     logout()
     navigate('/login')
+  }
+
+  // On mobile, clicking a nav item should close the sidebar
+  function handleNavClick() {
+    if (isMobile && sidebarOpen) toggleSidebar()
   }
 
   return (
@@ -74,6 +81,7 @@ export default function Sidebar() {
           <button
             onClick={toggleSidebar}
             className="p-1 rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-100"
+            aria-label="Tutup sidebar"
           >
             <ChevronLeft size={16} />
           </button>
@@ -100,6 +108,7 @@ export default function Sidebar() {
               key={to}
               to={to}
               end={to.endsWith('dashboard')}
+              onClick={handleNavClick}
               className={({ isActive }) =>
                 `nav-item ${isActive ? 'nav-item-active' : ''} ${sub ? 'ml-4 text-xs' : ''}`
               }
@@ -114,22 +123,27 @@ export default function Sidebar() {
         <div className="px-3 py-3 border-t border-gray-100 space-y-0.5 shrink-0">
           <NavLink
             to="/app/profile"
+            onClick={handleNavClick}
             className={({ isActive }) => `nav-item ${isActive ? 'nav-item-active' : ''}`}
           >
             <User size={16} className="shrink-0" />
             <span className="truncate">Profil Saya</span>
           </NavLink>
-          <button onClick={handleLogout} className="nav-item w-full text-red-600 hover:bg-red-50 hover:text-red-700">
+          <button
+            onClick={handleLogout}
+            className="nav-item w-full text-red-600 hover:bg-red-50 hover:text-red-700"
+          >
             <LogOut size={16} className="shrink-0" />
             <span>Keluar</span>
           </button>
         </div>
       </aside>
 
-      {/* Collapsed toggle button */}
+      {/* Collapsed toggle button (shown when sidebar is hidden) */}
       {!sidebarOpen && (
         <button
           onClick={toggleSidebar}
+          aria-label="Buka sidebar"
           className="fixed top-4 left-3 z-30 p-2 rounded-lg bg-white border border-gray-200
                      shadow-sm text-gray-600 hover:text-teal-700 hover:border-teal-300 transition-colors"
         >
