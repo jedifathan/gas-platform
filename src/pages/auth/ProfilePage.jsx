@@ -1,10 +1,12 @@
 import { useState } from 'react'
-import { User, Mail, Shield, School, MapPin, Clock } from 'lucide-react'
-import { useAuth }  from '../../hooks/useAuth'
-import { useApp }   from '../../hooks/useApp'
-import Card         from '../../components/ui/Card'
-import Button       from '../../components/ui/Button'
-import Badge        from '../../components/ui/Badge'
+import { User, Mail, Shield, School, MapPin, Clock, Edit2, X, Check } from 'lucide-react'
+import { useAuth }    from '../../hooks/useAuth'
+import { useApp }     from '../../hooks/useApp'
+import { updateUser } from '../../services/authService'
+import Card           from '../../components/ui/Card'
+import Button         from '../../components/ui/Button'
+import Badge          from '../../components/ui/Badge'
+import TextInput      from '../../components/forms/TextInput'
 import { getRoleLabel, formatDateTime } from '../../utils/formatters'
 
 const ROLE_COLOR = {
@@ -13,37 +15,86 @@ const ROLE_COLOR = {
   gov_observer: 'purple',
 }
 
+/**
+ * FIX: Previously the "Simpan Profil" button showed a toast but never persisted
+ * anything. Now it opens an inline edit form, calls updateUser() to write to the
+ * in-memory store, and then calls updateSession() so the TopBar and Sidebar
+ * reflect the new name/email immediately without a page reload.
+ */
 export default function ProfilePage() {
-  const { session }   = useAuth()
-  const { toast }     = useApp()
-  const [saved, setSaved] = useState(false)
-
-  // Simulated save — in production this would call PATCH /api/users/:id
-  function handleSave() {
-    setSaved(true)
-    toast.success('Profil berhasil disimpan.')
-    setTimeout(() => setSaved(false), 2000)
-  }
+  const { session, updateSession } = useAuth()
+  const { toast }                  = useApp()
+  const [editing, setEditing]      = useState(false)
+  const [saving,  setSaving]       = useState(false)
+  const [form,    setForm]         = useState({ name: '', email: '' })
+  const [errors,  setErrors]       = useState({})
 
   if (!session) return null
 
+  function openEdit() {
+    setForm({ name: session.name, email: session.email })
+    setErrors({})
+    setEditing(true)
+  }
+
+  function cancelEdit() {
+    setEditing(false)
+    setErrors({})
+  }
+
+  function set(field, value) {
+    setForm(f => ({ ...f, [field]: value }))
+    setErrors(e => ({ ...e, [field]: undefined }))
+  }
+
+  async function handleSave() {
+    const errs = {}
+    if (!form.name.trim())  errs.name  = 'Nama tidak boleh kosong.'
+    if (!form.email.trim()) errs.email = 'Email tidak boleh kosong.'
+    if (Object.keys(errs).length) { setErrors(errs); return }
+
+    setSaving(true)
+    await new Promise(r => setTimeout(r, 400))
+
+    const result = updateUser(session.user_id, {
+      name:  form.name.trim(),
+      email: form.email.trim(),
+    })
+
+    setSaving(false)
+
+    if (!result.success) {
+      toast.error(result.message ?? 'Gagal menyimpan profil.')
+      return
+    }
+
+    // Sync auth context — TopBar/Sidebar read session.name directly
+    updateSession({ name: form.name.trim(), email: form.email.trim() })
+    toast.success('Profil berhasil diperbarui.')
+    setEditing(false)
+  }
+
   const infoRows = [
-    { icon: User,    label: 'Nama Lengkap',  value: session.name },
-    { icon: Mail,    label: 'Email',         value: session.email },
-    { icon: Shield,  label: 'Role',          value: getRoleLabel(session.role) },
+    { icon: User,   label: 'Nama Lengkap',   value: session.name },
+    { icon: Mail,   label: 'Email',          value: session.email },
+    { icon: Shield, label: 'Role',           value: getRoleLabel(session.role) },
     session.school && { icon: School, label: 'Sekolah', value: `${session.school.name} — ${session.school.district}` },
     session.region && { icon: MapPin,  label: 'Wilayah', value: session.region.name },
-    { icon: Clock,   label: 'Login Terakhir', value: formatDateTime(session.last_login) },
+    { icon: Clock,  label: 'Login Terakhir', value: formatDateTime(session.last_login) },
   ].filter(Boolean)
 
   return (
     <div className="page-wrapper max-w-2xl">
-      {/* Header */}
       <div className="page-header">
         <div>
           <h1 className="page-title">Profil Saya</h1>
           <p className="text-sm text-gray-500 mt-0.5">Informasi akun Anda di Platform GAS.</p>
         </div>
+        {!editing && (
+          <Button variant="secondary" icon={<Edit2 size={14} />} onClick={openEdit}>
+            Edit Profil
+          </Button>
+        )}
       </div>
 
       {/* Avatar + name card */}
@@ -65,6 +116,27 @@ export default function ProfilePage() {
         </div>
       </Card>
 
+      {/* Inline edit form */}
+      {editing && (
+        <Card title="Edit Informasi" className="mb-5">
+          <div className="space-y-4">
+            <TextInput label="Nama Lengkap" required
+              value={form.name} onChange={e => set('name', e.target.value)} error={errors.name} />
+            <TextInput label="Email" required type="email"
+              value={form.email} onChange={e => set('email', e.target.value)} error={errors.email} />
+            <p className="text-xs text-gray-400">
+              Role, sekolah, dan wilayah hanya dapat diubah oleh administrator.
+            </p>
+            <div className="flex gap-3 pt-2 border-t border-gray-100">
+              <Button variant="secondary" icon={<X size={14} />} onClick={cancelEdit}>Batal</Button>
+              <Button variant="primary" loading={saving} icon={<Check size={14} />} onClick={handleSave}>
+                Simpan Perubahan
+              </Button>
+            </div>
+          </div>
+        </Card>
+      )}
+
       {/* Detail rows */}
       <Card title="Informasi Akun" className="mb-5">
         <dl className="divide-y divide-gray-100">
@@ -78,7 +150,7 @@ export default function ProfilePage() {
         </dl>
       </Card>
 
-      {/* Permissions card */}
+      {/* Permissions */}
       <Card title="Hak Akses" subtitle={`${session.permissions.length} permission aktif`}>
         <div className="flex flex-wrap gap-1.5 pt-1">
           {session.permissions.map(p => (
@@ -89,11 +161,6 @@ export default function ProfilePage() {
           ))}
         </div>
       </Card>
-
-      {/* Prototype note */}
-      <p className="text-xs text-gray-400 mt-6 text-center">
-        Prototipe: perubahan profil tidak disimpan ke database permanen.
-      </p>
     </div>
   )
 }

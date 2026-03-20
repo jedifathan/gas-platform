@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { Search, Users, Plus, Eye, EyeOff } from 'lucide-react'
-import { getAllUsers, toggleUserActive, createUser } from '../../services/authService'
+import { Search, Users, Plus, Eye, EyeOff, Edit2 } from 'lucide-react'
+import { getAllUsers, toggleUserActive, createUser, updateUser } from '../../services/authService'
 import schoolsData from '../../data/schools.json'
 import regionsData from '../../data/regions.json'
 import { useApp }    from '../../hooks/useApp'
@@ -14,21 +14,26 @@ import SelectInput   from '../../components/forms/SelectInput'
 import { getRoleLabel, formatDateTime } from '../../utils/formatters'
 
 const ROLE_COLOR = { admin: 'blue', teacher: 'green', gov_observer: 'purple' }
+const EMPTY_FORM = { name: '', email: '', password: '', role: 'teacher', school_id: '', region_id: '' }
 
-const EMPTY_FORM = {
-  name: '', email: '', password: '', role: 'teacher', school_id: '', region_id: '',
-}
-
+/**
+ * FIX: updateUser() existed in authService but had no UI. Added an Edit button
+ * per row that opens a modal pre-filled with the user's current data.
+ * Role is intentionally read-only in edit mode to prevent accidental role changes.
+ * Password field is optional in edit mode — blank = keep existing.
+ */
 export default function UserManagement() {
-  const { toast }                    = useApp()
-  const [users, setUsers]            = useState(() => getAllUsers())
-  const [search, setSearch]          = useState('')
-  const [roleFilter, setRoleFilter]  = useState('')
-  const [modal, setModal]            = useState(false)
-  const [form, setForm]              = useState(EMPTY_FORM)
-  const [errors, setErrors]          = useState({})
-  const [saving, setSaving]          = useState(false)
-  const [showPwd, setShowPwd]        = useState(false)
+  const { toast }                   = useApp()
+  const [users, setUsers]           = useState(() => getAllUsers())
+  const [search, setSearch]         = useState('')
+  const [roleFilter, setRoleFilter] = useState('')
+
+  const [modal,   setModal]   = useState(null)   // 'create' | 'edit' | null
+  const [editing, setEditing] = useState(null)   // user object being edited
+  const [form,    setForm]    = useState(EMPTY_FORM)
+  const [errors,  setErrors]  = useState({})
+  const [saving,  setSaving]  = useState(false)
+  const [showPwd, setShowPwd] = useState(false)
 
   const filtered = users.filter(u => {
     const q = search.toLowerCase()
@@ -53,43 +58,75 @@ export default function UserManagement() {
     setErrors(e => ({ ...e, [field]: undefined }))
   }
 
-  function openModal() {
+  function openCreate() {
+    setEditing(null)
     setForm(EMPTY_FORM)
     setErrors({})
     setShowPwd(false)
-    setModal(true)
+    setModal('create')
   }
 
-  async function handleCreate() {
+  function openEdit(e, user) {
+    e.stopPropagation()
+    setEditing(user)
+    setForm({
+      name:      user.name,
+      email:     user.email,
+      password:  '',
+      role:      user.role,
+      school_id: user.school?.id  ?? '',
+      region_id: user.region?.id  ?? '',
+    })
+    setErrors({})
+    setShowPwd(false)
+    setModal('edit')
+  }
+
+  async function handleSave() {
     setSaving(true)
     await new Promise(r => setTimeout(r, 400))
 
-    const payload = {
-      ...form,
-      school_id: form.role === 'teacher'      ? form.school_id  : null,
-      region_id: form.role === 'gov_observer'  ? form.region_id : null,
+    let result
+    if (modal === 'create') {
+      result = createUser({
+        ...form,
+        school_id: form.role === 'teacher'      ? form.school_id  : null,
+        region_id: form.role === 'gov_observer' ? form.region_id  : null,
+      })
+    } else {
+      const payload = {
+        name:      form.name,
+        email:     form.email,
+        school_id: form.role === 'teacher'      ? form.school_id  : null,
+        region_id: form.role === 'gov_observer' ? form.region_id  : null,
+      }
+      if (form.password.trim()) payload.password = form.password.trim()
+      result = updateUser(editing.id, payload)
     }
-    const result = createUser(payload)
+
     setSaving(false)
 
     if (!result.success) {
       if (result.field) setErrors({ [result.field]: result.message })
-      else toast.error(result.message ?? 'Gagal membuat pengguna.')
+      else toast.error(result.message ?? 'Gagal menyimpan.')
       return
     }
 
     setUsers(getAllUsers())
-    toast.success(`Akun ${result.user.name} berhasil dibuat.`)
-    setModal(false)
+    toast.success(modal === 'create'
+      ? `Akun ${result.user.name} berhasil dibuat.`
+      : 'Data pengguna berhasil diperbarui.')
+    setModal(null)
   }
 
-  const schoolOpts  = schoolsData.map(s => ({ value: s.id, label: s.name }))
-  const regionOpts  = regionsData.map(r => ({ value: r.id, label: r.name }))
-  const roleOpts    = [
+  const schoolOpts = schoolsData.map(s => ({ value: s.id, label: s.name }))
+  const regionOpts = regionsData.map(r => ({ value: r.id, label: r.name }))
+  const roleOpts   = [
     { value: 'teacher',      label: 'Guru' },
     { value: 'gov_observer', label: 'Pengamat Dinas' },
     { value: 'admin',        label: 'Administrator' },
   ]
+  const isCreate = modal === 'create'
 
   return (
     <div className="page-wrapper">
@@ -98,7 +135,7 @@ export default function UserManagement() {
           <h1 className="page-title">Manajemen Pengguna</h1>
           <p className="text-sm text-gray-500 mt-0.5">{users.length} pengguna terdaftar</p>
         </div>
-        <Button variant="primary" icon={<Plus size={14} />} onClick={openModal}>
+        <Button variant="primary" icon={<Plus size={14} />} onClick={openCreate}>
           Tambah Pengguna
         </Button>
       </div>
@@ -131,12 +168,13 @@ export default function UserManagement() {
                 <th className="th">Sekolah / Wilayah</th>
                 <th className="th w-32">Login Terakhir</th>
                 <th className="th w-24 text-center">Status</th>
-                <th className="th w-28 text-center">Aksi</th>
+                <th className="th w-40 text-center">Aksi</th>
               </tr>
             </thead>
             <tbody>
               {filtered.map(user => (
-                <tr key={user.id} className={`border-b border-gray-100 hover:bg-gray-50 ${!user.is_active ? 'opacity-60' : ''}`}>
+                <tr key={user.id}
+                  className={`border-b border-gray-100 hover:bg-gray-50 ${!user.is_active ? 'opacity-60' : ''}`}>
                   <td className="td">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center
@@ -164,12 +202,18 @@ export default function UserManagement() {
                     </Badge>
                   </td>
                   <td className="td text-center">
-                    {user.role !== 'admin' && (
-                      <Button size="sm" variant={user.is_active ? 'danger' : 'secondary'}
-                        onClick={() => handleToggle(user.id)}>
-                        {user.is_active ? 'Nonaktifkan' : 'Aktifkan'}
+                    <div className="flex items-center justify-center gap-2">
+                      <Button size="sm" variant="secondary" icon={<Edit2 size={12} />}
+                        onClick={e => openEdit(e, user)}>
+                        Edit
                       </Button>
-                    )}
+                      {user.role !== 'admin' && (
+                        <Button size="sm" variant={user.is_active ? 'danger' : 'ghost'}
+                          onClick={() => handleToggle(user.id)}>
+                          {user.is_active ? 'Nonaktifkan' : 'Aktifkan'}
+                        </Button>
+                      )}
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -178,17 +222,17 @@ export default function UserManagement() {
         )}
       </Card>
 
-      {/* Add User Modal */}
+      {/* Create / Edit Modal */}
       <Modal
-        open={modal}
-        onClose={() => setModal(false)}
-        title="Tambah Pengguna Baru"
+        open={!!modal}
+        onClose={() => setModal(null)}
+        title={isCreate ? 'Tambah Pengguna Baru' : `Edit — ${editing?.name}`}
         size="md"
         footer={
           <>
-            <Button variant="secondary" onClick={() => setModal(false)}>Batal</Button>
-            <Button variant="primary" loading={saving} onClick={handleCreate}>
-              Buat Akun
+            <Button variant="secondary" onClick={() => setModal(null)}>Batal</Button>
+            <Button variant="primary" loading={saving} onClick={handleSave}>
+              {isCreate ? 'Buat Akun' : 'Simpan Perubahan'}
             </Button>
           </>
         }
@@ -202,41 +246,45 @@ export default function UserManagement() {
             onChange={e => set('email', e.target.value)} error={errors.email}
             placeholder="email@sekolah.id" />
 
-          {/* Password with show/hide */}
           <div className="flex flex-col gap-1">
             <label className="label">
-              Password <span className="text-red-500">*</span>
+              Password {isCreate && <span className="text-red-500">*</span>}
+              {!isCreate && <span className="text-gray-400 font-normal text-xs ml-1">(kosongkan jika tidak diubah)</span>}
             </label>
             <div className="relative">
-              <input
-                type={showPwd ? 'text' : 'password'}
-                value={form.password}
+              <input type={showPwd ? 'text' : 'password'} value={form.password}
                 onChange={e => set('password', e.target.value)}
-                placeholder="Minimal 6 karakter"
-                className={`input pr-10 ${errors.password ? 'input-error' : ''}`}
-              />
-              <button type="button" onClick={() => setShowPwd(v => !v)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                tabIndex={-1}>
+                placeholder={isCreate ? 'Minimal 6 karakter' : '••••••••'}
+                className={`input pr-10 ${errors.password ? 'input-error' : ''}`} />
+              <button type="button" onClick={() => setShowPwd(v => !v)} tabIndex={-1}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
                 {showPwd ? <EyeOff size={16} /> : <Eye size={16} />}
               </button>
             </div>
             {errors.password && <p className="text-xs text-red-600">{errors.password}</p>}
           </div>
 
-          <SelectInput label="Role" required options={roleOpts} value={form.role}
-            onChange={e => set('role', e.target.value)} placeholder={null} />
+          {/* Role: selectable on create, read-only on edit */}
+          {isCreate ? (
+            <SelectInput label="Role" required options={roleOpts} value={form.role}
+              onChange={e => set('role', e.target.value)} placeholder={null} />
+          ) : (
+            <div className="flex flex-col gap-1">
+              <label className="label">Role</label>
+              <div className="input bg-gray-50 cursor-not-allowed text-gray-500 flex items-center">
+                {getRoleLabel(form.role)}
+                <span className="ml-auto text-xs text-gray-400">tidak dapat diubah</span>
+              </div>
+            </div>
+          )}
 
-          {/* Conditional school / region selector */}
           {form.role === 'teacher' && (
             <SelectInput label="Sekolah" options={schoolOpts} value={form.school_id}
-              onChange={e => set('school_id', e.target.value)}
-              placeholder="Pilih sekolah..." />
+              onChange={e => set('school_id', e.target.value)} placeholder="Pilih sekolah..." />
           )}
           {form.role === 'gov_observer' && (
             <SelectInput label="Wilayah" options={regionOpts} value={form.region_id}
-              onChange={e => set('region_id', e.target.value)}
-              placeholder="Pilih wilayah..." />
+              onChange={e => set('region_id', e.target.value)} placeholder="Pilih wilayah..." />
           )}
         </div>
       </Modal>

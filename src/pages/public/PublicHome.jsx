@@ -1,9 +1,12 @@
+import { useMemo } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ArrowRight, BookOpen, FileText, BarChart2, Trophy, Users, School } from 'lucide-react'
 import { computeLeaderboard } from '../../services/leaderboardService'
+import { getReports }         from '../../services/reportService'
+import schoolsData  from '../../data/schools.json'
+import usersData    from '../../data/users.json'
+import scoresData   from '../../data/school_scores.json'
 import { getBadgeConfig, formatPeriod } from '../../utils/formatters'
-
-const CURRENT_PERIOD = '2025-02'
 
 const FEATURES = [
   { icon: BookOpen,  title: 'Pelatihan Guru',      desc: 'LMS dengan kursus, kuis, dan sertifikat digital untuk guru PAUD/TK.' },
@@ -12,16 +15,35 @@ const FEATURES = [
   { icon: Trophy,    title: 'Sistem Peringkat',    desc: 'Leaderboard sekolah dengan badge prestasi untuk mendorong partisipasi.' },
 ]
 
-const STATS = [
-  { icon: School, value: '6',  label: 'Sekolah Terdaftar' },
-  { icon: Users,  value: '6',  label: 'Guru Aktif' },
-  { icon: FileText, value: '5', label: 'Laporan Tervalidasi' },
-  { icon: Trophy,  value: '3',  label: 'Badge Diberikan' },
-]
+/** Derive YYYY-MM from today's date — never stale. */
+function getCurrentPeriod() {
+  const now = new Date()
+  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
+}
 
 export default function PublicHome() {
-  const navigate  = useNavigate()
-  const top3      = computeLeaderboard(CURRENT_PERIOD).slice(0, 3)
+  const navigate      = useNavigate()
+  const currentPeriod = useMemo(() => getCurrentPeriod(), [])
+
+  // Top-3 leaderboard for the current period
+  const top3 = useMemo(() => computeLeaderboard(currentPeriod).slice(0, 3), [currentPeriod])
+
+  // Live stats — computed from in-memory service stores, not hardcoded strings
+  const stats = useMemo(() => {
+    const activeSchools    = schoolsData.filter(s => s.status === 'active').length
+    const activeTeachers   = usersData.filter(u => u.role === 'teacher' && u.is_active).length
+    const validatedReports = getReports({ status: 'validated' }).length
+    const badgesAwarded    = new Set(
+      scoresData.filter(s => s.badge_id).map(s => `${s.school_id}-${s.badge_id}`)
+    ).size
+
+    return [
+      { icon: School,   value: activeSchools,    label: 'Sekolah Terdaftar' },
+      { icon: Users,    value: activeTeachers,   label: 'Guru Aktif' },
+      { icon: FileText, value: validatedReports, label: 'Laporan Tervalidasi' },
+      { icon: Trophy,   value: badgesAwarded,    label: 'Badge Diberikan' },
+    ]
+  }, [])
 
   return (
     <div>
@@ -42,29 +64,25 @@ export default function PublicHome() {
             di seluruh Indonesia.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3">
-            <button
-              onClick={() => navigate('/login')}
+            <button onClick={() => navigate('/login')}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-teal-500
-                         hover:bg-teal-400 text-white font-semibold text-sm transition-colors"
-            >
+                         hover:bg-teal-400 text-white font-semibold text-sm transition-colors">
               Masuk ke Platform <ArrowRight size={16} />
             </button>
-            <Link
-              to="/about"
+            <Link to="/about"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-teal-400/40
-                         text-teal-200 hover:bg-teal-400/10 font-medium text-sm transition-colors"
-            >
+                         text-teal-200 hover:bg-teal-400/10 font-medium text-sm transition-colors">
               Tentang Program
             </Link>
           </div>
         </div>
       </section>
 
-      {/* ── Stats bar ── */}
+      {/* ── Live stats bar ── */}
       <section className="bg-white border-b border-gray-100 py-8">
         <div className="max-w-4xl mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {STATS.map(({ icon: Icon, value, label }) => (
+            {stats.map(({ icon: Icon, value, label }) => (
               <div key={label} className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-teal-50 flex items-center justify-center shrink-0">
                   <Icon size={18} className="text-teal-600" />
@@ -103,13 +121,13 @@ export default function PublicHome() {
         </div>
       </section>
 
-      {/* ── Mini Leaderboard ── */}
+      {/* ── Mini leaderboard — current month ── */}
       <section className="bg-gray-50 border-y border-gray-100 py-14 px-6">
         <div className="max-w-2xl mx-auto">
           <div className="flex items-center justify-between mb-6">
             <div>
               <h2 className="text-xl font-bold text-gray-900">Peringkat Sekolah</h2>
-              <p className="text-xs text-gray-500 mt-0.5">{formatPeriod(CURRENT_PERIOD)}</p>
+              <p className="text-xs text-gray-500 mt-0.5">{formatPeriod(currentPeriod)}</p>
             </div>
             <Link to="/leaderboard"
               className="text-xs font-medium text-teal-600 hover:text-teal-700 flex items-center gap-1">
@@ -117,28 +135,34 @@ export default function PublicHome() {
             </Link>
           </div>
 
-          <div className="space-y-3">
-            {top3.map((school, i) => {
-              const medal  = ['🥇','🥈','🥉'][i]
-              const badgeCfg = school.badge ? getBadgeConfig(school.badge.tier) : null
-              return (
-                <div key={school.school_id}
-                  className="card p-4 flex items-center gap-4 hover:border-teal-200 transition-colors">
-                  <span className="text-2xl w-8 text-center shrink-0">{medal}</span>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-gray-900 text-sm truncate">{school.school_name}</p>
-                    <p className="text-xs text-gray-500 truncate">{school.district}</p>
+          {top3.length === 0 ? (
+            <div className="card p-10 text-center text-sm text-gray-400">
+              Belum ada data peringkat untuk periode ini.
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {top3.map((school, i) => {
+                const medal    = ['🥇', '🥈', '🥉'][i]
+                const badgeCfg = school.badge ? getBadgeConfig(school.badge.tier) : null
+                return (
+                  <div key={school.school_id}
+                    className="card p-4 flex items-center gap-4 hover:border-teal-200 transition-colors">
+                    <span className="text-2xl w-8 text-center shrink-0">{medal}</span>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-gray-900 text-sm truncate">{school.school_name}</p>
+                      <p className="text-xs text-gray-500 truncate">{school.district}</p>
+                    </div>
+                    {badgeCfg && (
+                      <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${badgeCfg.className}`}>
+                        {badgeCfg.emoji} {badgeCfg.label}
+                      </span>
+                    )}
+                    <span className="text-lg font-black text-teal-700 shrink-0">{school.total_score}</span>
                   </div>
-                  {badgeCfg && (
-                    <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${badgeCfg.className}`}>
-                      {badgeCfg.emoji} {badgeCfg.label}
-                    </span>
-                  )}
-                  <span className="text-lg font-black text-teal-700 shrink-0">{school.total_score}</span>
-                </div>
-              )
-            })}
-          </div>
+                )
+              })}
+            </div>
+          )}
         </div>
       </section>
 
@@ -149,11 +173,9 @@ export default function PublicHome() {
           Daftarkan sekolah Anda dan mulai perjalanan menuju generasi anak Indonesia
           dengan kesehatan gigi yang lebih baik.
         </p>
-        <button
-          onClick={() => navigate('/login')}
+        <button onClick={() => navigate('/login')}
           className="inline-flex items-center gap-2 px-7 py-3 rounded-xl bg-teal-600
-                     hover:bg-teal-700 text-white font-semibold text-sm transition-colors"
-        >
+                     hover:bg-teal-700 text-white font-semibold text-sm transition-colors">
           Mulai Sekarang <ArrowRight size={16} />
         </button>
       </section>
