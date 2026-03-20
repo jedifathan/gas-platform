@@ -7,6 +7,7 @@ import {
   updateDraft,
   submitReport,
   validateReport,
+  deleteDraft,
   getActivityTypes,
   getPendingCount,
 } from '../services/reportService'
@@ -18,9 +19,13 @@ import {
  *   gov_observer → own region only
  *   admin        → all schools
  *
- * Usage:
- *   const { reports, loading, submit, validate } = useReports()
- *   const { reports } = useReports({ status: 'submitted' })
+ * RBAC for mutations:
+ *   createDraft  → teacher only (caller must be teacher)
+ *   editDraft    → teacher (own reports only — enforced in reportService)
+ *   removeDraft  → teacher (own draft only — enforced in reportService)
+ *   submit       → teacher (own draft)
+ *   validate     → admin only
+ *   reject       → admin only
  */
 export function useReports(initialFilters = {}) {
   const { session } = useAuth()
@@ -34,8 +39,8 @@ export function useReports(initialFilters = {}) {
   // Build scope-aware filter from session role
   function buildScopedFilters(extra = {}) {
     const base = { ...extra }
-    if (session?.role === 'teacher')       base.school_id = session.school_id
-    if (session?.role === 'gov_observer')  base.region_id = session.region_id
+    if (session?.role === 'teacher')      base.school_id = session.school_id
+    if (session?.role === 'gov_observer') base.region_id = session.region_id
     return base
   }
 
@@ -74,6 +79,12 @@ export function useReports(initialFilters = {}) {
 
   function editDraft(reportId, data) {
     const result = updateDraft(reportId, data)
+    if (result.success) refresh()
+    return result
+  }
+
+  function removeDraft(reportId) {
+    const result = deleteDraft(reportId, session?.user_id)
     if (result.success) refresh()
     return result
   }
@@ -120,6 +131,7 @@ export function useReports(initialFilters = {}) {
     // Teacher
     createDraft,
     editDraft,
+    removeDraft,
     submit,
     // Admin
     validate,

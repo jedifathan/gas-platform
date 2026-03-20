@@ -16,5 +16,41 @@
     "name": "Kota Tangerang",
     "province": "Banten",
     "created_at": "2024-01-01T00:00:00Z"
+  },
+  {
+    "id": "reg-004",
+    "name": "Jakarta Utara",
+    "province": "DKI Jakarta",
+    "created_at": "2025-03-01T00:00:00Z"
+  },
+  {
+    "id": "reg-005",
+    "name": "Jakarta Selatan",
+    "province": "DKI Jakarta",
+    "created_at": "2025-03-01T00:00:00Z"
+  },
+  {
+    "id": "reg-006",
+    "name": "Jakarta Barat",
+    "province": "DKI Jakarta",
+    "created_at": "2025-03-01T00:00:00Z"
+  },
+  {
+    "id": "reg-007",
+    "name": "Jakarta Timur",
+    "province": "DKI Jakarta",
+    "created_at": "2025-03-01T00:00:00Z"
+  },
+  {
+    "id": "reg-008",
+    "name": "Jakarta Pusat",
+    "province": "DKI Jakarta",
+    "created_at": "2025-03-01T00:00:00Z"
+  },
+  {
+    "id": "reg-009",
+    "name": "Kepulauan Seribu",
+    "province": "DKI Jakarta",
+    "created_at": "2025-03-01T00:00:00Z"
   }
 ]

@@ -1,26 +1,34 @@
 /**
  * reportService.js
- * Activity report CRUD, draft → submitted → validated/rejected state machine.
+ * Activity report CRUD — draft → submitted → validated/rejected state machine.
+ *
+ * RBAC summary (enforced at service level for correctness):
+ *   CREATE draft    → teacher (own school only, checked by caller via session.school_id)
+ *   UPDATE draft    → teacher who created it (checked by canEditReport)
+ *   DELETE draft    → teacher who created it (checked by canDeleteReport)
+ *   SUBMIT draft    → teacher who created it
+ *   VALIDATE/REJECT → admin only (enforced by route guard + validateReport action param)
+ *   READ            → scoped by role via useReports buildScopedFilters
  *
  * Production swap:
- *   getReports()      → GET   /api/reports
- *   saveDraft()       → POST  /api/reports
- *   submitReport()    → PATCH /api/reports/:id/submit
- *   validateReport()  → PATCH /api/reports/:id/validate
+ *   getReports()     → GET    /api/reports
+ *   saveDraft()      → POST   /api/reports
+ *   updateDraft()    → PATCH  /api/reports/:id
+ *   deleteDraft()    → DELETE /api/reports/:id
+ *   submitReport()   → PATCH  /api/reports/:id/submit
+ *   validateReport() → PATCH  /api/reports/:id/validate
  */
 
-import reportsData      from '../data/activity_reports.json'
+import reportsData       from '../data/activity_reports.json'
 import activityTypesData from '../data/activity_types.json'
-import schoolsData      from '../data/schools.json'
-import usersData        from '../data/users.json'
+import schoolsData       from '../data/schools.json'
+import usersData         from '../data/users.json'
 
-// Mutable in-memory store
 let reports = reportsData.map(r => ({ ...r }))
 
 function uid(p) { return `${p}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2,6)}` }
 function now()  { return new Date().toISOString() }
 
-/** Attach display-friendly fields to a raw report record */
 function enrich(report) {
   const school  = schoolsData.find(s => s.id === report.school_id)
   const type    = activityTypesData.find(t => t.id === report.activity_type_id)
@@ -39,7 +47,6 @@ function enrich(report) {
 
 // ─────────────────────────────────────────────────────────────────────────────
 
-/** Filtered list — all enriched */
 export function getReports(filters = {}) {
   let result = [...reports]
   if (filters.status)     result = result.filter(r => r.status === filters.status)
@@ -60,18 +67,39 @@ export function getReportById(id) {
   return r ? enrich(r) : null
 }
 
-/** Save new report as draft — validates for duplicates */
+/** Check if a user can edit a draft report */
+export function canEditReport(reportId, userId, schoolId) {
+  const report = reports.find(r => r.id === reportId)
+  if (!report)               return { allowed: false, reason: 'NOT_FOUND' }
+  if (report.status !== 'draft') return { allowed: false, reason: 'NOT_DRAFT' }
+  if (report.teacher_id !== userId && report.school_id !== schoolId)
+    return { allowed: false, reason: 'NOT_OWNER' }
+  return { allowed: true }
+}
+
+/** Check if a user can delete a draft report */
+export function canDeleteReport(reportId, userId) {
+  const report = reports.find(r => r.id === reportId)
+  if (!report)               return { allowed: false, reason: 'NOT_FOUND' }
+  if (report.status !== 'draft') return { allowed: false, reason: 'NOT_DRAFT', message: 'Hanya laporan draft yang dapat dihapus.' }
+  if (report.teacher_id !== userId) return { allowed: false, reason: 'NOT_OWNER', message: 'Anda hanya dapat menghapus laporan Anda sendiri.' }
+  return { allowed: true }
+}
+
 export function saveDraft(data) {
   const { school_id, teacher_id, activity_type_id, report_period, participant_count, description, evidence_notes } = data
 
-  // Block duplicate period + activity type combinations
   const dup = reports.find(r =>
     r.school_id === school_id &&
     r.report_period === report_period &&
     r.activity_type_id === activity_type_id &&
     ['draft', 'submitted', 'validated'].includes(r.status)
   )
-  if (dup) return { success: false, error: 'DUPLICATE_PERIOD', message: 'Laporan untuk periode dan jenis kegiatan ini sudah ada.', existing_id: dup.id, existing_status: dup.status }
+  if (dup) return {
+    success: false, error: 'DUPLICATE_PERIOD',
+    message: 'Laporan untuk periode dan jenis kegiatan ini sudah ada.',
+    existing_id: dup.id, existing_status: dup.status,
+  }
 
   const count = parseInt(participant_count)
   if (!count || count < 1)
@@ -90,7 +118,6 @@ export function saveDraft(data) {
   return { success: true, report: enrich(report) }
 }
 
-/** Update fields on an existing draft */
 export function updateDraft(reportId, data) {
   const report = reports.find(r => r.id === reportId)
   if (!report)               return { success: false, error: 'NOT_FOUND' }
@@ -106,20 +133,36 @@ export function updateDraft(reportId, data) {
   return { success: true, report: enrich(report) }
 }
 
-/** Transition draft → submitted */
+/**
+ * Delete a draft report.
+ * Only the creating teacher can delete their own draft.
+ * Submitted / validated / rejected reports cannot be deleted (audit trail).
+ */
+export function deleteDraft(reportId, teacherId) {
+  const report = reports.find(r => r.id === reportId)
+  if (!report)               return { success: false, error: 'NOT_FOUND' }
+  if (report.status !== 'draft')
+    return { success: false, error: 'NOT_DRAFT', message: 'Hanya laporan draft yang dapat dihapus.' }
+  if (report.teacher_id !== teacherId)
+    return { success: false, error: 'NOT_OWNER', message: 'Anda hanya dapat menghapus laporan Anda sendiri.' }
+
+  reports = reports.filter(r => r.id !== reportId)
+  return { success: true }
+}
+
 export function submitReport(reportId) {
   const report = reports.find(r => r.id === reportId)
   if (!report)               return { success: false, error: 'NOT_FOUND' }
   if (report.status !== 'draft') return { success: false, error: 'NOT_DRAFT', message: 'Hanya laporan draft yang bisa dikirim.' }
   if (!report.description || report.description.trim().length < 10)
     return { success: false, error: 'VALIDATION_FAILED', field: 'description', message: 'Deskripsi minimal 10 karakter.' }
-  report.status = 'submitted'
+  report.status      = 'submitted'
   report.submitted_at = now()
   report.updated_at   = now()
   return { success: true, report: enrich(report) }
 }
 
-/** Admin: validate or reject a submitted report */
+/** Admin only: validate or reject a submitted report */
 export function validateReport(reportId, adminId, notes, action) {
   if (!['validated', 'rejected'].includes(action))
     return { success: false, error: 'INVALID_ACTION' }

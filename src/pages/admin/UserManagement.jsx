@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { Search, Users, Plus, Eye, EyeOff, Edit2 } from 'lucide-react'
 import { getAllUsers, toggleUserActive, createUser, updateUser } from '../../services/authService'
+import { getAllRegions } from '../../services/regionService'
 import schoolsData from '../../data/schools.json'
-import regionsData from '../../data/regions.json'
 import { useApp }    from '../../hooks/useApp'
 import Card          from '../../components/ui/Card'
 import Badge         from '../../components/ui/Badge'
@@ -16,24 +16,28 @@ import { getRoleLabel, formatDateTime } from '../../utils/formatters'
 const ROLE_COLOR = { admin: 'blue', teacher: 'green', gov_observer: 'purple' }
 const EMPTY_FORM = { name: '', email: '', password: '', role: 'teacher', school_id: '', region_id: '' }
 
-/**
- * FIX: updateUser() existed in authService but had no UI. Added an Edit button
- * per row that opens a modal pre-filled with the user's current data.
- * Role is intentionally read-only in edit mode to prevent accidental role changes.
- * Password field is optional in edit mode — blank = keep existing.
- */
+const ROLE_OPTS = [
+  { value: 'teacher',      label: 'Guru' },
+  { value: 'gov_observer', label: 'Pengamat Dinas' },
+  { value: 'admin',        label: 'Administrator' },
+]
+
 export default function UserManagement() {
   const { toast }                   = useApp()
-  const [users, setUsers]           = useState(() => getAllUsers())
-  const [search, setSearch]         = useState('')
+  const [users,      setUsers]      = useState(() => getAllUsers())
+  const [search,     setSearch]     = useState('')
   const [roleFilter, setRoleFilter] = useState('')
+  const [modal,      setModal]      = useState(null)   // 'create' | 'edit' | null
+  const [editing,    setEditing]    = useState(null)
+  const [form,       setForm]       = useState(EMPTY_FORM)
+  const [errors,     setErrors]     = useState({})
+  const [saving,     setSaving]     = useState(false)
+  const [showPwd,    setShowPwd]    = useState(false)
 
-  const [modal,   setModal]   = useState(null)   // 'create' | 'edit' | null
-  const [editing, setEditing] = useState(null)   // user object being edited
-  const [form,    setForm]    = useState(EMPTY_FORM)
-  const [errors,  setErrors]  = useState({})
-  const [saving,  setSaving]  = useState(false)
-  const [showPwd, setShowPwd] = useState(false)
+  // Pull regions dynamically so new regions added via RegionManagement appear here
+  const regions   = getAllRegions()
+  const schoolOpts = schoolsData.map(s => ({ value: s.id, label: s.name }))
+  const regionOpts = regions.map(r => ({ value: r.id, label: `${r.name} (${r.province})` }))
 
   const filtered = users.filter(u => {
     const q = search.toLowerCase()
@@ -56,6 +60,16 @@ export default function UserManagement() {
   function set(field, value) {
     setForm(f => ({ ...f, [field]: value }))
     setErrors(e => ({ ...e, [field]: undefined }))
+  }
+
+  // When role changes in form, clear incompatible school/region
+  function setRole(value) {
+    setForm(f => ({
+      ...f,
+      role:      value,
+      school_id: value === 'teacher'      ? f.school_id : '',
+      region_id: value === 'gov_observer' ? f.region_id : '',
+    }))
   }
 
   function openCreate() {
@@ -90,15 +104,16 @@ export default function UserManagement() {
     if (modal === 'create') {
       result = createUser({
         ...form,
-        school_id: form.role === 'teacher'      ? form.school_id  : null,
-        region_id: form.role === 'gov_observer' ? form.region_id  : null,
+        school_id: form.role === 'teacher'      ? form.school_id : null,
+        region_id: form.role === 'gov_observer' ? form.region_id : null,
       })
     } else {
       const payload = {
         name:      form.name,
         email:     form.email,
-        school_id: form.role === 'teacher'      ? form.school_id  : null,
-        region_id: form.role === 'gov_observer' ? form.region_id  : null,
+        role:      form.role,
+        school_id: form.role === 'teacher'      ? form.school_id : null,
+        region_id: form.role === 'gov_observer' ? form.region_id : null,
       }
       if (form.password.trim()) payload.password = form.password.trim()
       result = updateUser(editing.id, payload)
@@ -119,13 +134,6 @@ export default function UserManagement() {
     setModal(null)
   }
 
-  const schoolOpts = schoolsData.map(s => ({ value: s.id, label: s.name }))
-  const regionOpts = regionsData.map(r => ({ value: r.id, label: r.name }))
-  const roleOpts   = [
-    { value: 'teacher',      label: 'Guru' },
-    { value: 'gov_observer', label: 'Pengamat Dinas' },
-    { value: 'admin',        label: 'Administrator' },
-  ]
   const isCreate = modal === 'create'
 
   return (
@@ -246,6 +254,7 @@ export default function UserManagement() {
             onChange={e => set('email', e.target.value)} error={errors.email}
             placeholder="email@sekolah.id" />
 
+          {/* Password */}
           <div className="flex flex-col gap-1">
             <label className="label">
               Password {isCreate && <span className="text-red-500">*</span>}
@@ -264,20 +273,21 @@ export default function UserManagement() {
             {errors.password && <p className="text-xs text-red-600">{errors.password}</p>}
           </div>
 
-          {/* Role: selectable on create, read-only on edit */}
-          {isCreate ? (
-            <SelectInput label="Role" required options={roleOpts} value={form.role}
-              onChange={e => set('role', e.target.value)} placeholder={null} />
-          ) : (
-            <div className="flex flex-col gap-1">
-              <label className="label">Role</label>
-              <div className="input bg-gray-50 cursor-not-allowed text-gray-500 flex items-center">
-                {getRoleLabel(form.role)}
-                <span className="ml-auto text-xs text-gray-400">tidak dapat diubah</span>
-              </div>
+          {/* Role — now editable in both create AND edit modes */}
+          <SelectInput label="Role" required options={ROLE_OPTS} value={form.role}
+            onChange={e => setRole(e.target.value)} placeholder={null} />
+
+          {/* Role change warning when editing */}
+          {!isCreate && form.role !== editing?.role && (
+            <div className="flex gap-2 p-3 rounded-lg bg-amber-50 border border-amber-200">
+              <span className="text-xs text-amber-700">
+                Mengubah role dari <strong>{getRoleLabel(editing?.role)}</strong> ke <strong>{getRoleLabel(form.role)}</strong>.
+                Sekolah/wilayah yang tidak sesuai akan dihapus otomatis.
+              </span>
             </div>
           )}
 
+          {/* Conditional school / region */}
           {form.role === 'teacher' && (
             <SelectInput label="Sekolah" options={schoolOpts} value={form.school_id}
               onChange={e => set('school_id', e.target.value)} placeholder="Pilih sekolah..." />
