@@ -1,23 +1,23 @@
 import { createContext, useReducer, useEffect } from 'react'
+import { supabase }           from '../services/supabaseClient'
+import { rehydrateSession }   from '../services/authService'
 
 export const AuthContext = createContext(null)
 
-const SESSION_KEY = 'gas_session'
-
 const initialState = {
-  session: null,
+  session:         null,
   isAuthenticated: false,
-  isLoading: true,
+  isLoading:       true,
 }
 
 function authReducer(state, action) {
   switch (action.type) {
     case 'LOGIN':
-      return { session: action.payload, isAuthenticated: true, isLoading: false }
+      return { session: action.payload, isAuthenticated: true,  isLoading: false }
     case 'LOGOUT':
-      return { session: null, isAuthenticated: false, isLoading: false }
+      return { session: null,           isAuthenticated: false, isLoading: false }
     case 'HYDRATED':
-      return { ...state, isLoading: false }
+      return { ...state,                                         isLoading: false }
     case 'UPDATE_SESSION':
       return { ...state, session: { ...state.session, ...action.payload } }
     default:
@@ -28,33 +28,42 @@ function authReducer(state, action) {
 export function AuthProvider({ children }) {
   const [state, dispatch] = useReducer(authReducer, initialState)
 
-  // Rehydrate session from localStorage on mount
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem(SESSION_KEY)
-      if (stored) {
-        dispatch({ type: 'LOGIN', payload: JSON.parse(stored) })
-      } else {
-        dispatch({ type: 'HYDRATED' })
+    // Rehydrate on mount — check if there's an active Supabase session
+    rehydrateSession().then(session => {
+      if (session) dispatch({ type: 'LOGIN',    payload: session })
+      else          dispatch({ type: 'HYDRATED' })
+    })
+
+    // Listen for auth changes (token refresh, sign-out from another tab)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, supabaseSession) => {
+        if (event === 'SIGNED_OUT') {
+          dispatch({ type: 'LOGOUT' })
+        } else if (
+          (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') &&
+          supabaseSession
+        ) {
+          const session = await rehydrateSession()
+          if (session) dispatch({ type: 'LOGIN', payload: session })
+        }
       }
-    } catch {
-      dispatch({ type: 'HYDRATED' })
-    }
+    )
+
+    return () => subscription.unsubscribe()
   }, [])
 
-  function login(sessionData) {
-    localStorage.setItem(SESSION_KEY, JSON.stringify(sessionData))
+  async function login(sessionData) {
+    // sessionData is already built by authService.login() — just store it
     dispatch({ type: 'LOGIN', payload: sessionData })
   }
 
-  function logout() {
-    localStorage.removeItem(SESSION_KEY)
+  async function logout() {
+    await supabase.auth.signOut()
     dispatch({ type: 'LOGOUT' })
   }
 
   function updateSession(updates) {
-    const updated = { ...state.session, ...updates }
-    localStorage.setItem(SESSION_KEY, JSON.stringify(updated))
     dispatch({ type: 'UPDATE_SESSION', payload: updates })
   }
 
