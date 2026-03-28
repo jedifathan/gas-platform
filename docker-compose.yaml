@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+
+  # ── PostgreSQL ──────────────────────────────────────────────────────────────
+  db:
+    image: postgres:16-alpine
+    container_name: gas_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB:       gas_platform
+      POSTGRES_USER:     gas_user
+      POSTGRES_PASSWORD: gas_secret
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"          # optional: remove if you don't need external DB access
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U gas_user -d gas_platform"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # ── Express API ─────────────────────────────────────────────────────────────
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: gas_api
+    restart: unless-stopped
+    environment:
+      PORT:        3001
+      DB_HOST:     db
+      DB_PORT:     5432
+      DB_NAME:     gas_platform
+      DB_USER:     gas_user
+      DB_PASSWORD: gas_secret
+      JWT_SECRET:  gas_dev_secret_CHANGE_THIS_IN_PROD
+    expose:
+      - "3001"               # internal only — nginx proxies to this
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # ── Frontend (Vite build → nginx) ───────────────────────────────────────────
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: gas_frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"              # HTTP — change to "443:443" when you add TLS
+    depends_on:
+      - api
+
+  # ── pgAdmin (DB GUI) ────────────────────────────────────────────────────────
+  pgadmin:
+    image: dpage/pgadmin4:8
+    container_name: gas_pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL:    admin@gas.local
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:

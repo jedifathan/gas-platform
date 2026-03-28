@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState } from 'react'
 import { Search, Users, Plus, Eye, EyeOff, Edit2 } from 'lucide-react'
 import { getAllUsers, toggleUserActive, createUser, updateUser } from '../../services/authService'
 import { getAllRegions } from '../../services/regionService'
@@ -11,7 +11,6 @@ import Modal         from '../../components/ui/Modal'
 import EmptyState    from '../../components/ui/EmptyState'
 import TextInput     from '../../components/forms/TextInput'
 import SelectInput   from '../../components/forms/SelectInput'
-import Spinner       from '../../components/ui/Spinner'
 import { getRoleLabel, formatDateTime } from '../../utils/formatters'
 
 const ROLE_COLOR = { admin: 'blue', teacher: 'green', gov_observer: 'purple' }
@@ -25,8 +24,7 @@ const ROLE_OPTS = [
 
 export default function UserManagement() {
   const { toast }                   = useApp()
-  const [users,      setUsers]      = useState([])
-  const [loading,    setLoading]    = useState(true)
+  const [users,      setUsers]      = useState(() => getAllUsers())
   const [search,     setSearch]     = useState('')
   const [roleFilter, setRoleFilter] = useState('')
   const [modal,      setModal]      = useState(null)   // 'create' | 'edit' | null
@@ -36,26 +34,11 @@ export default function UserManagement() {
   const [saving,     setSaving]     = useState(false)
   const [showPwd,    setShowPwd]    = useState(false)
 
-  const regions    = getAllRegions()
+  // Pull regions dynamically so new regions added via RegionManagement appear here
+  const regions   = getAllRegions()
   const schoolOpts = schoolsData.map(s => ({ value: s.id, label: s.name }))
   const regionOpts = regions.map(r => ({ value: r.id, label: `${r.name} (${r.province})` }))
 
-  // ── Fetch users from API ──────────────────────────────────────────────────
-  const fetchUsers = useCallback(async () => {
-    setLoading(true)
-    try {
-      const data = await getAllUsers()
-      setUsers(data)
-    } catch {
-      toast.error('Gagal memuat data pengguna.')
-    } finally {
-      setLoading(false)
-    }
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
-  useEffect(() => { fetchUsers() }, [fetchUsers])
-
-  // ── Derived list ─────────────────────────────────────────────────────────
   const filtered = users.filter(u => {
     const q = search.toLowerCase()
     return (
@@ -64,23 +47,22 @@ export default function UserManagement() {
     )
   })
 
-  // ── Toggle active ─────────────────────────────────────────────────────────
-  async function handleToggle(userId) {
-    const result = await toggleUserActive(userId)
+  function handleToggle(userId) {
+    const result = toggleUserActive(userId)
     if (result.success) {
-      await fetchUsers()
+      setUsers(getAllUsers())
       toast.success(result.is_active ? 'Akun diaktifkan.' : 'Akun dinonaktifkan.')
     } else {
       toast.error(result.message ?? 'Gagal mengubah status.')
     }
   }
 
-  // ── Form helpers ──────────────────────────────────────────────────────────
   function set(field, value) {
     setForm(f => ({ ...f, [field]: value }))
     setErrors(e => ({ ...e, [field]: undefined }))
   }
 
+  // When role changes in form, clear incompatible school/region
   function setRole(value) {
     setForm(f => ({
       ...f,
@@ -114,13 +96,13 @@ export default function UserManagement() {
     setModal('edit')
   }
 
-  // ── Save (create or update) ───────────────────────────────────────────────
   async function handleSave() {
     setSaving(true)
+    await new Promise(r => setTimeout(r, 400))
 
     let result
     if (modal === 'create') {
-      result = await createUser({
+      result = createUser({
         ...form,
         school_id: form.role === 'teacher'      ? form.school_id : null,
         region_id: form.role === 'gov_observer' ? form.region_id : null,
@@ -134,7 +116,7 @@ export default function UserManagement() {
         region_id: form.role === 'gov_observer' ? form.region_id : null,
       }
       if (form.password.trim()) payload.password = form.password.trim()
-      result = await updateUser(editing.id, payload)
+      result = updateUser(editing.id, payload)
     }
 
     setSaving(false)
@@ -145,7 +127,7 @@ export default function UserManagement() {
       return
     }
 
-    await fetchUsers()
+    setUsers(getAllUsers())
     toast.success(modal === 'create'
       ? `Akun ${result.user.name} berhasil dibuat.`
       : 'Data pengguna berhasil diperbarui.')
@@ -183,11 +165,7 @@ export default function UserManagement() {
 
       {/* Table */}
       <Card noPadding>
-        {loading ? (
-          <div className="flex justify-center items-center py-16">
-            <Spinner />
-          </div>
-        ) : filtered.length === 0 ? (
+        {filtered.length === 0 ? (
           <EmptyState icon={<Users size={28} />} title="Tidak ada pengguna ditemukan" compact />
         ) : (
           <table className="w-full table-auto">
@@ -295,9 +273,11 @@ export default function UserManagement() {
             {errors.password && <p className="text-xs text-red-600">{errors.password}</p>}
           </div>
 
+          {/* Role — now editable in both create AND edit modes */}
           <SelectInput label="Role" required options={ROLE_OPTS} value={form.role}
             onChange={e => setRole(e.target.value)} placeholder={null} />
 
+          {/* Role change warning when editing */}
           {!isCreate && form.role !== editing?.role && (
             <div className="flex gap-2 p-3 rounded-lg bg-amber-50 border border-amber-200">
               <span className="text-xs text-amber-700">
@@ -307,6 +287,7 @@ export default function UserManagement() {
             </div>
           )}
 
+          {/* Conditional school / region */}
           {form.role === 'teacher' && (
             <SelectInput label="Sekolah" options={schoolOpts} value={form.school_id}
               onChange={e => set('school_id', e.target.value)} placeholder="Pilih sekolah..." />

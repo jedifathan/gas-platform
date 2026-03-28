@@ -1,14 +1,13 @@
 import { createContext, useReducer, useEffect } from 'react'
-import { clearToken } from '../services/authService'
 
 export const AuthContext = createContext(null)
 
 const SESSION_KEY = 'gas_session'
 
 const initialState = {
-  session:         null,
+  session: null,
   isAuthenticated: false,
-  isLoading:       true,
+  isLoading: true,
 }
 
 function authReducer(state, action) {
@@ -50,7 +49,6 @@ export function AuthProvider({ children }) {
 
   function logout() {
     localStorage.removeItem(SESSION_KEY)
-    clearToken()                           // also removes the JWT from localStorage
     dispatch({ type: 'LOGOUT' })
   }
 
