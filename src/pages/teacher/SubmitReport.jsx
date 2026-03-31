@@ -147,9 +147,9 @@ export default function SubmitReport() {
           />
 
           {selectedType && (
-            <div className="flex gap-2 p-3 rounded-lg bg-teal-50 border border-teal-100">
-              <AlertCircle size={14} className="text-teal-600 shrink-0 mt-0.5" />
-              <p className="text-xs text-teal-700 leading-relaxed">{selectedType.description}</p>
+            <div className="flex gap-2 p-3 rounded-lg bg-primary-50 border border-primary-100">
+              <AlertCircle size={14} className="text-primary-600 shrink-0 mt-0.5" />
+              <p className="text-xs text-primary-700 leading-relaxed">{selectedType.description}</p>
             </div>
           )}
 
@@ -210,7 +210,7 @@ export default function SubmitReport() {
           <p className="text-sm text-gray-700">
             Anda akan mengirimkan laporan berikut untuk divalidasi oleh admin:
           </p>
-          <div className="bg-gray-50 rounded-xl p-4 space-y-2 text-sm">
+          <div className="bg-alabaster rounded-xl p-4 space-y-2 text-sm">
             <div className="flex justify-between">
               <span className="text-gray-500">Periode</span>
               <span className="font-medium">{formatPeriod(form.report_period)}</span>
@@ -225,7 +225,7 @@ export default function SubmitReport() {
             </div>
             <div className="flex justify-between">
               <span className="text-gray-500">Nilai</span>
-              <span className="font-medium text-teal-700">{selectedType?.score_weight ?? 0} pts</span>
+              <span className="font-medium text-primary-700">{selectedType?.score_weight ?? 0} pts</span>
             </div>
           </div>
           <p className="text-xs text-amber-700 bg-amber-50 px-3 py-2 rounded-lg border border-amber-200">

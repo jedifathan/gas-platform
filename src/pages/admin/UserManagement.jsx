@@ -204,7 +204,7 @@ export default function UserManagement() {
             <tbody>
               {filtered.map(user => (
                 <tr key={user.id}
-                  className={`border-b border-gray-100 hover:bg-gray-50 ${!user.is_active ? 'opacity-60' : ''}`}>
+                  className={`border-b border-gray-100 hover:bg-alabaster ${!user.is_active ? 'opacity-60' : ''}`}>
                   <td className="td">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center

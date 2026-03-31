@@ -13,7 +13,7 @@
  */
 
 const ACCENT = {
-  teal:  { icon_bg: 'bg-teal-50',   icon_txt: 'text-teal-600',  val_txt: 'text-teal-700'  },
+  teal:  { icon_bg: 'bg-primary-50',   icon_txt: 'text-primary-600',  val_txt: 'text-primary-700'  },
   amber: { icon_bg: 'bg-amber-50',  icon_txt: 'text-amber-600', val_txt: 'text-amber-700' },
   blue:  { icon_bg: 'bg-blue-50',   icon_txt: 'text-blue-600',  val_txt: 'text-blue-700'  },
   red:   { icon_bg: 'bg-red-50',    icon_txt: 'text-red-600',   val_txt: 'text-red-700'   },
@@ -27,14 +27,14 @@ export default function StatCard({
   const clickable = !!onClick
 
   const trendColor =
-    trendUp === true  ? 'text-teal-600' :
+    trendUp === true  ? 'text-primary-600' :
     trendUp === false ? 'text-red-600'  : 'text-gray-500'
 
   return (
     <div
       onClick={onClick}
       className={`stat-card flex items-start gap-4
-        ${clickable ? 'cursor-pointer hover:border-teal-300 hover:shadow-md transition-all' : ''}
+        ${clickable ? 'cursor-pointer hover:border-primary-300 hover:shadow-md transition-all' : ''}
         ${className}`}
     >
       {/* Icon slot */}

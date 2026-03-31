@@ -53,8 +53,8 @@ export default function SchoolDetail() {
       {/* Header */}
       <Card className="mb-5">
         <div className="flex items-start gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-teal-50 flex items-center justify-center shrink-0">
-            <School size={24} className="text-teal-600" />
+          <div className="w-14 h-14 rounded-2xl bg-primary-50 flex items-center justify-center shrink-0">
+            <School size={24} className="text-primary-600" />
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-3 flex-wrap mb-1">
@@ -97,7 +97,7 @@ export default function SchoolDetail() {
               ))}
               <div className="pt-2 border-t border-gray-100 flex justify-between text-sm font-bold">
                 <span className="text-gray-700">Total</span>
-                <span className="text-teal-700">{score.total_score}/100</span>
+                <span className="text-primary-700">{score.total_score}/100</span>
               </div>
             </div>
           </Card>
@@ -111,7 +111,7 @@ export default function SchoolDetail() {
         <Card title="Progres LMS Guru" className="lg:col-span-1">
           <div className="space-y-2 text-sm">
             <div className="flex justify-between"><span className="text-gray-500">Total Guru</span><span className="font-medium">{teachers.length}</span></div>
-            <div className="flex justify-between"><span className="text-gray-500">Bersertifikat</span><span className="font-medium text-teal-700">{lmsData.certified}</span></div>
+            <div className="flex justify-between"><span className="text-gray-500">Bersertifikat</span><span className="font-medium text-primary-700">{lmsData.certified}</span></div>
             <div className="flex justify-between"><span className="text-gray-500">Sedang Belajar</span><span className="font-medium text-amber-600">{lmsData.in_progress}</span></div>
             <div className="pt-2">
               <ProgressBar value={lmsData.rate} showPct size="sm" color="teal" />
@@ -127,8 +127,8 @@ export default function SchoolDetail() {
             <div className="space-y-2">
               {teachers.map(t => (
                 <div key={t.id} className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-full bg-teal-50 flex items-center justify-center
-                                  text-teal-700 text-xs font-semibold shrink-0">
+                  <div className="w-7 h-7 rounded-full bg-primary-50 flex items-center justify-center
+                                  text-primary-700 text-xs font-semibold shrink-0">
                     {t.name.charAt(0)}
                   </div>
                   <div className="min-w-0">
@@ -159,12 +159,12 @@ export default function SchoolDetail() {
             </thead>
             <tbody>
               {reports.map(r => (
-                <tr key={r.id} className="border-b border-gray-100 hover:bg-gray-50">
+                <tr key={r.id} className="border-b border-gray-100 hover:bg-alabaster">
                   <td className="td text-sm">{formatPeriod(r.report_period)}</td>
                   <td className="td text-sm">{r.activity_label}</td>
                   <td className="td text-center text-sm">{r.participant_count}</td>
                   <td className="td text-center"><StatusPill status={r.status} size="sm" /></td>
-                  <td className="td text-center text-sm font-medium text-teal-700">
+                  <td className="td text-center text-sm font-medium text-primary-700">
                     {r.status === 'validated' ? `+${r.score_weight}` : '—'}
                   </td>
                 </tr>

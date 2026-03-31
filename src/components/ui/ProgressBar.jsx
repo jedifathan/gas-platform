@@ -12,7 +12,7 @@
 
 const HEIGHTS = { xs: 'h-1', sm: 'h-2', md: 'h-3' }
 const COLORS  = {
-  teal:  'bg-teal-500',
+  teal:  'bg-primary-500',
   amber: 'bg-amber-400',
   blue:  'bg-blue-500',
   red:   'bg-red-500',

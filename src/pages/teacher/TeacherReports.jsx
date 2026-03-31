@@ -70,15 +70,15 @@ export default function TeacherReports() {
       ) : (
         <div className="space-y-3">
           {reports.map(report => (
-            <div key={report.id} className="card p-4 flex items-center gap-4 hover:border-teal-200 transition-colors group">
+            <div key={report.id} className="card p-4 flex items-center gap-4 hover:border-primary-200 transition-colors group">
               <div className="flex items-center gap-4 flex-1 min-w-0 cursor-pointer"
                 onClick={() => navigate(`/app/teacher/reports/${report.id}`)}>
-                <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center shrink-0 group-hover:bg-teal-50 transition-colors">
-                  <FileText size={16} className="text-gray-500 group-hover:text-teal-600" />
+                <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center shrink-0 group-hover:bg-primary-50 transition-colors">
+                  <FileText size={16} className="text-gray-500 group-hover:text-primary-600" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <p className="text-sm font-semibold text-gray-900 truncate group-hover:text-teal-700">{report.activity_label}</p>
+                    <p className="text-sm font-semibold text-gray-900 truncate group-hover:text-primary-700">{report.activity_label}</p>
                     <span className="text-xs text-gray-400">·</span>
                     <span className="text-xs text-gray-500">{report.participant_count} peserta</span>
                   </div>

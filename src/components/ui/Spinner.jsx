@@ -15,7 +15,7 @@ const SIZES = {
 }
 
 const COLORS = {
-  teal:  'border-teal-200 border-t-teal-600',
+  teal:  'border-primary-200 border-t-primary-600',
   white: 'border-white/30 border-t-white',
   gray:  'border-gray-200 border-t-gray-500',
 }
@@ -46,8 +46,8 @@ export default function Spinner({ size = 'md', color = 'teal', label = 'Memuat..
 /** Full-page loading overlay */
 export function PageLoader({ message = 'Memuat...' }) {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center gap-4 bg-gray-50">
-      <div className="w-12 h-12 rounded-xl bg-teal-600 flex items-center justify-center
+    <div className="min-h-screen flex flex-col items-center justify-center gap-4 bg-alabaster">
+      <div className="w-12 h-12 rounded-xl bg-primary-600 flex items-center justify-center
                       text-white font-bold text-xl animate-pulse">
         G
       </div>

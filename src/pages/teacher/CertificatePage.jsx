@@ -59,23 +59,23 @@ export default function CertificatePage() {
       {/* ── Certificate card ── */}
       <div
         ref={printRef}
-        className="bg-white rounded-2xl border-2 border-teal-200 shadow-lg overflow-hidden"
+        className="bg-white rounded-2xl border-2 border-primary-200 shadow-lg overflow-hidden"
         style={{ printColorAdjust: 'exact' }}
       >
         {/* Top accent strip */}
-        <div className="h-2 bg-gradient-to-r from-teal-600 via-teal-500 to-teal-400" />
+        <div className="h-2 bg-gradient-to-r from-primary-600 via-primary-500 to-primary-400" />
 
         {/* Header */}
         <div className="px-10 pt-10 pb-6 text-center border-b border-gray-100">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="w-12 h-12 rounded-xl bg-teal-600 flex items-center justify-center
+            <div className="w-12 h-12 rounded-xl bg-primary-600 flex items-center justify-center
                             text-white font-bold text-xl shadow-md">G</div>
             <div className="text-left leading-none">
               <p className="text-base font-bold text-gray-900">Program GAS</p>
               <p className="text-xs text-gray-500">Gigi Anak Sehat</p>
             </div>
           </div>
-          <p className="text-xs uppercase tracking-widest text-teal-600 font-semibold mb-1">
+          <p className="text-xs uppercase tracking-widest text-primary-600 font-semibold mb-1">
             Sertifikat Penyelesaian
           </p>
           <h1 className="text-2xl font-black text-gray-900">Certificate of Completion</h1>
@@ -84,7 +84,7 @@ export default function CertificatePage() {
         {/* Body */}
         <div className="px-10 py-8 text-center">
           <p className="text-sm text-gray-500 mb-2">Diberikan kepada</p>
-          <h2 className="text-3xl font-black text-teal-700 mb-1">{session?.name}</h2>
+          <h2 className="text-3xl font-black text-primary-700 mb-1">{session?.name}</h2>
           <p className="text-sm text-gray-500 mb-6">
             {session?.school?.name ?? 'Guru Program GAS'} · {session?.school?.district}
           </p>
@@ -94,16 +94,16 @@ export default function CertificatePage() {
           </p>
 
           {/* Course highlight box */}
-          <div className="inline-block bg-teal-50 border border-teal-200 rounded-2xl px-8 py-5 mb-6 text-left max-w-lg w-full">
+          <div className="inline-block bg-primary-50 border border-primary-200 rounded-2xl px-8 py-5 mb-6 text-left max-w-lg w-full">
             <div className="flex items-start gap-3">
               <div
                 className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
                 style={{ backgroundColor: course.thumbnail_color ?? '#E1F5EE' }}
               >
-                <BookOpen size={20} className="text-teal-700" />
+                <BookOpen size={20} className="text-primary-700" />
               </div>
               <div className="min-w-0">
-                <p className="text-xs font-medium text-teal-600 mb-0.5">{course.category_label}</p>
+                <p className="text-xs font-medium text-primary-600 mb-0.5">{course.category_label}</p>
                 <p className="text-base font-bold text-gray-900 leading-snug">{course.title}</p>
               </div>
             </div>
@@ -111,22 +111,22 @@ export default function CertificatePage() {
 
           {/* Stats row */}
           <div className="grid grid-cols-3 gap-4 max-w-sm mx-auto mb-8">
-            <div className="bg-gray-50 rounded-xl p-3 text-center">
-              <p className="text-lg font-black text-teal-700">{progress.quiz_score}%</p>
+            <div className="bg-alabaster rounded-xl p-3 text-center">
+              <p className="text-lg font-black text-primary-700">{progress.quiz_score}%</p>
               <p className="text-[10px] text-gray-500 mt-0.5">Skor Kuis</p>
             </div>
-            <div className="bg-gray-50 rounded-xl p-3 text-center">
+            <div className="bg-alabaster rounded-xl p-3 text-center">
               <p className="text-lg font-black text-gray-800">{course.total_lessons}</p>
               <p className="text-[10px] text-gray-500 mt-0.5">Pelajaran</p>
             </div>
-            <div className="bg-gray-50 rounded-xl p-3 text-center">
+            <div className="bg-alabaster rounded-xl p-3 text-center">
               <p className="text-lg font-black text-gray-800">{progress.quiz_attempts}x</p>
               <p className="text-[10px] text-gray-500 mt-0.5">Percobaan</p>
             </div>
           </div>
 
           {/* Completion badge */}
-          <div className="inline-flex items-center gap-2 bg-teal-600 text-white
+          <div className="inline-flex items-center gap-2 bg-primary-600 text-white
                           rounded-full px-5 py-2 text-sm font-semibold mb-8">
             <CheckCircle size={16} />
             Lulus dengan nilai {progress.quiz_score}%
@@ -134,7 +134,7 @@ export default function CertificatePage() {
         </div>
 
         {/* Footer */}
-        <div className="px-10 py-6 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
+        <div className="px-10 py-6 bg-alabaster border-t border-gray-100 flex items-center justify-between">
           {/* Signature block */}
           <div className="text-left">
             <div className="w-32 border-b border-gray-400 mb-1 pb-0.5">
@@ -152,7 +152,7 @@ export default function CertificatePage() {
         </div>
 
         {/* Bottom accent strip */}
-        <div className="h-1 bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600" />
+        <div className="h-1 bg-gradient-to-r from-primary-400 via-primary-500 to-primary-600" />
       </div>
 
       {/* Print styles injected at page level */}

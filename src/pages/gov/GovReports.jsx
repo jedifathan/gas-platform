@@ -114,7 +114,7 @@ export default function GovReports() {
             </thead>
             <tbody>
               {displayed.map(r => (
-                <tr key={r.id} className="border-b border-gray-100 hover:bg-gray-50">
+                <tr key={r.id} className="border-b border-gray-100 hover:bg-alabaster">
                   <td className="td">
                     <p className="font-medium text-gray-900 text-sm">{r.school_name}</p>
                     <p className="text-xs text-gray-400">{r.school_district}</p>

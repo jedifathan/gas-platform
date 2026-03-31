@@ -69,7 +69,7 @@ export default function GovLeaderboard() {
                 <span className="text-3xl mb-1">{medals[i]}</span>
                 <p className="text-sm font-bold text-gray-900 truncate w-full">{school.school_name}</p>
                 <p className="text-xs text-gray-500">{school.district}</p>
-                <p className="text-xl font-black text-teal-700 mt-2">{school.total_score}</p>
+                <p className="text-xl font-black text-primary-700 mt-2">{school.total_score}</p>
                 {badgeCfg && (
                   <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded-full mt-1 ${badgeCfg.className}`}>
                     {badgeCfg.emoji} {badgeCfg.label}
@@ -94,11 +94,11 @@ export default function GovLeaderboard() {
       <Card title="Cara Penghitungan Skor" className="mt-5">
         <div className="grid grid-cols-3 gap-4 text-center">
           {[
-            { label: 'LMS', max: 40, desc: 'Tingkat sertifikasi guru', color: 'text-teal-700' },
+            { label: 'LMS', max: 40, desc: 'Tingkat sertifikasi guru', color: 'text-primary-700' },
             { label: 'Kegiatan', max: 40, desc: 'Laporan tervalidasi', color: 'text-blue-700' },
             { label: 'Konsistensi', max: 20, desc: '3 bulan berturut-turut', color: 'text-amber-700' },
           ].map(item => (
-            <div key={item.label} className="bg-gray-50 rounded-xl p-4">
+            <div key={item.label} className="bg-alabaster rounded-xl p-4">
               <p className={`text-xs font-bold ${item.color}`}>{item.label}</p>
               <p className="text-2xl font-black text-gray-900">0–{item.max}</p>
               <p className="text-[10px] text-gray-500 mt-0.5">{item.desc}</p>

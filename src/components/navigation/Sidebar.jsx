@@ -57,7 +57,7 @@ export default function Sidebar() {
                          ${sidebarOpen ? 'w-64' : 'w-0 overflow-hidden'}`}>
         <div className="h-16 flex items-center justify-between px-4 border-b border-gray-100 shrink-0">
           <div className="flex items-center gap-2.5 min-w-0">
-            <div className="w-8 h-8 rounded-lg bg-teal-600 flex items-center justify-center text-white font-bold text-sm shrink-0">G</div>
+            <div className="w-8 h-8 rounded-lg bg-primary-600 flex items-center justify-center text-white font-bold text-sm shrink-0">G</div>
             <div className="leading-none min-w-0">
               <p className="text-sm font-bold text-gray-900 truncate">Program GAS</p>
               <p className="text-xs text-gray-500 truncate">Gigi Anak Sehat</p>
@@ -70,8 +70,8 @@ export default function Sidebar() {
         </div>
 
         <div className="px-3 py-3 border-b border-gray-100">
-          <div className="flex items-center gap-2.5 px-2 py-2 rounded-lg bg-gray-50">
-            <div className="w-8 h-8 rounded-full bg-teal-100 flex items-center justify-center text-teal-700 font-semibold text-xs shrink-0">
+          <div className="flex items-center gap-2.5 px-2 py-2 rounded-lg bg-alabaster">
+            <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-700 font-semibold text-xs shrink-0">
               {session?.name?.charAt(0) ?? '?'}
             </div>
             <div className="min-w-0">
@@ -108,7 +108,7 @@ export default function Sidebar() {
 
       {!sidebarOpen && (
         <button onClick={toggleSidebar} aria-label="Buka sidebar"
-          className="fixed top-4 left-3 z-30 p-2 rounded-lg bg-white border border-gray-200 shadow-sm text-gray-600 hover:text-teal-700 hover:border-teal-300 transition-colors">
+          className="fixed top-4 left-3 z-30 p-2 rounded-lg bg-white border border-gray-200 shadow-sm text-gray-600 hover:text-primary-700 hover:border-primary-300 transition-colors">
           <ChevronRight size={16} />
         </button>
       )}

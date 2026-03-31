@@ -111,7 +111,7 @@ export default function PublicLeaderboard() {
                   {/* Score badge */}
                   <div className={`shrink-0 text-right ${top3 ? '' : 'hidden sm:block'}`}>
                     <p className={`text-2xl font-black ${
-                      school.total_score >= 70 ? 'text-teal-600' :
+                      school.total_score >= 70 ? 'text-primary-600' :
                       school.total_score >= 40 ? 'text-amber-600' : 'text-gray-500'
                     }`}>{school.total_score}</p>
                     <p className="text-[10px] text-gray-400">poin</p>
@@ -132,8 +132,8 @@ export default function PublicLeaderboard() {
             { label: 'Kegiatan',    max: 40, desc: 'Laporan tervalidasi' },
             { label: 'Konsistensi', max: 20, desc: 'Laporan berturut-turut' },
           ].map(item => (
-            <div key={item.label} className="bg-gray-50 rounded-lg p-3">
-              <p className="text-xs font-bold text-teal-700">{item.label}</p>
+            <div key={item.label} className="bg-alabaster rounded-lg p-3">
+              <p className="text-xs font-bold text-primary-700">{item.label}</p>
               <p className="text-lg font-black text-gray-900">0–{item.max}</p>
               <p className="text-[10px] text-gray-500">{item.desc}</p>
             </div>

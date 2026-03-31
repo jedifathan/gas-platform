@@ -30,7 +30,7 @@ export default function QuizPage() {
     return (
       <div className="page-wrapper max-w-lg">
         <Card className="text-center p-10">
-          <Award size={48} className="text-teal-500 mx-auto mb-4" />
+          <Award size={48} className="text-primary-500 mx-auto mb-4" />
           <h2 className="text-xl font-bold text-gray-900 mb-2">Anda Sudah Bersertifikat!</h2>
           <p className="text-sm text-gray-500 mb-6">
             Skor kuis: <strong>{progress.quiz_score}%</strong> · Threshold: {course.passing_score}%
@@ -93,9 +93,9 @@ export default function QuizPage() {
     return (
       <div className="page-wrapper max-w-2xl">
         {/* Score banner */}
-        <Card className={`text-center p-8 mb-5 ${result.passed ? 'border-teal-200 bg-teal-50/30' : 'border-red-200 bg-red-50/30'}`}>
+        <Card className={`text-center p-8 mb-5 ${result.passed ? 'border-primary-200 bg-primary-50/30' : 'border-red-200 bg-red-50/30'}`}>
           {result.passed
-            ? <Award size={52} className="text-teal-500 mx-auto mb-3" />
+            ? <Award size={52} className="text-primary-500 mx-auto mb-3" />
             : <XCircle size={52} className="text-red-400 mx-auto mb-3" />}
           <h2 className="text-2xl font-black text-gray-900 mb-1">
             {result.passed ? 'Selamat, Anda Lulus!' : 'Belum Lulus'}
@@ -119,19 +119,19 @@ export default function QuizPage() {
               <div key={i} className="p-4">
                 <div className="flex items-start gap-2 mb-2">
                   {item.correct
-                    ? <CheckCircle size={15} className="text-teal-500 shrink-0 mt-0.5" />
+                    ? <CheckCircle size={15} className="text-primary-500 shrink-0 mt-0.5" />
                     : <XCircle    size={15} className="text-red-500 shrink-0 mt-0.5" />}
                   <p className="text-sm font-medium text-gray-900">{item.question}</p>
                 </div>
                 {/* BUG FIX: removed duplicate ml-2 class from the second badge */}
                 <div className="flex flex-wrap gap-2 ml-5">
                   <div className={`text-xs px-2 py-1 rounded-md inline-block ${
-                    item.correct ? 'bg-teal-50 text-teal-700' : 'bg-red-50 text-red-700'
+                    item.correct ? 'bg-primary-50 text-primary-700' : 'bg-red-50 text-red-700'
                   }`}>
                     Jawaban Anda: {item.your_answer}
                   </div>
                   {!item.correct && (
-                    <div className="text-xs px-2 py-1 rounded-md bg-teal-50 text-teal-700 inline-block">
+                    <div className="text-xs px-2 py-1 rounded-md bg-primary-50 text-primary-700 inline-block">
                       Jawaban benar: {item.correct_answer}
                     </div>
                   )}
@@ -193,7 +193,7 @@ export default function QuizPage() {
         {questions.map((q, qIdx) => (
           <Card key={q.id}>
             <p className="text-sm font-semibold text-gray-900 mb-3">
-              <span className="text-teal-600 font-bold mr-1">{qIdx + 1}.</span>
+              <span className="text-primary-600 font-bold mr-1">{qIdx + 1}.</span>
               {q.question}
             </p>
             <div className="space-y-2">
@@ -205,12 +205,12 @@ export default function QuizPage() {
                     className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer
                       transition-all text-sm ${
                         selected
-                          ? 'border-teal-400 bg-teal-50 text-teal-800'
-                          : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50 text-gray-700'
+                          ? 'border-primary-400 bg-primary-50 text-primary-800'
+                          : 'border-gray-200 hover:border-gray-300 hover:bg-alabaster text-gray-700'
                       }`}
                   >
                     <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${
-                      selected ? 'border-teal-500 bg-teal-500' : 'border-gray-300'
+                      selected ? 'border-primary-500 bg-primary-500' : 'border-gray-300'
                     }`}>
                       {selected && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
                     </div>

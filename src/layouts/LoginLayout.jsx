@@ -6,12 +6,12 @@ import { Outlet, Link } from 'react-router-dom'
  */
 export default function LoginLayout() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-blue-50
+    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-blue-50
                     flex flex-col items-center justify-center px-4">
       {/* Brand mark */}
       <Link to="/" className="flex items-center gap-3 mb-8 group">
-        <div className="w-12 h-12 rounded-2xl bg-teal-600 flex items-center justify-center
-                        text-white font-bold text-xl shadow-lg group-hover:bg-teal-700 transition-colors">
+        <div className="w-12 h-12 rounded-2xl bg-primary-600 flex items-center justify-center
+                        text-white font-bold text-xl shadow-lg group-hover:bg-primary-700 transition-colors">
           G
         </div>
         <div className="leading-none">

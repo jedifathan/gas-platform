@@ -94,8 +94,8 @@ export default function ProfilePage() {
       {/* Avatar + name card */}
       <Card className="mb-5">
         <div className="flex items-center gap-5">
-          <div className="w-16 h-16 rounded-2xl bg-teal-100 flex items-center justify-center
-                          text-teal-700 font-bold text-2xl shrink-0">
+          <div className="w-16 h-16 rounded-2xl bg-primary-100 flex items-center justify-center
+                          text-primary-700 font-bold text-2xl shrink-0">
             {session.name.charAt(0)}
           </div>
           <div className="min-w-0">

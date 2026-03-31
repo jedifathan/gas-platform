@@ -19,9 +19,9 @@ export default function AuthShell() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-alabaster">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-teal-600 flex items-center justify-center
+          <div className="w-10 h-10 rounded-xl bg-primary-600 flex items-center justify-center
                           text-white font-bold text-lg animate-pulse">G</div>
           <p className="text-sm text-gray-500">Memuat...</p>
         </div>
@@ -34,7 +34,7 @@ export default function AuthShell() {
   const mainOffset = !isMobile && sidebarOpen ? 'ml-64' : 'ml-0'
 
   return (
-    <div className="min-h-screen flex bg-gray-50">
+    <div className="min-h-screen flex bg-alabaster">
       {/* ── Sidebar ── */}
       <Sidebar />
 

@@ -65,7 +65,7 @@ export default function Breadcrumb() {
             ) : (
               <Link
                 to={crumb.path}
-                className="text-gray-500 hover:text-teal-700 transition-colors truncate"
+                className="text-gray-500 hover:text-primary-700 transition-colors truncate"
               >
                 {crumb.label}
               </Link>

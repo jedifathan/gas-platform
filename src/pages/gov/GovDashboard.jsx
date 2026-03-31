@@ -61,14 +61,14 @@ export default function GovDashboard() {
             {school_status.slice(0, 6).map(({ school, rank, reporting }) => {
               const badgeCfg = rank?.badge ? getBadgeConfig(rank.badge.tier) : null
               return (
-                <div key={school.id} className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50">
-                  <div className={`w-2 h-2 rounded-full shrink-0 ${reporting ? 'bg-teal-500' : 'bg-red-400'}`} />
+                <div key={school.id} className="flex items-center gap-3 p-2 rounded-lg hover:bg-alabaster">
+                  <div className={`w-2 h-2 rounded-full shrink-0 ${reporting ? 'bg-primary-500' : 'bg-red-400'}`} />
                   <div className="flex-1 min-w-0">
                     <p className="text-xs font-medium text-gray-900 truncate">{school.name}</p>
                     <p className="text-[10px] text-gray-400">{school.district}</p>
                   </div>
                   {rank && (
-                    <span className="text-xs font-bold text-teal-700 shrink-0">{rank.total_score} pts</span>
+                    <span className="text-xs font-bold text-primary-700 shrink-0">{rank.total_score} pts</span>
                   )}
                   {badgeCfg && <span className="text-sm shrink-0">{badgeCfg.emoji}</span>}
                 </div>

@@ -7,7 +7,7 @@ import Button          from '../../components/ui/Button'
 import Spinner         from '../../components/ui/Spinner'
 
 const STATUS_CONFIG = {
-  certified:   { label: 'Bersertifikat', cls: 'bg-teal-50 text-teal-700',   icon: '🏅' },
+  certified:   { label: 'Bersertifikat', cls: 'bg-primary-50 text-primary-700',   icon: '🏅' },
   in_progress: { label: 'Berlangsung',   cls: 'bg-amber-50 text-amber-700', icon: '⏳' },
   not_started: { label: 'Belum mulai',   cls: 'bg-gray-100 text-gray-500',  icon: '○' },
 }
@@ -51,7 +51,7 @@ export default function TeacherCourseList() {
         <div className="flex-1">
           <div className="flex items-center justify-between text-xs text-gray-600 mb-1.5">
             <span className="font-medium">Total Progres</span>
-            <span className="font-semibold text-teal-700">
+            <span className="font-semibold text-primary-700">
               {certified}/{courses.length} kursus selesai
             </span>
           </div>
@@ -64,7 +64,7 @@ export default function TeacherCourseList() {
         {certified === courses.length && courses.length > 0 && (
           <div className="shrink-0 text-center">
             <span className="text-2xl">🎉</span>
-            <p className="text-[10px] text-teal-700 font-medium mt-0.5">Semua selesai!</p>
+            <p className="text-[10px] text-primary-700 font-medium mt-0.5">Semua selesai!</p>
           </div>
         )}
       </div>
@@ -82,7 +82,7 @@ export default function TeacherCourseList() {
               className={`card p-5 transition-all ${
                 locked
                   ? 'opacity-60 cursor-not-allowed'
-                  : 'cursor-pointer hover:border-teal-200 hover:shadow-md'
+                  : 'cursor-pointer hover:border-primary-200 hover:shadow-md'
               }`}
             >
               <div className="flex items-start gap-4">
@@ -91,7 +91,7 @@ export default function TeacherCourseList() {
                   className="w-14 h-14 rounded-xl flex items-center justify-center shrink-0 text-2xl"
                   style={{ backgroundColor: course.thumbnail_color ?? '#E1F5EE' }}
                 >
-                  {locked ? <Lock size={20} className="text-gray-400" /> : <BookOpen size={20} className="text-teal-700" />}
+                  {locked ? <Lock size={20} className="text-gray-400" /> : <BookOpen size={20} className="text-primary-700" />}
                 </div>
 
                 {/* Content */}
@@ -116,7 +116,7 @@ export default function TeacherCourseList() {
                       {course.status === 'certified' && ` · Skor: ${course.progress?.quiz_score}%`}
                     </p>
                     {!locked && (
-                      <span className="text-xs font-medium text-teal-600 flex items-center gap-0.5">
+                      <span className="text-xs font-medium text-primary-600 flex items-center gap-0.5">
                         {course.status === 'certified' ? 'Lihat Sertifikat' :
                          course.status === 'in_progress' ? 'Lanjutkan' : 'Mulai'}
                         <ChevronRight size={13} />
@@ -129,8 +129,8 @@ export default function TeacherCourseList() {
               {/* Certificate badge */}
               {course.status === 'certified' && (
                 <div className="mt-4 pt-4 border-t border-gray-100 flex items-center gap-2">
-                  <Award size={14} className="text-teal-600 shrink-0" />
-                  <p className="text-xs text-teal-700 font-medium">
+                  <Award size={14} className="text-primary-600 shrink-0" />
+                  <p className="text-xs text-primary-700 font-medium">
                     Sertifikat diterbitkan · Skor kuis: {course.progress?.quiz_score}%
                   </p>
                 </div>

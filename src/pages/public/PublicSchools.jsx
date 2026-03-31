@@ -70,11 +70,11 @@ export default function PublicSchools() {
             const region  = getRegion(school.region_id)
             const statusCfg = STATUS_CONFIG[school.status] ?? STATUS_CONFIG.inactive
             return (
-              <div key={school.id} className="card p-5 hover:border-teal-200 transition-colors">
+              <div key={school.id} className="card p-5 hover:border-primary-200 transition-colors">
                 {/* Status */}
                 <div className="flex items-start justify-between gap-2 mb-3">
-                  <div className="w-9 h-9 rounded-xl bg-teal-50 flex items-center justify-center shrink-0">
-                    <CheckCircle size={16} className="text-teal-600" />
+                  <div className="w-9 h-9 rounded-xl bg-primary-50 flex items-center justify-center shrink-0">
+                    <CheckCircle size={16} className="text-primary-600" />
                   </div>
                   <span className={`pill ${statusCfg.className}`}>{statusCfg.label}</span>
                 </div>

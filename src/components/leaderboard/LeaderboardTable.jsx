@@ -51,7 +51,7 @@ export default function LeaderboardTable({ rankings = [], showBreakdown = false,
             return (
               <tr
                 key={school.school_id}
-                className={`border-b border-gray-100 hover:bg-gray-50 transition-colors ${
+                className={`border-b border-gray-100 hover:bg-alabaster transition-colors ${
                   top3 ? 'bg-amber-50/40' : ''
                 }`}
               >
@@ -70,7 +70,7 @@ export default function LeaderboardTable({ rankings = [], showBreakdown = false,
                 {showBreakdown && (
                   <>
                     <td className="td text-center">
-                      <span className="text-sm font-medium text-teal-700">{school.lms_score}</span>
+                      <span className="text-sm font-medium text-primary-700">{school.lms_score}</span>
                       <span className="text-xs text-gray-400">/40</span>
                     </td>
                     <td className="td text-center">

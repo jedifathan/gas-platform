@@ -85,9 +85,9 @@ export default function TeacherDashboard() {
           <div className="space-y-4">
             {course_progress.map(({ course, progress: prog, status, pct }) => {
               const statusColor =
-                status === 'certified'   ? 'text-teal-700 bg-teal-50'  :
+                status === 'certified'   ? 'text-primary-700 bg-primary-50'  :
                 status === 'in_progress' ? 'text-amber-700 bg-amber-50' :
-                'text-gray-500 bg-gray-50'
+                'text-gray-500 bg-alabaster'
               const statusLabel =
                 status === 'certified'   ? 'Selesai ✓'  :
                 status === 'in_progress' ? 'Berlangsung' : 'Belum mulai'
@@ -98,7 +98,7 @@ export default function TeacherDashboard() {
                   onClick={() => navigate(`/app/teacher/lms/${course.id}`)}
                 >
                   <div className="flex items-center justify-between mb-1.5">
-                    <p className="text-sm font-medium text-gray-800 group-hover:text-teal-700
+                    <p className="text-sm font-medium text-gray-800 group-hover:text-primary-700
                                   transition-colors truncate max-w-[65%]">
                       {course.title}
                     </p>
@@ -143,7 +143,7 @@ export default function TeacherDashboard() {
               {recent_reports.slice(0, 5).map(report => (
                 <div
                   key={report.id}
-                  className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-50
+                  className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-alabaster
                              cursor-pointer transition-colors group"
                   onClick={() => navigate(`/app/teacher/reports/${report.id}`)}
                 >
@@ -151,7 +151,7 @@ export default function TeacherDashboard() {
                     <FileText size={14} className="text-gray-500" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs font-medium text-gray-800 truncate group-hover:text-teal-700">
+                    <p className="text-xs font-medium text-gray-800 truncate group-hover:text-primary-700">
                       {report.activity_label}
                     </p>
                     <p className="text-[10px] text-gray-400">

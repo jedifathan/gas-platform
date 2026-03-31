@@ -117,7 +117,7 @@ export default function DataTable({
                 <tr
                   key={row.id}
                   onClick={() => onRowClick?.(row.original)}
-                  className={`hover:bg-gray-50 transition-colors ${onRowClick ? 'cursor-pointer' : ''}`}
+                  className={`hover:bg-alabaster transition-colors ${onRowClick ? 'cursor-pointer' : ''}`}
                 >
                   {row.getVisibleCells().map(cell => (
                     <td key={cell.id} className="td">

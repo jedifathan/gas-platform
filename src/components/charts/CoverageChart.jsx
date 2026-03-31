@@ -21,7 +21,7 @@ export default function CoverageChart({ data = [] }) {
             <span className="text-xs text-gray-500 shrink-0 ml-2">
               {row.reporting}/{row.total} sekolah &nbsp;·&nbsp;
               <span className={`font-semibold ${
-                row.pct >= 75 ? 'text-teal-600' :
+                row.pct >= 75 ? 'text-primary-600' :
                 row.pct >= 40 ? 'text-amber-600' : 'text-red-500'
               }`}>{row.pct}%</span>
             </span>
@@ -31,7 +31,7 @@ export default function CoverageChart({ data = [] }) {
           <div className="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
             <div
               className={`h-full rounded-full transition-all duration-500 ${
-                row.pct >= 75 ? 'bg-teal-500' :
+                row.pct >= 75 ? 'bg-primary-500' :
                 row.pct >= 40 ? 'bg-amber-400' : 'bg-red-400'
               }`}
               style={{ width: `${row.pct}%` }}

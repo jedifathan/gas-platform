@@ -8,10 +8,10 @@ import { getDashboardPath } from '../../utils/permissions'
 import Button from '../../components/ui/Button'
 
 const DEMO_ACCOUNTS = [
-  { label: 'Admin',         email: 'admin@gas-program.my.id',          role: 'admin' },
-  { label: 'Guru (Ani)',    email: 'ani.rahayu@tktunasbangsa.id',   role: 'teacher' },
-  { label: 'Guru (Doni)',   email: 'doni.kusuma@paudmelati.id',     role: 'teacher' },
-  { label: 'Pengamat Dinas',email: 'a.fauzi@dinkes-tangsel.go.id', role: 'gov_observer' },
+  { label: 'Admin',          email: 'admin@gas-program.my.id',         role: 'admin' },
+  { label: 'Guru (Ani)',     email: 'ani.rahayu@tktunasbangsa.id',      role: 'teacher' },
+  { label: 'Guru (Doni)',    email: 'doni.kusuma@paudmelati.id',        role: 'teacher' },
+  { label: 'Pengamat Dinas', email: 'a.fauzi@dinkes-tangsel.go.id',     role: 'gov_observer' },
 ]
 
 export default function LoginPage() {
@@ -39,10 +39,7 @@ export default function LoginPage() {
     if (!password.trim()) return setError('Password wajib diisi.')
 
     setLoading(true)
-    // Simulate async network latency
-    await new Promise(r => setTimeout(r, 600))
-
-    const result = login(email.trim(), password)
+    const result = await login(email.trim(), password)   // ← await added
     setLoading(false)
 
     if (!result.success) {
@@ -74,9 +71,9 @@ export default function LoginPage() {
               type="button"
               onClick={() => fillDemo(acc)}
               className="text-left px-3 py-2 rounded-lg border border-gray-200 text-xs
-                         hover:border-teal-300 hover:bg-teal-50 transition-colors group"
+                         hover:border-primary-300 hover:bg-primary-50 transition-colors group"
             >
-              <span className="font-medium text-gray-700 group-hover:text-teal-700 block truncate">
+              <span className="font-medium text-gray-700 group-hover:text-primary-700 block truncate">
                 {acc.label}
               </span>
               <span className="text-gray-400 truncate block">{acc.email}</span>

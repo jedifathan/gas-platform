@@ -40,7 +40,7 @@ export default function GovMonitoring() {
         <div className="space-y-2">
           <div className="flex justify-between text-sm">
             <span className="text-gray-600">{kpis.reporting_schools} dari {kpis.total_schools} sekolah melapor</span>
-            <span className={`font-bold ${coveragePct >= 75 ? 'text-teal-600' : coveragePct >= 50 ? 'text-amber-600' : 'text-red-600'}`}>
+            <span className={`font-bold ${coveragePct >= 75 ? 'text-primary-600' : coveragePct >= 50 ? 'text-amber-600' : 'text-red-600'}`}>
               {coveragePct}%
             </span>
           </div>
@@ -69,19 +69,19 @@ export default function GovMonitoring() {
               const badgeCfg = rank?.badge ? getBadgeConfig(rank.badge.tier) : null
               const submittedCount = reports.filter(r => ['submitted','validated'].includes(r.status)).length
               return (
-                <tr key={school.id} className="border-b border-gray-100 hover:bg-gray-50">
+                <tr key={school.id} className="border-b border-gray-100 hover:bg-alabaster">
                   <td className="td">
                     <p className="text-sm font-medium text-gray-900">{school.name}</p>
                     <p className="text-xs text-gray-400">{school.district}</p>
                   </td>
                   <td className="td text-center">
-                    <span className={`text-sm font-semibold ${submittedCount > 0 ? 'text-teal-700' : 'text-red-500'}`}>
+                    <span className={`text-sm font-semibold ${submittedCount > 0 ? 'text-primary-700' : 'text-red-500'}`}>
                       {submittedCount}
                     </span>
                   </td>
                   <td className="td text-center">
                     <span className={`text-sm font-bold ${
-                      (rank?.total_score ?? 0) >= 70 ? 'text-teal-700' :
+                      (rank?.total_score ?? 0) >= 70 ? 'text-primary-700' :
                       (rank?.total_score ?? 0) >= 40 ? 'text-amber-600' : 'text-gray-400'
                     }`}>{rank?.total_score ?? '—'}</span>
                   </td>
@@ -91,7 +91,7 @@ export default function GovMonitoring() {
                       : <span className="text-gray-300 text-xs">—</span>}
                   </td>
                   <td className="td text-center">
-                    <span className={`inline-flex items-center gap-1 text-xs font-medium ${reporting ? 'text-teal-600' : 'text-red-500'}`}>
+                    <span className={`inline-flex items-center gap-1 text-xs font-medium ${reporting ? 'text-primary-600' : 'text-red-500'}`}>
                       {reporting
                         ? <><CheckCircle size={12} /> Aktif</>
                         : <><XCircle size={12} /> Tidak Aktif</>}

@@ -99,7 +99,7 @@ export default function AdminMonitoring() {
               {schoolList.map(({ school, rank, lms }) => {
                 const badgeCfg = rank?.badge ? getBadgeConfig(rank.badge.tier) : null
                 return (
-                  <tr key={school.id} className="hover:bg-gray-50 border-b border-gray-100">
+                  <tr key={school.id} className="hover:bg-alabaster border-b border-gray-100">
                     <td className="td">
                       <p className="font-medium text-gray-900 text-sm">{school.name}</p>
                       <p className="text-xs text-gray-400">{school.district}</p>
@@ -109,7 +109,7 @@ export default function AdminMonitoring() {
                     </td>
                     <td className="td text-center">
                       <span className={`text-sm font-semibold ${
-                        (rank?.report_count ?? 0) > 0 ? 'text-teal-700' : 'text-red-500'
+                        (rank?.report_count ?? 0) > 0 ? 'text-primary-700' : 'text-red-500'
                       }`}>
                         {rank?.report_count ?? 0}
                       </span>
@@ -124,7 +124,7 @@ export default function AdminMonitoring() {
                     </td>
                     <td className="td text-center">
                       <span className={`text-sm font-bold ${
-                        (rank?.total_score ?? 0) >= 70 ? 'text-teal-700' :
+                        (rank?.total_score ?? 0) >= 70 ? 'text-primary-700' :
                         (rank?.total_score ?? 0) >= 40 ? 'text-amber-600' : 'text-gray-400'
                       }`}>{rank?.total_score ?? '—'}</span>
                     </td>

@@ -4,9 +4,9 @@ import { CheckCircle, XCircle, Info, AlertTriangle, X } from 'lucide-react'
 const CONFIGS = {
   success: {
     icon:      CheckCircle,
-    container: 'bg-white border border-teal-200 shadow-lg',
-    icon_cls:  'text-teal-600',
-    bar:       'bg-teal-500',
+    container: 'bg-white border border-primary-200 shadow-lg',
+    icon_cls:  'text-primary-600',
+    bar:       'bg-primary-500',
   },
   error: {
     icon:      XCircle,

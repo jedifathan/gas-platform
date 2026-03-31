@@ -13,11 +13,11 @@
 import { Loader2 } from 'lucide-react'
 
 const VARIANTS = {
-  primary:   'bg-teal-600 text-white hover:bg-teal-700 focus:ring-teal-500 border-transparent',
-  secondary: 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50 focus:ring-gray-400',
+  primary:   'bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 border-transparent',
+  secondary: 'bg-white text-gray-700 border-gray-300 hover:bg-alabaster focus:ring-gray-400',
   danger:    'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500 border-transparent',
   ghost:     'bg-transparent text-gray-600 border-transparent hover:bg-gray-100 focus:ring-gray-400',
-  teal_outline: 'bg-transparent text-teal-700 border-teal-300 hover:bg-teal-50 focus:ring-teal-400',
+  teal_outline: 'bg-transparent text-primary-700 border-primary-300 hover:bg-primary-50 focus:ring-primary-400',
 }
 
 const SIZES = {

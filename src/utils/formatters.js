@@ -51,7 +51,7 @@ export function getStatusConfig(status) {
   const map = {
     draft:     { label: 'Draft',        className: 'pill-gray',   dotColor: 'bg-gray-400' },
     submitted: { label: 'Menunggu',     className: 'pill-yellow', dotColor: 'bg-amber-400' },
-    validated: { label: 'Tervalidasi',  className: 'pill-green',  dotColor: 'bg-teal-500' },
+    validated: { label: 'Tervalidasi',  className: 'pill-green',  dotColor: 'bg-primary-500' },
     rejected:  { label: 'Ditolak',      className: 'pill-red',    dotColor: 'bg-red-500' },
   }
   return map[status] || { label: status, className: 'pill-gray', dotColor: 'bg-gray-400' }
@@ -65,7 +65,7 @@ export function getBadgeConfig(tier) {
     gold:     { label: 'Gold',     emoji: '🥇', className: 'bg-amber-50  text-amber-700 border border-amber-200' },
     platinum: { label: 'Platinum', emoji: '💎', className: 'bg-purple-50 text-purple-700 border border-purple-200' },
   }
-  return map[tier] || { label: tier, emoji: '—', className: 'bg-gray-50 text-gray-600' }
+  return map[tier] || { label: tier, emoji: '—', className: 'bg-alabaster text-gray-600' }
 }
 
 /** Rank number → medal emoji or "#N" */

@@ -1,80 +1,104 @@
 [
   {
-    "id": "sch-001",
-    "name": "TK Tunas Bangsa",
-    "region_id": "reg-001",
-    "district": "Ciputat",
-    "address": "Jl. Dewi Sartika No. 12, Ciputat",
-    "principal_name": "Ibu Sari Dewi",
-    "phone": "021-7441234",
-    "enrollment_year": 2024,
-    "program_start_date": "2024-02-01",
-    "status": "active",
-    "created_at": "2024-01-15T08:00:00Z"
+    "id": "sch-pasreb-001", "name": "SPS Negeri Bale Bermain Baru Bahagia",
+    "district": "Pasar Rebo", "region_id": "reg-jkt-tim-pasarrebo",
+    "address": "Jl. Puskesmas No.Rt 08/01, RT.8/RW.9, Baru, Kec. Ps. Rebo, Jakarta Timur 13780",
+    "total_students": 30, "total_teachers": 4, "is_active": true
   },
   {
-    "id": "sch-002",
-    "name": "PAUD Melati Indah",
-    "region_id": "reg-001",
-    "district": "Pamulang",
-    "address": "Jl. Pamulang Permai Blok C No. 5",
-    "principal_name": "Bapak Hendra Saputra",
-    "phone": "021-7456789",
-    "enrollment_year": 2024,
-    "program_start_date": "2024-03-01",
-    "status": "active",
-    "created_at": "2024-02-01T08:00:00Z"
+    "id": "sch-pasreb-002", "name": "RA Al-Jadid",
+    "district": "Pasar Rebo", "region_id": "reg-jkt-tim-pasarrebo",
+    "address": "Jl. Gongseng Raya No.34, RT.3/RW.9, Baru, Kec. Ps. Rebo, Jakarta Timur 13780",
+    "total_students": 45, "total_teachers": 8, "is_active": true
   },
   {
-    "id": "sch-003",
-    "name": "TK Bintang Harapan",
-    "region_id": "reg-002",
-    "district": "Tigaraksa",
-    "address": "Jl. Raya Tigaraksa No. 88",
-    "principal_name": "Ibu Rina Marlina",
-    "phone": "021-5983210",
-    "enrollment_year": 2024,
-    "program_start_date": "2024-02-15",
-    "status": "active",
-    "created_at": "2024-01-20T08:00:00Z"
+    "id": "sch-pasreb-003", "name": "RA Qurrota Ayun",
+    "district": "Pasar Rebo", "region_id": "reg-jkt-tim-pasarrebo",
+    "address": "Jl. Puskesmas Kalisari RT.003 RW.003 No.21 Kalisari, Pasar Rebo, Jakarta Timur",
+    "total_students": 40, "total_teachers": 4, "is_active": true
   },
   {
-    "id": "sch-004",
-    "name": "TK Cahaya Bangsa",
-    "region_id": "reg-003",
-    "district": "Batu Ceper",
-    "address": "Jl. Merdeka No. 45, Batu Ceper",
-    "principal_name": "Ibu Wulan Sari",
-    "phone": "021-5512345",
-    "enrollment_year": 2024,
-    "program_start_date": "2024-04-01",
-    "status": "active",
-    "created_at": "2024-03-10T08:00:00Z"
+    "id": "sch-pasreb-004", "name": "TK Islam Toledo",
+    "district": "Pasar Rebo", "region_id": "reg-jkt-tim-pasarrebo",
+    "address": "Jl. Lapan 25 Pekayon, RT.9/RW.1, Pekayon, Kec. Ps. Rebo, Jakarta Timur 13790",
+    "total_students": 104, "total_teachers": 7, "is_active": true
   },
   {
-    "id": "sch-005",
-    "name": "PAUD Pelangi Ceria",
-    "region_id": "reg-001",
-    "district": "Serpong",
-    "address": "Jl. BSD Raya No. 7, Serpong",
-    "principal_name": "Ibu Dewi Susanti",
-    "phone": "021-5387654",
-    "enrollment_year": 2024,
-    "program_start_date": "2024-02-01",
-    "status": "active",
-    "created_at": "2024-01-25T08:00:00Z"
+    "id": "sch-pasreb-005", "name": "TKN 03 Pasar Rebo",
+    "district": "Pasar Rebo", "region_id": "reg-jkt-tim-pasarrebo",
+    "address": "MV56+G9J, RT.4/RW.9, Pekayon, Pasar Rebo, Jakarta Timur 13710",
+    "total_students": 60, "total_teachers": 3, "is_active": true
   },
   {
-    "id": "sch-006",
-    "name": "TK Al-Ikhlas",
-    "region_id": "reg-002",
-    "district": "Pasar Kemis",
-    "address": "Jl. Pasar Kemis Blok B No. 3",
-    "principal_name": "Ibu Fatimah",
-    "phone": "021-5901234",
-    "enrollment_year": 2025,
-    "program_start_date": "2025-01-15",
-    "status": "pending",
-    "created_at": "2024-12-01T08:00:00Z"
+    "id": "sch-pasreb-006", "name": "TKN 04 Pasar Rebo",
+    "district": "Pasar Rebo", "region_id": "reg-jkt-tim-pasarrebo",
+    "address": "Jl. Telaga, RT.13/RW.9, Pekayon, Kec. Ps. Rebo, Jakarta Timur 13790",
+    "total_students": 55, "total_teachers": 3, "is_active": true
+  },
+  {
+    "id": "sch-jatneg-001", "name": "TK Al Jannah",
+    "district": "Jatinegara", "region_id": "reg-jkt-tim-jatinegara",
+    "address": "Jl. Cipinang Jaya IIA No.2, RT.7/RW.7, Cipinang Besar Sel., Kec. Jatinegara, Jakarta Timur 13410",
+    "total_students": 28, "total_teachers": 6, "is_active": true
+  },
+  {
+    "id": "sch-jatneg-002", "name": "TK Al Iman",
+    "district": "Jatinegara", "region_id": "reg-jkt-tim-jatinegara",
+    "address": "Jl. Cipinang Jaya LL No.1, RT.1/RW.8, Cipinang Besar Sel., Kec. Jatinegara, Jakarta Timur 13410",
+    "total_students": 103, "total_teachers": 6, "is_active": true
+  },
+  {
+    "id": "sch-jatneg-003", "name": "TK Mishbahul Amal",
+    "district": "Jatinegara", "region_id": "reg-jkt-tim-jatinegara",
+    "address": "Jl. Cipinang Jaya IIE No.9, RT.9/RW.9, Cipinang Besar Sel., Kec. Jatinegara, Jakarta Timur 13410",
+    "total_students": 13, "total_teachers": 2, "is_active": true
+  },
+  {
+    "id": "sch-jatneg-004", "name": "TKN 01 Jatinegara",
+    "district": "Jatinegara", "region_id": "reg-jkt-tim-jatinegara",
+    "address": "Jl. Cipinang Pulo Kel, RT.013/RW.12, Cipinang Besar Utara, Kec. Jatinegara, Jakarta Timur 13410",
+    "total_students": 80, "total_teachers": 4, "is_active": true
+  },
+  {
+    "id": "sch-jatneg-005", "name": "TPA Negeri Bina Tunas Jaya IV",
+    "district": "Jatinegara", "region_id": "reg-jkt-tim-jatinegara",
+    "address": "Jl. Bekasi Barat No.2, RT.004/RW.2, Rawa Bunga, Kec. Jatinegara, Jakarta Timur 13350",
+    "total_students": 30, "total_teachers": 1, "is_active": true
+  },
+  {
+    "id": "sch-jatneg-006", "name": "PAUD Melati Suci",
+    "district": "Jatinegara", "region_id": "reg-jkt-tim-jatinegara",
+    "address": "Jl. Wedana Dalam No.36A, RT.10/RW.1, Bali Mester, Kec. Jatinegara, Jakarta Timur 13310",
+    "total_students": 41, "total_teachers": 4, "is_active": true
+  },
+  {
+    "id": "sch-matraman-001", "name": "TKIT Cahaya Hati",
+    "district": "Matraman", "region_id": "reg-jkt-tim-matraman",
+    "address": "Jl. Asem Gede Timur No.13, RT.3/RW.5, Utan Kayu Sel., Kec. Matraman, Jakarta Timur 13120",
+    "total_students": 78, "total_teachers": 4, "is_active": true
+  },
+  {
+    "id": "sch-matraman-002", "name": "TK Negeri Matraman 01",
+    "district": "Matraman", "region_id": "reg-jkt-tim-matraman",
+    "address": "Jl. Pandan Raya No.13, RT.10/RW.13, Utan Kayu Sel., Kec. Matraman, Jakarta Timur 13120",
+    "total_students": 70, "total_teachers": 4, "is_active": true
+  },
+  {
+    "id": "sch-matraman-003", "name": "TK Antonius",
+    "district": "Matraman", "region_id": "reg-jkt-tim-matraman",
+    "address": "Matraman, Jakarta Timur",
+    "total_students": 22, "total_teachers": 2, "is_active": true
+  },
+  {
+    "id": "sch-matraman-004", "name": "TK Marsudirini",
+    "district": "Matraman", "region_id": "reg-jkt-tim-matraman",
+    "address": "Jl. Matraman Raya No.129, RT.4/RW.8, Palmeriam, Kec. Matraman, Jakarta Timur 13140",
+    "total_students": 44, "total_teachers": 2, "is_active": true
+  },
+  {
+    "id": "sch-matraman-005", "name": "TK Al Furqon",
+    "district": "Matraman", "region_id": "reg-jkt-tim-matraman",
+    "address": "Jl. Penegak Gg. II No.17, RT.3/RW.3, Palmeriam, Kec. Matraman, Jakarta Timur 13140",
+    "total_students": 30, "total_teachers": 3, "is_active": true
   }
 ]

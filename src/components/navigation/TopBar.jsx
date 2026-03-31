@@ -36,8 +36,8 @@ export default function TopBar() {
         <select
           value={period}
           onChange={e => setPeriod(e.target.value)}
-          className="text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 bg-gray-50
-                     text-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-400
+          className="text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 bg-alabaster
+                     text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-400
                      hover:border-gray-300 transition-colors cursor-pointer"
         >
           {periodOptions.map(opt => (
@@ -50,8 +50,8 @@ export default function TopBar() {
 
         {/* User pill */}
         <div className="flex items-center gap-2 pl-3 border-l border-gray-200">
-          <div className="w-7 h-7 rounded-full bg-teal-100 flex items-center justify-center
-                          text-teal-700 font-semibold text-xs shrink-0">
+          <div className="w-7 h-7 rounded-full bg-primary-100 flex items-center justify-center
+                          text-primary-700 font-semibold text-xs shrink-0">
             {session?.name?.charAt(0) ?? '?'}
           </div>
           <div className="hidden sm:block leading-none">

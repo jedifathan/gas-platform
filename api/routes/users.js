@@ -18,7 +18,7 @@ const BASE_SELECT = `
     s.district  AS school_district,
     s.region_id AS school_region_id,
     r.name      AS region_name,
-    r.province  AS region_province
+    r.kota  AS region_kota
   FROM users u
   LEFT JOIN schools s ON s.id = u.school_id
   LEFT JOIN regions r ON r.id = u.region_id
@@ -39,7 +39,7 @@ function rowToUser(row) {
                   ? { id: row.school_id, name: row.school_name, district: row.school_district, region_id: row.school_region_id }
                   : null,
     region:     row.region_id
-                  ? { id: row.region_id, name: row.region_name, province: row.region_province }
+                  ? { id: row.region_id, name: row.region_name, kota: row.region_kota }
                   : null,
     // password is never returned
   }

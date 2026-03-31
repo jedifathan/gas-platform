@@ -62,10 +62,10 @@ export default function CourseDetail() {
             className="w-16 h-16 rounded-xl flex items-center justify-center shrink-0"
             style={{ backgroundColor: course.thumbnail_color ?? '#E1F5EE' }}
           >
-            <BookOpen size={24} className="text-teal-700" />
+            <BookOpen size={24} className="text-primary-700" />
           </div>
           <div className="flex-1 min-w-0">
-            <span className="text-xs text-teal-600 font-medium bg-teal-50 px-2 py-0.5 rounded-full">
+            <span className="text-xs text-primary-600 font-medium bg-primary-50 px-2 py-0.5 rounded-full">
               {course.category_label}
             </span>
             <h1 className="text-xl font-bold text-gray-900 mt-2 mb-1">{course.title}</h1>
@@ -77,18 +77,18 @@ export default function CourseDetail() {
         <div className="mt-5">
           <div className="flex items-center justify-between text-xs text-gray-600 mb-2">
             <span>{completedIds.length}/{course.total_lessons} pelajaran selesai</span>
-            <span className="font-semibold text-teal-700">{pct}%</span>
+            <span className="font-semibold text-primary-700">{pct}%</span>
           </div>
           <ProgressBar value={pct} color={isCertified ? 'teal' : 'amber'} size="sm" />
         </div>
 
         {/* Certificate banner */}
         {isCertified && (
-          <div className="mt-4 flex items-center gap-3 p-3 rounded-xl bg-teal-50 border border-teal-200">
-            <Award size={20} className="text-teal-600 shrink-0" />
+          <div className="mt-4 flex items-center gap-3 p-3 rounded-xl bg-primary-50 border border-primary-200">
+            <Award size={20} className="text-primary-600 shrink-0" />
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-teal-800">Sertifikat Diterbitkan</p>
-              <p className="text-xs text-teal-600">Skor kuis: {progress?.quiz_score}% · Lulus ✓</p>
+              <p className="text-sm font-semibold text-primary-800">Sertifikat Diterbitkan</p>
+              <p className="text-xs text-primary-600">Skor kuis: {progress?.quiz_score}% · Lulus ✓</p>
             </div>
           </div>
         )}
@@ -110,18 +110,18 @@ export default function CourseDetail() {
                 className={`flex items-center gap-4 py-3.5 px-1 rounded-lg transition-colors ${
                   isLocked
                     ? 'opacity-50 cursor-not-allowed'
-                    : 'cursor-pointer hover:bg-gray-50 group'
+                    : 'cursor-pointer hover:bg-alabaster group'
                 }`}
               >
                 {/* Status indicator */}
                 <div className="shrink-0">
                   {isDone ? (
-                    <CheckCircle size={20} className="text-teal-500" />
+                    <CheckCircle size={20} className="text-primary-500" />
                   ) : isLocked ? (
                     <Lock size={18} className="text-gray-400" />
                   ) : (
                     <div className="w-5 h-5 rounded-full border-2 border-gray-300
-                                    group-hover:border-teal-400 transition-colors" />
+                                    group-hover:border-primary-400 transition-colors" />
                   )}
                 </div>
 
@@ -132,7 +132,7 @@ export default function CourseDetail() {
                       {idx + 1}
                     </span>
                     <p className={`text-sm font-medium truncate ${
-                      isDone ? 'text-gray-500 line-through' : 'text-gray-800 group-hover:text-teal-700'
+                      isDone ? 'text-gray-500 line-through' : 'text-gray-800 group-hover:text-primary-700'
                     }`}>
                       {lesson.title}
                     </p>
@@ -154,7 +154,7 @@ export default function CourseDetail() {
 
                 {/* Arrow */}
                 {!isLocked && (
-                  <ChevronRight size={16} className="text-gray-300 group-hover:text-teal-500 shrink-0 transition-colors" />
+                  <ChevronRight size={16} className="text-gray-300 group-hover:text-primary-500 shrink-0 transition-colors" />
                 )}
               </div>
             )

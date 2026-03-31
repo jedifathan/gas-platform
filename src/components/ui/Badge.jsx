@@ -18,7 +18,7 @@ const TIER_STYLES = {
 }
 
 const COLOR_STYLES = {
-  green:  'bg-teal-50   text-teal-700   border border-teal-200',
+  green:  'bg-primary-50   text-primary-700   border border-primary-200',
   yellow: 'bg-amber-50  text-amber-700  border border-amber-200',
   red:    'bg-red-50    text-red-700    border border-red-200',
   gray:   'bg-gray-100  text-gray-600   border border-gray-200',
@@ -27,7 +27,7 @@ const COLOR_STYLES = {
 }
 
 const DOT_COLORS = {
-  green: 'bg-teal-500', yellow: 'bg-amber-400', red: 'bg-red-500',
+  green: 'bg-primary-500', yellow: 'bg-amber-400', red: 'bg-red-500',
   gray: 'bg-gray-400',  blue: 'bg-blue-500',    purple: 'bg-purple-500',
 }
 

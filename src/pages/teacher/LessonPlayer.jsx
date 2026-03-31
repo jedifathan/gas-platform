@@ -79,13 +79,13 @@ export default function LessonPlayer() {
           {/* Title card */}
           <Card>
             <div className="flex items-start gap-3">
-              <div className="w-9 h-9 rounded-lg bg-teal-50 flex items-center justify-center shrink-0">
-                <BookOpen size={16} className="text-teal-600" />
+              <div className="w-9 h-9 rounded-lg bg-primary-50 flex items-center justify-center shrink-0">
+                <BookOpen size={16} className="text-primary-600" />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
                   <h1 className="text-base font-bold text-gray-900">{lesson.title}</h1>
-                  {isDone && <CheckCircle size={16} className="text-teal-500 shrink-0" />}
+                  {isDone && <CheckCircle size={16} className="text-primary-500 shrink-0" />}
                 </div>
                 <div className="flex items-center gap-3 mt-1">
                   <span className="text-xs text-gray-400 capitalize">{lesson.content_type}</span>
@@ -112,7 +112,7 @@ export default function LessonPlayer() {
                     if (para.match(/^\d+\. /)) {
                       return (
                         <div key={i} className="flex gap-2 text-sm mb-1">
-                          <span className="text-teal-600 font-medium shrink-0">{para.match(/^\d+/)[0]}.</span>
+                          <span className="text-primary-600 font-medium shrink-0">{para.match(/^\d+/)[0]}.</span>
                           <span>{para.replace(/^\d+\.\s/, '')}</span>
                         </div>
                       )
@@ -120,7 +120,7 @@ export default function LessonPlayer() {
                     if (para.startsWith('- ')) {
                       return (
                         <div key={i} className="flex gap-2 text-sm mb-1">
-                          <span className="text-teal-400 shrink-0">•</span>
+                          <span className="text-primary-400 shrink-0">•</span>
                           <span>{para.slice(2)}</span>
                         </div>
                       )
@@ -143,7 +143,7 @@ export default function LessonPlayer() {
             </div>
 
             {/* Navigation footer */}
-            <div className="flex items-center justify-between p-4 border-t border-gray-100 bg-gray-50">
+            <div className="flex items-center justify-between p-4 border-t border-gray-100 bg-alabaster">
               <Button
                 variant="ghost" size="sm"
                 icon={<ChevronLeft size={14} />}
@@ -186,16 +186,16 @@ export default function LessonPlayer() {
                       else navigate(`/app/teacher/lms/${courseId}/lesson/${l.id}`)
                     }}
                     className={`flex items-center gap-3 px-4 py-3 text-xs transition-colors
-                      ${isCurrent ? 'bg-teal-50' : 'hover:bg-gray-50'}
+                      ${isCurrent ? 'bg-primary-50' : 'hover:bg-alabaster'}
                       ${quizLocked ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'}`}
                   >
                     {done
-                      ? <CheckCircle size={14} className="text-teal-500 shrink-0" />
+                      ? <CheckCircle size={14} className="text-primary-500 shrink-0" />
                       : <div className={`w-3.5 h-3.5 rounded-full border-2 shrink-0
-                          ${isCurrent ? 'border-teal-500' : 'border-gray-300'}`} />
+                          ${isCurrent ? 'border-primary-500' : 'border-gray-300'}`} />
                     }
                     <span className={`truncate ${
-                      isCurrent ? 'font-medium text-teal-700' :
+                      isCurrent ? 'font-medium text-primary-700' :
                       done      ? 'text-gray-400 line-through' : 'text-gray-700'
                     }`}>
                       {i + 1}. {l.title}

@@ -48,8 +48,8 @@ export default function ReportDetail() {
       <Card className="mb-4">
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-teal-50 flex items-center justify-center shrink-0">
-              <FileText size={18} className="text-teal-600" />
+            <div className="w-10 h-10 rounded-xl bg-primary-50 flex items-center justify-center shrink-0">
+              <FileText size={18} className="text-primary-600" />
             </div>
             <div>
               <h1 className="text-base font-bold text-gray-900">{report.activity_label}</h1>
@@ -58,7 +58,7 @@ export default function ReportDetail() {
           </div>
           <div className="flex flex-col items-end gap-1.5 shrink-0">
             <StatusPill status={report.status} />
-            <span className="text-xs font-semibold text-teal-700">
+            <span className="text-xs font-semibold text-primary-700">
               +{report.score_weight} pts
             </span>
           </div>
@@ -97,13 +97,13 @@ export default function ReportDetail() {
         <Card
           className={`mb-4 ${
             report.status === 'validated'
-              ? 'border-teal-200 bg-teal-50/30'
+              ? 'border-primary-200 bg-primary-50/30'
               : 'border-red-200 bg-red-50/30'
           }`}
         >
           <div className="flex items-start gap-3">
             <MessageSquare size={16} className={
-              report.status === 'validated' ? 'text-teal-500 shrink-0 mt-0.5' : 'text-red-500 shrink-0 mt-0.5'
+              report.status === 'validated' ? 'text-primary-500 shrink-0 mt-0.5' : 'text-red-500 shrink-0 mt-0.5'
             } />
             <div>
               <p className="text-sm font-semibold text-gray-900 mb-1">

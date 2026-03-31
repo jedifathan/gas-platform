@@ -140,18 +140,18 @@ export default function RegionManagement() {
                 const sc = schoolCount(region.id)
                 return (
                   <tr key={region.id}
-                    className="border-b border-gray-100 hover:bg-gray-50">
+                    className="border-b border-gray-100 hover:bg-alabaster">
                     <td className="td">
                       <div className="flex items-center gap-2.5">
-                        <div className="w-8 h-8 rounded-lg bg-teal-50 flex items-center justify-center shrink-0">
-                          <MapPin size={14} className="text-teal-600" />
+                        <div className="w-8 h-8 rounded-lg bg-primary-50 flex items-center justify-center shrink-0">
+                          <MapPin size={14} className="text-primary-600" />
                         </div>
                         <span className="text-sm font-medium text-gray-900">{region.name}</span>
                       </div>
                     </td>
                     <td className="td text-sm text-gray-600">{region.province}</td>
                     <td className="td text-center">
-                      <span className={`text-sm font-semibold ${sc > 0 ? 'text-teal-700' : 'text-gray-400'}`}>
+                      <span className={`text-sm font-semibold ${sc > 0 ? 'text-primary-700' : 'text-gray-400'}`}>
                         {sc}
                       </span>
                     </td>

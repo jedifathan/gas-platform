@@ -20,8 +20,8 @@ export default function AboutProgram() {
     <div className="max-w-4xl mx-auto px-6 py-14">
       {/* Hero */}
       <div className="text-center mb-14">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-teal-50
-                        border border-teal-200 text-teal-700 text-xs font-medium mb-5">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary-50
+                        border border-primary-200 text-primary-700 text-xs font-medium mb-5">
           Kementerian Kesehatan Republik Indonesia
         </div>
         <h1 className="text-3xl font-black text-gray-900 mb-4">
@@ -35,7 +35,7 @@ export default function AboutProgram() {
       </div>
 
       {/* About card */}
-      <div className="card p-7 mb-10 bg-gradient-to-br from-teal-50 to-white border-teal-100">
+      <div className="card p-7 mb-10 bg-gradient-to-br from-primary-50 to-white border-primary-100">
         <h2 className="text-lg font-bold text-gray-900 mb-3">Latar Belakang</h2>
         <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
           <p>
@@ -57,8 +57,8 @@ export default function AboutProgram() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
         {OBJECTIVES.map(({ icon: Icon, title, desc }) => (
           <div key={title} className="card p-5 flex gap-4">
-            <div className="w-9 h-9 rounded-lg bg-teal-50 flex items-center justify-center shrink-0">
-              <Icon size={16} className="text-teal-600" />
+            <div className="w-9 h-9 rounded-lg bg-primary-50 flex items-center justify-center shrink-0">
+              <Icon size={16} className="text-primary-600" />
             </div>
             <div>
               <h3 className="font-semibold text-gray-900 text-sm mb-1">{title}</h3>
@@ -73,18 +73,18 @@ export default function AboutProgram() {
       <div className="card p-6 mb-12">
         <div className="relative">
           {/* Vertical line */}
-          <div className="absolute left-[27px] top-2 bottom-2 w-0.5 bg-teal-100" />
+          <div className="absolute left-[27px] top-2 bottom-2 w-0.5 bg-primary-100" />
           <div className="space-y-6">
             {TIMELINE.map((item, i) => (
               <div key={item.year} className="flex gap-5 items-start relative">
                 <div className={`w-14 h-7 rounded-full flex items-center justify-center text-xs
                                 font-bold shrink-0 z-10
                                 ${i === TIMELINE.length - 1
-                                  ? 'bg-teal-100 text-teal-700 border-2 border-teal-400'
+                                  ? 'bg-primary-100 text-primary-700 border-2 border-primary-400'
                                   : 'bg-white text-gray-600 border border-gray-200'}`}>
                   {item.year}
                 </div>
-                <p className={`text-sm pt-0.5 ${i === TIMELINE.length - 1 ? 'text-teal-700 font-medium' : 'text-gray-600'}`}>
+                <p className={`text-sm pt-0.5 ${i === TIMELINE.length - 1 ? 'text-primary-700 font-medium' : 'text-gray-600'}`}>
                   {item.event}
                 </p>
               </div>
@@ -106,7 +106,7 @@ export default function AboutProgram() {
       {/* CTA */}
       <div className="text-center">
         <Link to="/leaderboard"
-          className="inline-flex items-center gap-2 text-teal-600 hover:text-teal-700
+          className="inline-flex items-center gap-2 text-primary-600 hover:text-primary-700
                      text-sm font-medium transition-colors">
           Lihat peringkat sekolah <ArrowRight size={15} />
         </Link>

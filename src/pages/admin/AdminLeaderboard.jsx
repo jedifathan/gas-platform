@@ -68,7 +68,7 @@ export default function AdminLeaderboard() {
               <span className="text-3xl mb-1">{medal}</span>
               <p className="text-sm font-bold text-gray-900 truncate w-full">{school.school_name}</p>
               <p className="text-xs text-gray-500 truncate w-full">{school.district}</p>
-              <p className="text-xl font-black text-teal-700 mt-2">{school.total_score}</p>
+              <p className="text-xl font-black text-primary-700 mt-2">{school.total_score}</p>
               <p className="text-[10px] text-gray-400">poin</p>
             </div>
           ))}

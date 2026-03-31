@@ -1,56 +1,46 @@
 [
-  {
-    "id": "reg-001",
-    "name": "Kota Tangerang Selatan",
-    "province": "Banten",
-    "created_at": "2024-01-01T00:00:00Z"
-  },
-  {
-    "id": "reg-002",
-    "name": "Kabupaten Tangerang",
-    "province": "Banten",
-    "created_at": "2024-01-01T00:00:00Z"
-  },
-  {
-    "id": "reg-003",
-    "name": "Kota Tangerang",
-    "province": "Banten",
-    "created_at": "2024-01-01T00:00:00Z"
-  },
-  {
-    "id": "reg-004",
-    "name": "Jakarta Utara",
-    "province": "DKI Jakarta",
-    "created_at": "2025-03-01T00:00:00Z"
-  },
-  {
-    "id": "reg-005",
-    "name": "Jakarta Selatan",
-    "province": "DKI Jakarta",
-    "created_at": "2025-03-01T00:00:00Z"
-  },
-  {
-    "id": "reg-006",
-    "name": "Jakarta Barat",
-    "province": "DKI Jakarta",
-    "created_at": "2025-03-01T00:00:00Z"
-  },
-  {
-    "id": "reg-007",
-    "name": "Jakarta Timur",
-    "province": "DKI Jakarta",
-    "created_at": "2025-03-01T00:00:00Z"
-  },
-  {
-    "id": "reg-008",
-    "name": "Jakarta Pusat",
-    "province": "DKI Jakarta",
-    "created_at": "2025-03-01T00:00:00Z"
-  },
-  {
-    "id": "reg-009",
-    "name": "Kepulauan Seribu",
-    "province": "DKI Jakarta",
-    "created_at": "2025-03-01T00:00:00Z"
-  }
+  { "id": "reg-jkt-pst-gambir",        "name": "Gambir",             "kota": "Jakarta Pusat"    },
+  { "id": "reg-jkt-pst-sawahbesar",    "name": "Sawah Besar",        "kota": "Jakarta Pusat"    },
+  { "id": "reg-jkt-pst-kemayoran",     "name": "Kemayoran",          "kota": "Jakarta Pusat"    },
+  { "id": "reg-jkt-pst-senen",         "name": "Senen",              "kota": "Jakarta Pusat"    },
+  { "id": "reg-jkt-pst-cempakaputih",  "name": "Cempaka Putih",      "kota": "Jakarta Pusat"    },
+  { "id": "reg-jkt-pst-joharbaru",     "name": "Johar Baru",         "kota": "Jakarta Pusat"    },
+  { "id": "reg-jkt-pst-menteng",       "name": "Menteng",            "kota": "Jakarta Pusat"    },
+  { "id": "reg-jkt-pst-tanahabang",    "name": "Tanah Abang",        "kota": "Jakarta Pusat"    },
+  { "id": "reg-jkt-utr-penjaringan",   "name": "Penjaringan",        "kota": "Jakarta Utara"    },
+  { "id": "reg-jkt-utr-pademangan",    "name": "Pademangan",         "kota": "Jakarta Utara"    },
+  { "id": "reg-jkt-utr-tanjungpriok",  "name": "Tanjung Priok",      "kota": "Jakarta Utara"    },
+  { "id": "reg-jkt-utr-koja",          "name": "Koja",               "kota": "Jakarta Utara"    },
+  { "id": "reg-jkt-utr-kelapagading",  "name": "Kelapa Gading",      "kota": "Jakarta Utara"    },
+  { "id": "reg-jkt-utr-cilincing",     "name": "Cilincing",          "kota": "Jakarta Utara"    },
+  { "id": "reg-jkt-bar-cengkareng",    "name": "Cengkareng",         "kota": "Jakarta Barat"    },
+  { "id": "reg-jkt-bar-kalideres",     "name": "Kali Deres",         "kota": "Jakarta Barat"    },
+  { "id": "reg-jkt-bar-grogol",        "name": "Grogol Petamburan",  "kota": "Jakarta Barat"    },
+  { "id": "reg-jkt-bar-palmerah",      "name": "Palmerah",           "kota": "Jakarta Barat"    },
+  { "id": "reg-jkt-bar-tamansari",     "name": "Taman Sari",         "kota": "Jakarta Barat"    },
+  { "id": "reg-jkt-bar-tambora",       "name": "Tambora",            "kota": "Jakarta Barat"    },
+  { "id": "reg-jkt-bar-kebunjeruk",    "name": "Kebun Jeruk",        "kota": "Jakarta Barat"    },
+  { "id": "reg-jkt-bar-kembangan",     "name": "Kembangan",          "kota": "Jakarta Barat"    },
+  { "id": "reg-jkt-sel-tebet",         "name": "Tebet",              "kota": "Jakarta Selatan"  },
+  { "id": "reg-jkt-sel-setiabudi",     "name": "Setiabudi",          "kota": "Jakarta Selatan"  },
+  { "id": "reg-jkt-sel-mampang",       "name": "Mampang Prapatan",   "kota": "Jakarta Selatan"  },
+  { "id": "reg-jkt-sel-pasarminggu",   "name": "Pasar Minggu",       "kota": "Jakarta Selatan"  },
+  { "id": "reg-jkt-sel-jagakarsa",     "name": "Jagakarsa",          "kota": "Jakarta Selatan"  },
+  { "id": "reg-jkt-sel-kebayoranbaru", "name": "Kebayoran Baru",     "kota": "Jakarta Selatan"  },
+  { "id": "reg-jkt-sel-cilandak",      "name": "Cilandak",           "kota": "Jakarta Selatan"  },
+  { "id": "reg-jkt-sel-kebayoranlama", "name": "Kebayoran Lama",     "kota": "Jakarta Selatan"  },
+  { "id": "reg-jkt-sel-pesanggrahan",  "name": "Pesanggrahan",       "kota": "Jakarta Selatan"  },
+  { "id": "reg-jkt-sel-pancoran",      "name": "Pancoran",           "kota": "Jakarta Selatan"  },
+  { "id": "reg-jkt-tim-matraman",      "name": "Matraman",           "kota": "Jakarta Timur"    },
+  { "id": "reg-jkt-tim-pulogadung",    "name": "Pulo Gadung",        "kota": "Jakarta Timur"    },
+  { "id": "reg-jkt-tim-jatinegara",    "name": "Jatinegara",         "kota": "Jakarta Timur"    },
+  { "id": "reg-jkt-tim-durensawit",    "name": "Duren Sawit",        "kota": "Jakarta Timur"    },
+  { "id": "reg-jkt-tim-kramatjati",    "name": "Kramat Jati",        "kota": "Jakarta Timur"    },
+  { "id": "reg-jkt-tim-makasar",       "name": "Makasar",            "kota": "Jakarta Timur"    },
+  { "id": "reg-jkt-tim-pasarrebo",     "name": "Pasar Rebo",         "kota": "Jakarta Timur"    },
+  { "id": "reg-jkt-tim-cipayung",      "name": "Cipayung",           "kota": "Jakarta Timur"    },
+  { "id": "reg-jkt-tim-ciracas",       "name": "Ciracas",            "kota": "Jakarta Timur"    },
+  { "id": "reg-jkt-tim-cakung",        "name": "Cakung",             "kota": "Jakarta Timur"    },
+  { "id": "reg-kep-seribu-utara",      "name": "Kep. Seribu Utara",  "kota": "Kab. Kep. Seribu" },
+  { "id": "reg-kep-seribu-selatan",    "name": "Kep. Seribu Selatan","kota": "Kab. Kep. Seribu" }
 ]

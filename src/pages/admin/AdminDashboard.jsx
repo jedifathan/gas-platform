@@ -114,10 +114,10 @@ export default function AdminDashboard() {
               {recent_reports.filter(r => r.status === 'submitted').slice(0, 5).map(r => (
                 <div key={r.id}
                   onClick={() => navigate(`/app/admin/reports/${r.id}`)}
-                  className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-50 cursor-pointer group"
+                  className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-alabaster cursor-pointer group"
                 >
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs font-semibold text-gray-900 truncate group-hover:text-teal-700">
+                    <p className="text-xs font-semibold text-gray-900 truncate group-hover:text-primary-700">
                       {r.school_name}
                     </p>
                     <p className="text-[10px] text-gray-400">

@@ -152,16 +152,16 @@ export default function SchoolManagement() {
                 const statusCfg = STATUS_CONFIG[school.status] ?? STATUS_CONFIG.inactive
                 return (
                   <tr key={school.id}
-                    className="border-b border-gray-100 hover:bg-gray-50 cursor-pointer group"
+                    className="border-b border-gray-100 hover:bg-alabaster cursor-pointer group"
                     onClick={() => navigate(`/app/admin/schools/${school.id}`)}
                   >
                     <td className="td">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-teal-50 flex items-center justify-center shrink-0">
-                          <School size={14} className="text-teal-600" />
+                        <div className="w-8 h-8 rounded-lg bg-primary-50 flex items-center justify-center shrink-0">
+                          <School size={14} className="text-primary-600" />
                         </div>
                         <div className="min-w-0">
-                          <p className="text-sm font-medium text-gray-900 truncate group-hover:text-teal-700">
+                          <p className="text-sm font-medium text-gray-900 truncate group-hover:text-primary-700">
                             {school.name}
                           </p>
                           <p className="text-xs text-gray-400">{school.principal_name}</p>
@@ -181,8 +181,8 @@ export default function SchoolManagement() {
                     <td className="td text-center" onClick={e => e.stopPropagation()}>
                       <button
                         onClick={e => openEdit(e, school)}
-                        className="text-xs text-teal-600 hover:text-teal-800 font-medium px-2 py-1
-                                   rounded hover:bg-teal-50 transition-colors"
+                        className="text-xs text-primary-600 hover:text-primary-800 font-medium px-2 py-1
+                                   rounded hover:bg-primary-50 transition-colors"
                       >
                         Edit
                       </button>

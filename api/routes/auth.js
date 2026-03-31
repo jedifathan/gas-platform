@@ -37,7 +37,7 @@ router.post('/login', async (req, res) => {
          s.district  AS school_district,
          s.region_id AS school_region_id,
          r.name      AS region_name,
-         r.province  AS region_province
+         r.kota  AS region_kota
        FROM users u
        LEFT JOIN schools s ON s.id = u.school_id
        LEFT JOIN regions r ON r.id = u.region_id
@@ -72,7 +72,7 @@ router.post('/login', async (req, res) => {
                      ? { id: user.school_id, name: user.school_name, district: user.school_district, region_id: user.school_region_id }
                      : null,
       region:      user.region_id
-                     ? { id: user.region_id, name: user.region_name, province: user.region_province }
+                     ? { id: user.region_id, name: user.region_name, kota: user.region_kota }
                      : null,
       permissions: PERMISSIONS[user.role] ?? [],
       last_login:  new Date().toISOString(),
@@ -96,7 +96,7 @@ router.get('/me', requireAuth, async (req, res) => {
   try {
     const { rows } = await pool.query(
       `SELECT u.*, s.name AS school_name, s.district AS school_district, s.region_id AS school_region_id,
-              r.name AS region_name, r.province AS region_province
+              r.name AS region_name, r.kota AS region_kota
        FROM users u
        LEFT JOIN schools s ON s.id = u.school_id
        LEFT JOIN regions r ON r.id = u.region_id
