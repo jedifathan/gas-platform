@@ -11,6 +11,7 @@ import PublicLeaderboard from './pages/public/PublicLeaderboard'
 import AboutProgram      from './pages/public/AboutProgram'
 
 import LoginPage   from './pages/auth/LoginPage'
+import SignupPage  from './pages/auth/SignupPage'
 import ProfilePage from './pages/auth/ProfilePage'
 import NotFound    from './pages/auth/NotFound'
 
@@ -66,6 +67,7 @@ export default function App() {
 
       <Route element={<LoginLayout />}>
         <Route path="/login" element={<LoginPage />} />
+	<Route path="/signup" element={<SignupPage />} />
       </Route>
 
       <Route path="/app" element={<ProtectedRoute><AuthShell /></ProtectedRoute>}>

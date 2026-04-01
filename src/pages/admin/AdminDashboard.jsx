@@ -94,7 +94,9 @@ export default function AdminDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
         {/* Coverage chart */}
         <Card title="Cakupan per Wilayah" subtitle={formatPeriod(period)}>
+          <div className="max-h-72 overflow-y-auto pr-1 scrollbar-hide">
           <CoverageChart data={coverage} />
+        </div>
         </Card>
 
         {/* Pending reports quick action */}

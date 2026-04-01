@@ -1,45 +1,58 @@
-import { useDashboard }  from '../../hooks/useDashboard'
-import StatCard          from '../../components/ui/StatCard'
-import Card              from '../../components/ui/Card'
-import ProgressBar       from '../../components/ui/ProgressBar'
-import StatusPill        from '../../components/ui/StatusPill'
-import Spinner           from '../../components/ui/Spinner'
-import { School, CheckCircle, XCircle, Users, BarChart2 } from 'lucide-react'
-import { formatPeriod, getBadgeConfig } from '../../utils/formatters'
+import { useState, useEffect } from 'react'
+import { useAuth }            from '../../hooks/useAuth'
+import { useApp }             from '../../hooks/useApp'
+import { getSchoolsByRegion } from '../../services/schoolService'
+import { getRegionById }      from '../../services/regionService'
+import Card       from '../../components/ui/Card'
+import StatCard   from '../../components/ui/StatCard'
+import ProgressBar from '../../components/ui/ProgressBar'
+import Spinner    from '../../components/ui/Spinner'
+import { School, CheckCircle, XCircle, Users } from 'lucide-react'
+import { formatPeriod } from '../../utils/formatters'
 
 export default function GovMonitoring() {
-  const { stats, loading, period } = useDashboard()
+  const { session }      = useAuth()
+  const { globalPeriod } = useApp()
+  const [schools, setSchools] = useState([])
+  const [region,  setRegion]  = useState(null)
+  const [loading, setLoading] = useState(true)
 
-  if (loading || !stats) return <Spinner center />
+  useEffect(() => {
+    if (!session?.region_id) return
+    setLoading(true)
+    Promise.all([
+      getSchoolsByRegion(session.region_id),
+      getRegionById(session.region_id),
+    ]).then(([s, r]) => { setSchools(s); setRegion(r) })
+     .finally(() => setLoading(false))
+  }, [session?.region_id])
 
-  const { kpis, school_status } = stats
-  const coveragePct = kpis.total_schools
-    ? Math.round((kpis.reporting_schools / kpis.total_schools) * 100)
-    : 0
+  if (loading) return <Spinner center />
+
+  const regionName    = region?.name ?? '—'
+  const activeSchools = schools.filter(s => s.is_active).length
+  const totalTeachers = schools.reduce((s, x) => s + (x.total_teachers ?? 0), 0)
+  const coveragePct   = schools.length ? Math.round((activeSchools / schools.length) * 100) : 0
 
   return (
     <div className="page-wrapper">
       <div className="page-header">
         <div>
           <h1 className="page-title">Monitoring Wilayah</h1>
-          <p className="text-sm text-gray-500 mt-0.5">
-            {stats.region_name} · {formatPeriod(period)}
-          </p>
+          <p className="text-sm text-gray-500 mt-0.5">{regionName} · {formatPeriod(globalPeriod)}</p>
         </div>
       </div>
 
-      {/* KPIs */}
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-        <StatCard label="Sekolah Aktif"      value={kpis.total_schools}      sub="terdaftar"          color="teal"  icon={<School size={18} />} />
-        <StatCard label="Melapor Bulan Ini"  value={kpis.reporting_schools}  sub={`${coveragePct}% cakupan`} color="blue"  icon={<CheckCircle size={18} />} />
-        <StatCard label="Guru Terlatih"      value={kpis.certified_teachers} sub={`dari ${kpis.total_teachers}`} color="teal" icon={<Users size={18} />} />
+        <StatCard label="Total Sekolah"  value={schools.length}            sub="terdaftar"                          color="teal" icon={<School size={18} />} />
+        <StatCard label="Sekolah Aktif"  value={activeSchools}             sub={`${coveragePct}% dari total`}       color="blue" icon={<CheckCircle size={18} />} />
+        <StatCard label="Total Guru"     value={totalTeachers}             sub="di wilayah ini"                     color="teal" icon={<Users size={18} />} />
       </div>
 
-      {/* Coverage bar */}
-      <Card title="Tingkat Cakupan Pelaporan" className="mb-5">
+      <Card title="Tingkat Aktivitas Sekolah" className="mb-5">
         <div className="space-y-2">
           <div className="flex justify-between text-sm">
-            <span className="text-gray-600">{kpis.reporting_schools} dari {kpis.total_schools} sekolah melapor</span>
+            <span className="text-gray-600">{activeSchools} dari {schools.length} sekolah aktif</span>
             <span className={`font-bold ${coveragePct >= 75 ? 'text-primary-600' : coveragePct >= 50 ? 'text-amber-600' : 'text-red-600'}`}>
               {coveragePct}%
             </span>
@@ -52,54 +65,32 @@ export default function GovMonitoring() {
         </div>
       </Card>
 
-      {/* School detail table */}
       <Card title="Detail Per Sekolah" noPadding>
         <table className="w-full table-auto">
           <thead>
             <tr>
               <th className="th">Sekolah</th>
-              <th className="th w-28 text-center">Laporan Bulan Ini</th>
-              <th className="th w-20 text-center">Skor</th>
-              <th className="th w-24 text-center">Badge</th>
-              <th className="th w-24 text-center">Status</th>
+              <th className="th w-28 text-center">Total Murid</th>
+              <th className="th w-24 text-center">Total Guru</th>
+              <th className="th w-28 text-center">Status</th>
             </tr>
           </thead>
           <tbody>
-            {school_status.map(({ school, rank, reports, reporting }) => {
-              const badgeCfg = rank?.badge ? getBadgeConfig(rank.badge.tier) : null
-              const submittedCount = reports.filter(r => ['submitted','validated'].includes(r.status)).length
-              return (
-                <tr key={school.id} className="border-b border-gray-100 hover:bg-alabaster">
-                  <td className="td">
-                    <p className="text-sm font-medium text-gray-900">{school.name}</p>
-                    <p className="text-xs text-gray-400">{school.district}</p>
-                  </td>
-                  <td className="td text-center">
-                    <span className={`text-sm font-semibold ${submittedCount > 0 ? 'text-primary-700' : 'text-red-500'}`}>
-                      {submittedCount}
-                    </span>
-                  </td>
-                  <td className="td text-center">
-                    <span className={`text-sm font-bold ${
-                      (rank?.total_score ?? 0) >= 70 ? 'text-primary-700' :
-                      (rank?.total_score ?? 0) >= 40 ? 'text-amber-600' : 'text-gray-400'
-                    }`}>{rank?.total_score ?? '—'}</span>
-                  </td>
-                  <td className="td text-center">
-                    {badgeCfg
-                      ? <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${badgeCfg.className}`}>{badgeCfg.emoji} {badgeCfg.label}</span>
-                      : <span className="text-gray-300 text-xs">—</span>}
-                  </td>
-                  <td className="td text-center">
-                    <span className={`inline-flex items-center gap-1 text-xs font-medium ${reporting ? 'text-primary-600' : 'text-red-500'}`}>
-                      {reporting
-                        ? <><CheckCircle size={12} /> Aktif</>
-                        : <><XCircle size={12} /> Tidak Aktif</>}
-                    </span>
-                  </td>
-                </tr>
-              )
-            })}
+            {schools.map(s => (
+              <tr key={s.id} className="border-b border-gray-100 hover:bg-alabaster">
+                <td className="td">
+                  <p className="text-sm font-medium text-gray-900">{s.name}</p>
+                  <p className="text-xs text-gray-400">{s.district}</p>
+                </td>
+                <td className="td text-center text-sm">{s.total_students ?? '—'}</td>
+                <td className="td text-center text-sm">{s.total_teachers ?? '—'}</td>
+                <td className="td text-center">
+                  <span className={`inline-flex items-center gap-1 text-xs font-medium ${s.is_active ? 'text-primary-600' : 'text-red-500'}`}>
+                    {s.is_active ? <><CheckCircle size={12} /> Aktif</> : <><XCircle size={12} /> Tidak Aktif</>}
+                  </span>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </Card>

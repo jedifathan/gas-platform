@@ -1,13 +1,13 @@
 import { Router } from 'express'
-import jwt  from 'jsonwebtoken'
-import pool from '../db.js'
+import jwt    from 'jsonwebtoken'
+import bcrypt from 'bcrypt'
+import pool   from '../db.js'
 import { requireAuth } from '../middleware/auth.js'
 
 const router     = Router()
 const JWT_SECRET = process.env.JWT_SECRET || 'gas_dev_secret'
 const TOKEN_TTL  = '7d'
 
-// Role → permission map (mirrors src/utils/permissions.js)
 const PERMISSIONS = {
   admin:        ['reports:view','reports:validate','users:manage','schools:manage','regions:manage','monitoring:view','leaderboard:view'],
   teacher:      ['reports:submit','lms:access','certificate:view','profile:edit'],
@@ -16,28 +16,22 @@ const PERMISSIONS = {
 
 /**
  * POST /api/auth/login
- * Body: { email, password }
- * Returns the same `session` shape the old JSON mock returned,
- * plus a JWT `token` the frontend stores separately.
  */
 router.post('/login', async (req, res) => {
   const { email, password } = req.body ?? {}
 
   if (!email || !password) {
-    return res.status(400).json({
-      success: false, error: 'MISSING_FIELDS', message: 'Email dan password wajib diisi.',
-    })
+    return res.status(400).json({ success: false, error: 'MISSING_FIELDS', message: 'Email dan password wajib diisi.' })
   }
 
   try {
     const { rows } = await pool.query(
-      `SELECT
-         u.*,
+      `SELECT u.*,
          s.name      AS school_name,
          s.district  AS school_district,
          s.region_id AS school_region_id,
          r.name      AS region_name,
-         r.kota  AS region_kota
+         r.kota      AS region_kota
        FROM users u
        LEFT JOIN schools s ON s.id = u.school_id
        LEFT JOIN regions r ON r.id = u.region_id
@@ -46,21 +40,24 @@ router.post('/login', async (req, res) => {
     )
 
     const user = rows[0]
+    if (!user)        return res.json({ success: false, error: 'USER_NOT_FOUND',   message: 'Email tidak ditemukan.' })
+    if (!user.is_active) return res.json({ success: false, error: 'ACCOUNT_DISABLED', message: 'Akun ini telah dinonaktifkan.' })
 
-    if (!user)
-      return res.json({ success: false, error: 'USER_NOT_FOUND', message: 'Email tidak ditemukan.' })
+    // Support both bcrypt hashes AND plain text (for migration period)
+    const passwordMatch = user.password.startsWith('$2b$')
+      ? await bcrypt.compare(password, user.password)
+      : user.password === password
 
-    if (!user.is_active)
-      return res.json({ success: false, error: 'ACCOUNT_DISABLED', message: 'Akun ini telah dinonaktifkan.' })
+    if (!passwordMatch) return res.json({ success: false, error: 'INVALID_PASSWORD', message: 'Password salah.' })
 
-    // TODO production: replace with bcrypt.compare(password, user.password)
-    if (user.password !== password)
-      return res.json({ success: false, error: 'INVALID_PASSWORD', message: 'Password salah.' })
+    // If password was plain text, upgrade it to bcrypt on successful login
+    if (!user.password.startsWith('$2b$')) {
+      const hash = await bcrypt.hash(password, 12)
+      await pool.query('UPDATE users SET password = $1 WHERE id = $2', [hash, user.id])
+    }
 
-    // Update last_login timestamp
     await pool.query('UPDATE users SET last_login = NOW() WHERE id = $1', [user.id])
 
-    // Build session object — identical shape to the old mock
     const session = {
       user_id:     user.id,
       name:        user.name,
@@ -79,7 +76,6 @@ router.post('/login', async (req, res) => {
     }
 
     const token = jwt.sign({ user_id: user.id, role: user.role }, JWT_SECRET, { expiresIn: TOKEN_TTL })
-
     res.json({ success: true, session, token })
   } catch (err) {
     console.error('[login]', err)
@@ -89,8 +85,6 @@ router.post('/login', async (req, res) => {
 
 /**
  * GET /api/auth/me
- * Returns fresh session data using the token.
- * Useful if you want to re-validate session on app reload.
  */
 router.get('/me', requireAuth, async (req, res) => {
   try {

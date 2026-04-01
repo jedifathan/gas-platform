@@ -2,10 +2,16 @@ import { createContext, useReducer, useCallback } from 'react'
 
 export const AppContext = createContext(null)
 
+// Derive current month dynamically so the dashboard always opens on today's period
+function currentPeriod() {
+  const now = new Date()
+  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
+}
+
 const initialState = {
-  toasts: [],
-  globalPeriod: '2025-02',
-  sidebarOpen: true,
+  toasts:       [],
+  globalPeriod: currentPeriod(),   // ← was hardcoded '2025-02'
+  sidebarOpen:  true,
 }
 
 function appReducer(state, action) {

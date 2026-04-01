@@ -48,7 +48,7 @@ export default function PublicHome() {
   return (
     <div>
       {/* ── Hero ── */}
-      <section className="bg-gradient-to-br from-navy-900 via-teal-900 to-primary-800 text-white py-20 px-6">
+      <section className="bg-gradient-to-br from-primary-950 via-primary-800 to-primary-700 text-white py-20 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <span className="inline-block px-3 py-1 rounded-full bg-primary-400/20 border border-primary-400/30
                            text-primary-200 text-xs font-medium mb-6">
