@@ -1,24 +1,17 @@
 /**
  * dashboardService.js
- * Role-scoped KPI aggregation for the three dashboard variants.
  *
- * Production swap:
- *   getAdminStats()        → GET /api/dashboard/stats?role=admin&period=
- *   getTeacherStats()      → GET /api/dashboard/stats?role=teacher&period=
- *   getGovStats()          → GET /api/dashboard/stats?role=gov&period=
- *   getMultiPeriodStats()  → GET /api/dashboard/trend?n=4&region=
+ * getTeacherStats now accepts a full session object instead of just a teacher ID.
+ * This avoids the bug where new teachers (usr-010+) weren't found in users.json,
+ * which only contains the original 6 seed users.
  */
 
-import schoolsData  from '../data/schools.json'
-import usersData    from '../data/users.json'
-import regionsData  from '../data/regions.json'
-import { getReports }           from './reportService'
+import schoolsData from '../data/schools.json'
+import regionsData from '../data/regions.json'
+import { getReports }                     from './reportService'
 import { getTeacherProgress, getCourses } from './lmsService'
-import { computeLeaderboard }   from './leaderboardService'
+import { computeLeaderboard }             from './leaderboardService'
 
-// ─────────────────────────────────────────────────────────────────────────────
-
-/** Build N period strings ending at (and including) currentPeriod, oldest first */
 function recentPeriods(currentPeriod, n) {
   const [year, month] = currentPeriod.split('-').map(Number)
   const result = []
@@ -31,21 +24,16 @@ function recentPeriods(currentPeriod, n) {
   return result
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-
-/** Admin: system-wide KPIs, coverage per region, top schools, recent reports */
+// ── Admin ──────────────────────────────────────────────────────────────────────
 export function getAdminStats(period) {
-  const allReports     = getReports({ period })
-  const validated      = allReports.filter(r => r.status === 'validated')
-  const pending        = allReports.filter(r => r.status === 'submitted')
-  const activeSchools  = schoolsData.filter(s => s.status === 'active')
-  const teachers       = usersData.filter(u => u.role === 'teacher' && u.is_active)
-  const allProgress    = teachers.flatMap(t => getTeacherProgress(t.id))
-  const certifiedIds   = [...new Set(allProgress.filter(p => p.status === 'certified').map(p => p.teacher_id))]
-  const reportingIds   = [...new Set(validated.map(r => r.school_id))]
+  const allReports    = getReports({ period })
+  const validated     = allReports.filter(r => r.status === 'validated')
+  const pending       = allReports.filter(r => r.status === 'submitted')
+  const activeSchools = schoolsData.filter(s => s.is_active !== false)
+  const reportingIds  = [...new Set(validated.map(r => r.school_id))]
 
-  const rankings  = computeLeaderboard(period)
-  const avgScore  = rankings.length
+  const rankings = computeLeaderboard(period)
+  const avgScore = rankings.length
     ? Math.round((rankings.reduce((s, r) => s + r.total_score, 0) / rankings.length) * 10) / 10
     : 0
 
@@ -57,7 +45,7 @@ export function getAdminStats(period) {
       region_name: reg.name,
       total:       regSchools.length,
       reporting:   regReporting.length,
-      pct:         regSchools.length
+      pct: regSchools.length
         ? Math.round((regReporting.length / regSchools.length) * 100)
         : 0,
     }
@@ -71,8 +59,8 @@ export function getAdminStats(period) {
       total_schools:     schoolsData.length,
       validated_reports: validated.length,
       pending_reports:   pending.length,
-      trained_teachers:  certifiedIds.length,
-      total_teachers:    teachers.length,
+      trained_teachers:  0,   // LMS progress is still mock — placeholder
+      total_teachers:    0,
       avg_score:         avgScore,
       reporting_schools: reportingIds.length,
     },
@@ -82,28 +70,34 @@ export function getAdminStats(period) {
   }
 }
 
-/** Teacher: personal LMS + report stats, school rank */
-export function getTeacherStats(teacherId, period) {
-  const teacher = usersData.find(u => u.id === teacherId)
-  if (!teacher) return null
+// ── Teacher ────────────────────────────────────────────────────────────────────
+/**
+ * @param {object} session  — full session object from AuthContext
+ * @param {string} period   — "YYYY-MM"
+ */
+export function getTeacherStats(session, period) {
+  if (!session) return null
+
+  const teacherId = session.user_id
+  const schoolId  = session.school_id
 
   const progress         = getTeacherProgress(teacherId)
   const publishedCourses = getCourses()
   const certified        = progress.filter(p => p.status === 'certified').length
   const inProgress       = progress.filter(p => p.status === 'in_progress').length
 
-  const myReports       = getReports({ school_id: teacher.school_id, teacher_id: teacherId })
+  const myReports       = getReports({ school_id: schoolId, teacher_id: teacherId })
   const periodReports   = myReports.filter(r => r.report_period === period)
   const validatedPeriod = periodReports.filter(r => r.status === 'validated')
 
   const rankings   = computeLeaderboard(period)
-  const schoolRank = rankings.find(r => r.school_id === teacher.school_id)
+  const schoolRank = rankings.find(r => r.school_id === schoolId)
 
   return {
     period,
     role:         'teacher',
-    teacher_name: teacher.name,
-    school_id:    teacher.school_id,
+    teacher_name: session.name,
+    school_id:    schoolId,
     kpis: {
       courses_certified:     certified,
       courses_in_progress:   inProgress,
@@ -129,18 +123,12 @@ export function getTeacherStats(teacherId, period) {
   }
 }
 
-/** Gov Observer: region-scoped KPIs, per-school status, rankings */
+// ── Gov Observer ───────────────────────────────────────────────────────────────
 export function getGovStats(regionId, period) {
   const region = regionsData.find(r => r.id === regionId)
   if (!region) return null
 
-  const regionSchools  = schoolsData.filter(s => s.region_id === regionId)
-  const regionTeachers = usersData.filter(u =>
-    u.role === 'teacher' && regionSchools.some(s => s.id === u.school_id)
-  )
-  const allProgress  = regionTeachers.flatMap(t => getTeacherProgress(t.id))
-  const certifiedIds = [...new Set(allProgress.filter(p => p.status === 'certified').map(p => p.teacher_id))]
-
+  const regionSchools = schoolsData.filter(s => s.region_id === regionId)
   const regionReports = getReports({ region_id: regionId, period })
   const validated     = regionReports.filter(r => r.status === 'validated')
   const reportingIds  = [...new Set(validated.map(r => r.school_id))]
@@ -167,22 +155,15 @@ export function getGovStats(regionId, period) {
       reporting_schools:  reportingIds.length,
       validated_reports:  validated.length,
       avg_score:          avgScore,
-      certified_teachers: certifiedIds.length,
-      total_teachers:     regionTeachers.length,
+      certified_teachers: 0,
+      total_teachers:     0,
     },
     school_status: schoolStatus,
     rankings,
   }
 }
 
-/**
- * Multi-period trend data for dashboard charts.
- * Returns the last N months (oldest → newest) for bar/line charts.
- *
- * @param {string} currentPeriod  e.g. "2025-02"
- * @param {number} n              number of periods to include (default 4)
- * @param {string|null} regionId  scope to a region (gov/admin filter)
- */
+// ── Multi-period trend ─────────────────────────────────────────────────────────
 export function getMultiPeriodStats(currentPeriod, n = 4, regionId = null) {
   const periods = recentPeriods(currentPeriod, n)
 
@@ -197,17 +178,16 @@ export function getMultiPeriodStats(currentPeriod, n = 4, regionId = null) {
       ? Math.round(rankings.reduce((s, r) => s + r.total_score, 0) / rankings.length)
       : 0
 
-    // Short month label for chart x-axis
     const [y, m] = period.split('-')
     const MONTHS = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des']
     const label  = `${MONTHS[parseInt(m) - 1]} '${y.slice(2)}`
 
     return {
       period,
-      name:       label,
-      validated:  validated.length,
-      avg_score:  avgScore,
-      reporting:  new Set(validated.map(r => r.school_id)).size,
+      name:      label,
+      validated: validated.length,
+      avg_score: avgScore,
+      reporting: new Set(validated.map(r => r.school_id)).size,
     }
   })
 }

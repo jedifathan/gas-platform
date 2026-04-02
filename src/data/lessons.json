@@ -1,134 +1,482 @@
 [
   {
-    "id": "les-001",
-    "course_id": "crs-001",
-    "title": "Mengapa Gigi Susu Penting?",
-    "content_type": "article",
-    "content_url": null,
-    "content_body": "Gigi susu (gigi desidui) adalah gigi pertama yang tumbuh pada anak, biasanya mulai muncul pada usia 6-8 bulan. Meskipun bersifat sementara, gigi susu memiliki peran yang sangat penting.\n\n**Fungsi Gigi Susu:**\n\n1. **Mengunyah makanan** — Gigi susu membantu anak mengunyah berbagai jenis makanan yang diperlukan untuk pertumbuhan optimal.\n\n2. **Berbicara dengan jelas** — Gigi berperan penting dalam pengucapan bunyi-bunyi tertentu. Anak dengan gigi susu yang sehat cenderung memiliki perkembangan bicara yang lebih baik.\n\n3. **Menjaga ruang untuk gigi permanen** — Ini adalah fungsi yang sering diabaikan. Gigi susu berfungsi sebagai 'penjaga tempat' bagi gigi permanen. Jika gigi susu tanggal terlalu dini, gigi-gigi lain dapat bergeser dan mengakibatkan gigi permanen tumbuh tidak pada posisi yang tepat.\n\n4. **Mendukung perkembangan rahang** — Gerakan mengunyah merangsang pertumbuhan tulang rahang yang sehat.\n\n**Mitos yang Perlu Diluruskan:**\n\nBanyak orang tua berpikir bahwa kesehatan gigi susu tidak terlalu penting karena akan digantikan oleh gigi permanen. Ini adalah kesalahpahaman yang berbahaya. Gigi susu yang berlubang dan tidak dirawat dapat:\n- Menyebabkan rasa sakit yang mengganggu konsentrasi belajar\n- Menyebabkan infeksi yang dapat mempengaruhi gigi permanen di bawahnya\n- Mempengaruhi nutrisi anak karena sulit mengunyah\n- Mempengaruhi rasa percaya diri anak",
-    "duration_minutes": 10,
+    "id": "les-course-01-01",
+    "course_id": "course-01",
     "order_index": 1,
-    "is_required": true,
-    "created_at": "2024-01-10T00:00:00Z"
-  },
-  {
-    "id": "les-002",
-    "course_id": "crs-001",
-    "title": "Tahapan Tumbuh Gigi Anak Usia 0-6 Tahun",
+    "title": "Pengantar: Petualangan Gigi",
     "content_type": "article",
-    "content_url": null,
-    "content_body": "Memahami tahapan tumbuh gigi anak sangat penting bagi guru PAUD/TK untuk dapat memberikan edukasi yang tepat kepada orang tua.\n\n**Urutan Tumbuh Gigi Susu:**\n\n**Usia 6-10 bulan:** Gigi seri tengah bawah (2 gigi)\n**Usia 8-12 bulan:** Gigi seri tengah atas (2 gigi)\n**Usia 9-13 bulan:** Gigi seri samping atas (2 gigi)\n**Usia 10-16 bulan:** Gigi seri samping bawah (2 gigi)\n**Usia 13-19 bulan:** Gigi geraham pertama atas dan bawah (4 gigi)\n**Usia 16-23 bulan:** Gigi taring atas dan bawah (4 gigi)\n**Usia 23-33 bulan:** Gigi geraham kedua atas dan bawah (4 gigi)\n\nPada usia 2-3 tahun, anak biasanya sudah memiliki 20 gigi susu lengkap.\n\n**Tanda-Tanda Tumbuh Gigi:**\n- Lebih banyak air liur\n- Ingin menggigit benda\n- Gusi bengkak dan merah\n- Rewel dan sulit tidur\n- Demam ringan (bukan akibat langsung tumbuh gigi, tapi karena anak memasukkan benda ke mulut)\n\n**Yang Perlu Dilakukan Guru:**\n- Informasikan kepada orang tua tentang proses normal ini\n- Anjurkan pembersihan gusi bayi dengan kain lembab\n- Mulai sikat gigi sejak gigi pertama muncul",
-    "duration_minutes": 12,
-    "order_index": 2,
-    "is_required": true,
-    "created_at": "2024-01-10T00:00:00Z"
-  },
-  {
-    "id": "les-003",
-    "course_id": "crs-001",
-    "title": "Penyebab dan Pencegahan Gigi Berlubang pada Anak",
-    "content_type": "article",
-    "content_url": null,
-    "content_body": "Karies gigi (gigi berlubang) adalah masalah kesehatan gigi paling umum pada anak prasekolah. Memahami penyebabnya adalah langkah pertama pencegahan.\n\n**Bagaimana Gigi Berlubang Terjadi:**\n\nKaries terjadi melalui proses berikut:\n1. Bakteri (terutama Streptococcus mutans) hidup di mulut\n2. Bakteri memakan sisa gula/karbohidrat dari makanan\n3. Bakteri menghasilkan asam sebagai produk sampingan\n4. Asam melarutkan mineral pada enamel gigi\n5. Lubang terbentuk\n\n**Faktor Risiko:**\n- Konsumsi makanan/minuman manis yang sering\n- Minum susu botol sambil tidur\n- Tidak menyikat gigi secara rutin\n- Tidak menggunakan pasta gigi berfluorida\n- Kurang paparan fluorida\n\n**Tanda-Tanda Awal Karies:**\n- Bercak putih pada gigi (stadium awal, masih bisa diperbaiki)\n- Bercak coklat atau hitam\n- Lubang terlihat\n- Anak mengeluh sakit saat makan manis atau dingin\n\n**Strategi Pencegahan yang Diajarkan di Sekolah:**\n\n1. **Sikat gigi 2x sehari** — Pagi setelah sarapan dan malam sebelum tidur\n2. **Kurangi makanan manis** — Batasi permen, biskuit manis, dan minuman bergula\n3. **Perbanyak minum air putih** — Membantu membersihkan sisa makanan\n4. **Kunjungi dokter gigi** — Minimal 6 bulan sekali untuk pemeriksaan rutin",
-    "duration_minutes": 15,
-    "order_index": 3,
-    "is_required": true,
-    "created_at": "2024-01-10T00:00:00Z"
-  },
-  {
-    "id": "les-004",
-    "course_id": "crs-001",
-    "title": "Kuis: Dasar Kesehatan Gigi Anak",
-    "content_type": "quiz",
-    "content_url": null,
-    "content_body": null,
     "duration_minutes": 10,
+    "is_required": true,
+    "content_body": "Materi pembelajaran untuk kursus Petualangan Gigi. Guru diharapkan membaca modul yang tersedia sebelum melaksanakan kegiatan di kelas."
+  },
+  {
+    "id": "les-course-01-02",
+    "course_id": "course-01",
+    "order_index": 2,
+    "title": "Materi Utama: Petualangan Gigi",
+    "content_type": "article",
+    "duration_minutes": 15,
+    "is_required": true,
+    "content_body": "Materi pembelajaran untuk kursus Petualangan Gigi. Guru diharapkan membaca modul yang tersedia sebelum melaksanakan kegiatan di kelas."
+  },
+  {
+    "id": "les-course-01-03",
+    "course_id": "course-01",
+    "order_index": 3,
+    "title": "Aktivitas Kelas",
+    "content_type": "article",
+    "duration_minutes": 20,
+    "is_required": true,
+    "content_body": "Materi pembelajaran untuk kursus Petualangan Gigi. Guru diharapkan membaca modul yang tersedia sebelum melaksanakan kegiatan di kelas."
+  },
+  {
+    "id": "les-course-01-04",
+    "course_id": "course-01",
     "order_index": 4,
-    "is_required": true,
-    "created_at": "2024-01-10T00:00:00Z"
-  },
-  {
-    "id": "les-005",
-    "course_id": "crs-002",
-    "title": "Persiapan Kegiatan Demonstrasi Sikat Gigi",
-    "content_type": "article",
-    "content_url": null,
-    "content_body": "Demonstrasi sikat gigi bersama adalah kegiatan inti Program GAS. Keberhasilan kegiatan ini bergantung pada persiapan yang matang.\n\n**Bahan dan Alat yang Dibutuhkan:**\n- Sikat gigi anak (1 per anak, atau demonstrasi dengan model)\n- Pasta gigi anak berfluorida (ukuran sebiji beras untuk usia <3 tahun, sebiji kacang polong untuk 3-6 tahun)\n- Model gigi/phantom gigi (untuk demonstrasi guru)\n- Gelas kumur\n- Timer 2 menit\n- Lagu/musik pengiring (opsional, membantu anak menyikat selama 2 menit)\n\n**Persiapan Kelas:**\n1. Pastikan setiap anak memiliki sikat gigi yang bersih\n2. Siapkan wastafel atau ember air bersih\n3. Atur posisi anak agar bisa melihat demonstrasi guru\n4. Sediakan cermin kecil jika memungkinkan\n\n**Komunikasi dengan Orang Tua:**\n- Beritahu orang tua sebelum kegiatan agar anak membawa sikat gigi\n- Kirimkan surat pemberitahuan 3 hari sebelumnya\n- Jelaskan manfaat kegiatan",
-    "duration_minutes": 12,
-    "order_index": 1,
-    "is_required": true,
-    "created_at": "2024-01-10T00:00:00Z"
-  },
-  {
-    "id": "les-006",
-    "course_id": "crs-002",
-    "title": "Teknik Menyikat Gigi yang Benar untuk Anak",
-    "content_type": "article",
-    "content_url": null,
-    "content_body": "Mengajarkan teknik menyikat gigi yang benar kepada anak adalah keterampilan inti yang harus dikuasai setiap guru Program GAS.\n\n**Teknik Sikat Gigi untuk Anak Prasekolah (Metode Scrub):**\n\nUntuk anak usia 3-6 tahun, teknik yang dianjurkan adalah metode scrub yang disederhanakan:\n\n1. **Permukaan luar gigi atas dan bawah** — Sikat dengan gerakan melingkar kecil\n2. **Permukaan dalam gigi** — Sikat dengan gerakan naik-turun\n3. **Permukaan kunyah** — Sikat dengan gerakan maju-mundur\n4. **Lidah** — Sikat perlahan untuk mengurangi bakteri\n\n**Durasi:** Minimal 2 menit total\n\n**Tips Mengajar:**\n- Gunakan metode 'show, do together, observe'\n- Nyanyikan lagu saat menyikat agar anak menikmati proses\n- Puji usaha anak, bukan hanya hasil\n- Bagi anak <4 tahun, orang tua masih perlu membantu menyikat\n\n**Kesalahan Umum yang Perlu Dikoreksi:**\n- Terlalu menekan saat menyikat (merusak gusi)\n- Waktu menyikat terlalu singkat\n- Lupa menyikat gigi bagian dalam\n- Menggunakan pasta gigi terlalu banyak",
-    "duration_minutes": 15,
-    "order_index": 2,
-    "is_required": true,
-    "created_at": "2024-01-10T00:00:00Z"
-  },
-  {
-    "id": "les-007",
-    "course_id": "crs-002",
-    "title": "Manajemen Kelas saat Kegiatan Sikat Gigi",
-    "content_type": "article",
-    "content_url": null,
-    "content_body": "Mengelola kelas berisi 15-25 anak prasekolah selama kegiatan sikat gigi bisa menjadi tantangan tersendiri. Artikel ini membahas strategi yang terbukti efektif.\n\n**Strategi Pengelolaan Kelas:**\n\n**1. Sistem Giliran**\nBagi anak menjadi kelompok kecil (5-7 anak). Sementara satu kelompok menyikat gigi, kelompok lain melakukan aktivitas tenang (mewarnai, mendengarkan cerita).\n\n**2. Lagu dan Ritme**\nGunakan lagu khusus untuk menandai waktu sikat gigi. Beberapa pilihan:\n- Lagu 'ABC' versi bahasa Indonesia (2 menit)\n- Lagu 'Balonku' yang diulang beberapa kali\n- Lagu khusus kesehatan gigi\n\n**3. Gamifikasi**\nBuat papan bintang di kelas. Setiap anak yang aktif sikat gigi mendapat bintang. Kumpulkan 5 bintang = dapat hadiah kecil.\n\n**4. Storytelling**\nCeritakan kisah 'Pangeran Gigi dan Raksasa Kuman' sebelum kegiatan untuk memotivasi anak.\n\n**5. Pelibatan Anak sebagai Asisten**\nTunjuk 'Duta Sikat Gigi' yang bertugas membantu teman-temannya. Rotasi setiap minggu.\n\n**Dokumentasi Kegiatan:**\nSelalucatat nama anak yang hadir dan foto kegiatan untuk laporan Program GAS.",
-    "duration_minutes": 10,
-    "order_index": 3,
-    "is_required": true,
-    "created_at": "2024-01-10T00:00:00Z"
-  },
-  {
-    "id": "les-008",
-    "course_id": "crs-002",
-    "title": "Kuis: Metode Pengajaran Sikat Gigi",
+    "title": "Kuis: Petualangan Gigi",
     "content_type": "quiz",
-    "content_url": null,
-    "content_body": null,
+    "duration_minutes": null,
+    "is_required": false,
+    "content_body": null
+  },
+  {
+    "id": "les-course-02-01",
+    "course_id": "course-02",
+    "order_index": 1,
+    "title": "Pengantar: Perkenalan Alat Pembersih Gigi",
+    "content_type": "article",
     "duration_minutes": 10,
+    "is_required": true,
+    "content_body": "Materi pembelajaran untuk kursus Perkenalan Alat Pembersih Gigi. Guru diharapkan membaca modul yang tersedia sebelum melaksanakan kegiatan di kelas."
+  },
+  {
+    "id": "les-course-02-02",
+    "course_id": "course-02",
+    "order_index": 2,
+    "title": "Materi Utama: Perkenalan Alat Pembersih Gigi",
+    "content_type": "article",
+    "duration_minutes": 15,
+    "is_required": true,
+    "content_body": "Materi pembelajaran untuk kursus Perkenalan Alat Pembersih Gigi. Guru diharapkan membaca modul yang tersedia sebelum melaksanakan kegiatan di kelas."
+  },
+  {
+    "id": "les-course-02-03",
+    "course_id": "course-02",
+    "order_index": 3,
+    "title": "Aktivitas Kelas",
+    "content_type": "article",
+    "duration_minutes": 20,
+    "is_required": true,
+    "content_body": "Materi pembelajaran untuk kursus Perkenalan Alat Pembersih Gigi. Guru diharapkan membaca modul yang tersedia sebelum melaksanakan kegiatan di kelas."
+  },
+  {
+    "id": "les-course-02-04",
+    "course_id": "course-02",
     "order_index": 4,
-    "is_required": true,
-    "created_at": "2024-01-10T00:00:00Z"
-  },
-  {
-    "id": "les-009",
-    "course_id": "crs-003",
-    "title": "Strategi Komunikasi Efektif dengan Orang Tua",
-    "content_type": "article",
-    "content_url": null,
-    "content_body": "Keterlibatan orang tua adalah kunci keberhasilan Program GAS. Kebiasaan kesehatan gigi yang diajarkan di sekolah harus diperkuat di rumah.\n\n**Mengapa Melibatkan Orang Tua?**\n\nRiset menunjukkan bahwa anak lebih konsisten menyikat gigi jika:\n- Orang tua aktif mengingatkan dan mendampingi\n- Ada rutinitas yang konsisten di rumah\n- Orang tua memberikan contoh yang baik\n\n**Saluran Komunikasi yang Efektif:**\n\n**1. Grup WhatsApp Kelas**\nMedia paling praktis. Gunakan untuk:\n- Mengingatkan jadwal sikat gigi bersama\n- Berbagi tips kesehatan gigi singkat\n- Mengirim foto kegiatan anak\n- Pengumuman program\n\n**2. Buku Penghubung**\nCatat kemajuan anak terkait kebiasaan kesehatan gigi:\n- Apakah anak membawa sikat gigi?\n- Bagaimana partisipasi anak dalam kegiatan?\n- Catatan khusus atau rekomendasi\n\n**3. Pertemuan Orang Tua**\nSelenggarakan minimal 1x per semester:\n- Presentasi program GAS dan manfaatnya\n- Demo sikat gigi bersama orang tua\n- Diskusi tantangan di rumah\n- Bagikan leaflet edukasi\n\n**4. Pojok Informasi**\nSiapkan papan informasi di pintu masuk sekolah dengan:\n- Tips kesehatan gigi bulanan\n- Jadwal kegiatan program GAS\n- Kontak dokter gigi puskesmas terdekat",
-    "duration_minutes": 12,
-    "order_index": 1,
-    "is_required": true,
-    "created_at": "2024-01-15T00:00:00Z"
-  },
-  {
-    "id": "les-010",
-    "course_id": "crs-003",
-    "title": "Menyelenggarakan Pertemuan Orang Tua yang Efektif",
-    "content_type": "article",
-    "content_url": null,
-    "content_body": "Pertemuan orang tua (parent meeting) adalah salah satu kegiatan dengan nilai tertinggi dalam Program GAS karena dampaknya yang langsung pada perilaku anak di rumah.\n\n**Perencanaan Pertemuan:**\n\n**Sebelum Pertemuan:**\n1. Tentukan tanggal dan waktu yang fleksibel (pertimbangkan orang tua yang bekerja)\n2. Kirim undangan minimal 1 minggu sebelumnya\n3. Siapkan materi presentasi (10-15 menit, tidak terlalu panjang)\n4. Siapkan demo sikat gigi interaktif\n5. Cetak leaflet/brosur untuk dibawa pulang\n6. Siapkan absensi dan daftar hadir\n\n**Agenda Pertemuan (60-90 menit):**\n- Pembukaan dan perkenalan (10 menit)\n- Presentasi Program GAS dan manfaatnya (15 menit)\n- Demo sikat gigi bersama (20 menit)\n- Sesi tanya jawab (15 menit)\n- Komitmen orang tua dan penutup (10 menit)\n\n**Tips Sukses:**\n- Mulai tepat waktu untuk menghargai yang hadir\n- Gunakan bahasa yang sederhana dan tidak terlalu teknis\n- Libatkan orang tua secara aktif, jangan hanya ceramah\n- Bagikan snack jika memungkinkan (menambah kehadiran)\n- Dokumentasikan dengan foto untuk laporan\n\n**Tindak Lanjut:**\n- Kirimkan ringkasan pertemuan via WhatsApp\n- Bagikan leaflet digital\n- Tindak lanjuti dengan orang tua yang tidak hadir",
-    "duration_minutes": 15,
-    "order_index": 2,
-    "is_required": true,
-    "created_at": "2024-01-15T00:00:00Z"
-  },
-  {
-    "id": "les-011",
-    "course_id": "crs-003",
-    "title": "Kuis: Keterlibatan Orang Tua",
+    "title": "Kuis: Perkenalan Alat Pembersih Gigi",
     "content_type": "quiz",
-    "content_url": null,
-    "content_body": null,
-    "duration_minutes": 8,
-    "order_index": 3,
+    "duration_minutes": null,
+    "is_required": false,
+    "content_body": null
+  },
+  {
+    "id": "les-course-03-01",
+    "course_id": "course-03",
+    "order_index": 1,
+    "title": "Pengantar: Waktu dan Cara Menyikat Gigi",
+    "content_type": "article",
+    "duration_minutes": 10,
     "is_required": true,
-    "created_at": "2024-01-15T00:00:00Z"
+    "content_body": "Materi pembelajaran untuk kursus Waktu dan Cara Menyikat Gigi. Guru diharapkan membaca modul yang tersedia sebelum melaksanakan kegiatan di kelas."
+  },
+  {
+    "id": "les-course-03-02",
+    "course_id": "course-03",
+    "order_index": 2,
+    "title": "Materi Utama: Waktu dan Cara Menyikat Gigi",
+    "content_type": "article",
+    "duration_minutes": 15,
+    "is_required": true,
+    "content_body": "Materi pembelajaran untuk kursus Waktu dan Cara Menyikat Gigi. Guru diharapkan membaca modul yang tersedia sebelum melaksanakan kegiatan di kelas."
+  },
+  {
+    "id": "les-course-03-03",
+    "course_id": "course-03",
+    "order_index": 3,
+    "title": "Aktivitas Kelas",
+    "content_type": "article",
+    "duration_minutes": 20,
+    "is_required": true,
+    "content_body": "Materi pembelajaran untuk kursus Waktu dan Cara Menyikat Gigi. Guru diharapkan membaca modul yang tersedia sebelum melaksanakan kegiatan di kelas."
+  },
+  {
+    "id": "les-course-03-04",
+    "course_id": "course-03",
+    "order_index": 4,
+    "title": "Kuis: Waktu dan Cara Menyikat Gigi",
+    "content_type": "quiz",
+    "duration_minutes": null,
+    "is_required": false,
+    "content_body": null
+  },
+  {
+    "id": "les-course-04-01",
+    "course_id": "course-04",
+    "order_index": 1,
+    "title": "Pengantar: Dokter Gigi, Sahabat Gigi",
+    "content_type": "article",
+    "duration_minutes": 10,
+    "is_required": true,
+    "content_body": "Materi pembelajaran untuk kursus Dokter Gigi, Sahabat Gigi. Guru diharapkan membaca modul yang tersedia sebelum melaksanakan kegiatan di kelas."
+  },
+  {
+    "id": "les-course-04-02",
+    "course_id": "course-04",
+    "order_index": 2,
+    "title": "Materi Utama: Dokter Gigi, Sahabat Gigi",
+    "content_type": "article",
+    "duration_minutes": 15,
+    "is_required": true,
+    "content_body": "Materi pembelajaran untuk kursus Dokter Gigi, Sahabat Gigi. Guru diharapkan membaca modul yang tersedia sebelum melaksanakan kegiatan di kelas."
+  },
+  {
+    "id": "les-course-04-03",
+    "course_id": "course-04",
+    "order_index": 3,
+    "title": "Aktivitas Kelas",
+    "content_type": "article",
+    "duration_minutes": 20,
+    "is_required": true,
+    "content_body": "Materi pembelajaran untuk kursus Dokter Gigi, Sahabat Gigi. Guru diharapkan membaca modul yang tersedia sebelum melaksanakan kegiatan di kelas."
+  },
+  {
+    "id": "les-course-04-04",
+    "course_id": "course-04",
+    "order_index": 4,
+    "title": "Kuis: Dokter Gigi, Sahabat Gigi",
+    "content_type": "quiz",
+    "duration_minutes": null,
+    "is_required": false,
+    "content_body": null
+  },
+  {
+    "id": "les-course-05-01",
+    "course_id": "course-05",
+    "order_index": 1,
+    "title": "Pengantar: Perkenalan Gigi Berlubang",
+    "content_type": "article",
+    "duration_minutes": 10,
+    "is_required": true,
+    "content_body": "Materi pembelajaran untuk kursus Perkenalan Gigi Berlubang. Guru diharapkan membaca modul yang tersedia sebelum melaksanakan kegiatan di kelas."
+  },
+  {
+    "id": "les-course-05-02",
+    "course_id": "course-05",
+    "order_index": 2,
+    "title": "Materi Utama: Perkenalan Gigi Berlubang",
+    "content_type": "article",
+    "duration_minutes": 15,
+    "is_required": true,
+    "content_body": "Materi pembelajaran untuk kursus Perkenalan Gigi Berlubang. Guru diharapkan membaca modul yang tersedia sebelum melaksanakan kegiatan di kelas."
+  },
+  {
+    "id": "les-course-05-03",
+    "course_id": "course-05",
+    "order_index": 3,
+    "title": "Aktivitas Kelas",
+    "content_type": "article",
+    "duration_minutes": 20,
+    "is_required": true,
+    "content_body": "Materi pembelajaran untuk kursus Perkenalan Gigi Berlubang. Guru diharapkan membaca modul yang tersedia sebelum melaksanakan kegiatan di kelas."
+  },
+  {
+    "id": "les-course-05-04",
+    "course_id": "course-05",
+    "order_index": 4,
+    "title": "Kuis: Perkenalan Gigi Berlubang",
+    "content_type": "quiz",
+    "duration_minutes": null,
+    "is_required": false,
+    "content_body": null
+  },
+  {
+    "id": "les-course-06-01",
+    "course_id": "course-06",
+    "order_index": 1,
+    "title": "Pengantar: Makanan yang Jadi Musuh Gigi",
+    "content_type": "article",
+    "duration_minutes": 10,
+    "is_required": true,
+    "content_body": "Materi pembelajaran untuk kursus Makanan yang Jadi Musuh Gigi. Guru diharapkan membaca modul yang tersedia sebelum melaksanakan kegiatan di kelas."
+  },
+  {
+    "id": "les-course-06-02",
+    "course_id": "course-06",
+    "order_index": 2,
+    "title": "Materi Utama: Makanan yang Jadi Musuh Gigi",
+    "content_type": "article",
+    "duration_minutes": 15,
+    "is_required": true,
+    "content_body": "Materi pembelajaran untuk kursus Makanan yang Jadi Musuh Gigi. Guru diharapkan membaca modul yang tersedia sebelum melaksanakan kegiatan di kelas."
+  },
+  {
+    "id": "les-course-06-03",
+    "course_id": "course-06",
+    "order_index": 3,
+    "title": "Aktivitas Kelas",
+    "content_type": "article",
+    "duration_minutes": 20,
+    "is_required": true,
+    "content_body": "Materi pembelajaran untuk kursus Makanan yang Jadi Musuh Gigi. Guru diharapkan membaca modul yang tersedia sebelum melaksanakan kegiatan di kelas."
+  },
+  {
+    "id": "les-course-06-04",
+    "course_id": "course-06",
+    "order_index": 4,
+    "title": "Kuis: Makanan yang Jadi Musuh Gigi",
+    "content_type": "quiz",
+    "duration_minutes": null,
+    "is_required": false,
+    "content_body": null
+  },
+  {
+    "id": "les-course-07-01",
+    "course_id": "course-07",
+    "order_index": 1,
+    "title": "Pengantar: Minuman yang Jadi Musuh Gigi",
+    "content_type": "article",
+    "duration_minutes": 10,
+    "is_required": true,
+    "content_body": "Materi pembelajaran untuk kursus Minuman yang Jadi Musuh Gigi. Guru diharapkan membaca modul yang tersedia sebelum melaksanakan kegiatan di kelas."
+  },
+  {
+    "id": "les-course-07-02",
+    "course_id": "course-07",
+    "order_index": 2,
+    "title": "Materi Utama: Minuman yang Jadi Musuh Gigi",
+    "content_type": "article",
+    "duration_minutes": 15,
+    "is_required": true,
+    "content_body": "Materi pembelajaran untuk kursus Minuman yang Jadi Musuh Gigi. Guru diharapkan membaca modul yang tersedia sebelum melaksanakan kegiatan di kelas."
+  },
+  {
+    "id": "les-course-07-03",
+    "course_id": "course-07",
+    "order_index": 3,
+    "title": "Aktivitas Kelas",
+    "content_type": "article",
+    "duration_minutes": 20,
+    "is_required": true,
+    "content_body": "Materi pembelajaran untuk kursus Minuman yang Jadi Musuh Gigi. Guru diharapkan membaca modul yang tersedia sebelum melaksanakan kegiatan di kelas."
+  },
+  {
+    "id": "les-course-07-04",
+    "course_id": "course-07",
+    "order_index": 4,
+    "title": "Kuis: Minuman yang Jadi Musuh Gigi",
+    "content_type": "quiz",
+    "duration_minutes": null,
+    "is_required": false,
+    "content_body": null
+  },
+  {
+    "id": "les-course-08-01",
+    "course_id": "course-08",
+    "order_index": 1,
+    "title": "Pengantar: Akibat Gigi Berlubang",
+    "content_type": "article",
+    "duration_minutes": 10,
+    "is_required": true,
+    "content_body": "Materi pembelajaran untuk kursus Akibat Gigi Berlubang. Guru diharapkan membaca modul yang tersedia sebelum melaksanakan kegiatan di kelas."
+  },
+  {
+    "id": "les-course-08-02",
+    "course_id": "course-08",
+    "order_index": 2,
+    "title": "Materi Utama: Akibat Gigi Berlubang",
+    "content_type": "article",
+    "duration_minutes": 15,
+    "is_required": true,
+    "content_body": "Materi pembelajaran untuk kursus Akibat Gigi Berlubang. Guru diharapkan membaca modul yang tersedia sebelum melaksanakan kegiatan di kelas."
+  },
+  {
+    "id": "les-course-08-03",
+    "course_id": "course-08",
+    "order_index": 3,
+    "title": "Aktivitas Kelas",
+    "content_type": "article",
+    "duration_minutes": 20,
+    "is_required": true,
+    "content_body": "Materi pembelajaran untuk kursus Akibat Gigi Berlubang. Guru diharapkan membaca modul yang tersedia sebelum melaksanakan kegiatan di kelas."
+  },
+  {
+    "id": "les-course-08-04",
+    "course_id": "course-08",
+    "order_index": 4,
+    "title": "Kuis: Akibat Gigi Berlubang",
+    "content_type": "quiz",
+    "duration_minutes": null,
+    "is_required": false,
+    "content_body": null
+  },
+  {
+    "id": "les-course-09-01",
+    "course_id": "course-09",
+    "order_index": 1,
+    "title": "Pengantar: Peri Gigi",
+    "content_type": "article",
+    "duration_minutes": 10,
+    "is_required": true,
+    "content_body": "Materi pembelajaran untuk kursus Peri Gigi. Guru diharapkan membaca modul yang tersedia sebelum melaksanakan kegiatan di kelas."
+  },
+  {
+    "id": "les-course-09-02",
+    "course_id": "course-09",
+    "order_index": 2,
+    "title": "Materi Utama: Peri Gigi",
+    "content_type": "article",
+    "duration_minutes": 15,
+    "is_required": true,
+    "content_body": "Materi pembelajaran untuk kursus Peri Gigi. Guru diharapkan membaca modul yang tersedia sebelum melaksanakan kegiatan di kelas."
+  },
+  {
+    "id": "les-course-09-03",
+    "course_id": "course-09",
+    "order_index": 3,
+    "title": "Aktivitas Kelas",
+    "content_type": "article",
+    "duration_minutes": 20,
+    "is_required": true,
+    "content_body": "Materi pembelajaran untuk kursus Peri Gigi. Guru diharapkan membaca modul yang tersedia sebelum melaksanakan kegiatan di kelas."
+  },
+  {
+    "id": "les-course-09-04",
+    "course_id": "course-09",
+    "order_index": 4,
+    "title": "Kuis: Peri Gigi",
+    "content_type": "quiz",
+    "duration_minutes": null,
+    "is_required": false,
+    "content_body": null
+  },
+  {
+    "id": "les-course-10-01",
+    "course_id": "course-10",
+    "order_index": 1,
+    "title": "Pengantar: Ayo ke Dokter Gigi",
+    "content_type": "article",
+    "duration_minutes": 10,
+    "is_required": true,
+    "content_body": "Materi pembelajaran untuk kursus Ayo ke Dokter Gigi. Guru diharapkan membaca modul yang tersedia sebelum melaksanakan kegiatan di kelas."
+  },
+  {
+    "id": "les-course-10-02",
+    "course_id": "course-10",
+    "order_index": 2,
+    "title": "Materi Utama: Ayo ke Dokter Gigi",
+    "content_type": "article",
+    "duration_minutes": 15,
+    "is_required": true,
+    "content_body": "Materi pembelajaran untuk kursus Ayo ke Dokter Gigi. Guru diharapkan membaca modul yang tersedia sebelum melaksanakan kegiatan di kelas."
+  },
+  {
+    "id": "les-course-10-03",
+    "course_id": "course-10",
+    "order_index": 3,
+    "title": "Aktivitas Kelas",
+    "content_type": "article",
+    "duration_minutes": 20,
+    "is_required": true,
+    "content_body": "Materi pembelajaran untuk kursus Ayo ke Dokter Gigi. Guru diharapkan membaca modul yang tersedia sebelum melaksanakan kegiatan di kelas."
+  },
+  {
+    "id": "les-course-10-04",
+    "course_id": "course-10",
+    "order_index": 4,
+    "title": "Kuis: Ayo ke Dokter Gigi",
+    "content_type": "quiz",
+    "duration_minutes": null,
+    "is_required": false,
+    "content_body": null
+  },
+  {
+    "id": "les-course-11-01",
+    "course_id": "course-11",
+    "order_index": 1,
+    "title": "Pengantar: Gigi Sehat, Tubuh Kuat",
+    "content_type": "article",
+    "duration_minutes": 10,
+    "is_required": true,
+    "content_body": "Materi pembelajaran untuk kursus Gigi Sehat, Tubuh Kuat. Guru diharapkan membaca modul yang tersedia sebelum melaksanakan kegiatan di kelas."
+  },
+  {
+    "id": "les-course-11-02",
+    "course_id": "course-11",
+    "order_index": 2,
+    "title": "Materi Utama: Gigi Sehat, Tubuh Kuat",
+    "content_type": "article",
+    "duration_minutes": 15,
+    "is_required": true,
+    "content_body": "Materi pembelajaran untuk kursus Gigi Sehat, Tubuh Kuat. Guru diharapkan membaca modul yang tersedia sebelum melaksanakan kegiatan di kelas."
+  },
+  {
+    "id": "les-course-11-03",
+    "course_id": "course-11",
+    "order_index": 3,
+    "title": "Aktivitas Kelas",
+    "content_type": "article",
+    "duration_minutes": 20,
+    "is_required": true,
+    "content_body": "Materi pembelajaran untuk kursus Gigi Sehat, Tubuh Kuat. Guru diharapkan membaca modul yang tersedia sebelum melaksanakan kegiatan di kelas."
+  },
+  {
+    "id": "les-course-11-04",
+    "course_id": "course-11",
+    "order_index": 4,
+    "title": "Kuis: Gigi Sehat, Tubuh Kuat",
+    "content_type": "quiz",
+    "duration_minutes": null,
+    "is_required": false,
+    "content_body": null
+  },
+  {
+    "id": "les-course-12-01",
+    "course_id": "course-12",
+    "order_index": 1,
+    "title": "Pengantar: Jagalah Gigimu",
+    "content_type": "article",
+    "duration_minutes": 10,
+    "is_required": true,
+    "content_body": "Materi pembelajaran untuk kursus Jagalah Gigimu. Guru diharapkan membaca modul yang tersedia sebelum melaksanakan kegiatan di kelas."
+  },
+  {
+    "id": "les-course-12-02",
+    "course_id": "course-12",
+    "order_index": 2,
+    "title": "Materi Utama: Jagalah Gigimu",
+    "content_type": "article",
+    "duration_minutes": 15,
+    "is_required": true,
+    "content_body": "Materi pembelajaran untuk kursus Jagalah Gigimu. Guru diharapkan membaca modul yang tersedia sebelum melaksanakan kegiatan di kelas."
+  },
+  {
+    "id": "les-course-12-03",
+    "course_id": "course-12",
+    "order_index": 3,
+    "title": "Aktivitas Kelas",
+    "content_type": "article",
+    "duration_minutes": 20,
+    "is_required": true,
+    "content_body": "Materi pembelajaran untuk kursus Jagalah Gigimu. Guru diharapkan membaca modul yang tersedia sebelum melaksanakan kegiatan di kelas."
+  },
+  {
+    "id": "les-course-12-04",
+    "course_id": "course-12",
+    "order_index": 4,
+    "title": "Kuis: Jagalah Gigimu",
+    "content_type": "quiz",
+    "duration_minutes": null,
+    "is_required": false,
+    "content_body": null
   }
 ]

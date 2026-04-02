@@ -1,32 +1,11 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useAuth } from './useAuth'
 import {
-  getReports,
-  getReportById,
-  saveDraft,
-  updateDraft,
-  submitReport,
-  validateReport,
-  deleteDraft,
-  getActivityTypes,
-  getPendingCount,
+  getReports, getReportById,
+  saveDraft, updateDraft, submitReport, validateReport, deleteDraft,
+  getActivityTypes, getPendingCount,
 } from '../services/reportService'
 
-/**
- * useReports — data + actions for activity reports.
- * Automatically scopes results to the current user's role:
- *   teacher      → own school only
- *   gov_observer → own region only
- *   admin        → all schools
- *
- * RBAC for mutations:
- *   createDraft  → teacher only (caller must be teacher)
- *   editDraft    → teacher (own reports only — enforced in reportService)
- *   removeDraft  → teacher (own draft only — enforced in reportService)
- *   submit       → teacher (own draft)
- *   validate     → admin only
- *   reject       → admin only
- */
 export function useReports(initialFilters = {}) {
   const { session } = useAuth()
 
@@ -36,7 +15,6 @@ export function useReports(initialFilters = {}) {
   const [loading,       setLoading]       = useState(true)
   const [filters,       setFilters]       = useState(initialFilters)
 
-  // Build scope-aware filter from session role
   function buildScopedFilters(extra = {}) {
     const base = { ...extra }
     if (session?.role === 'teacher')      base.school_id = session.school_id
@@ -55,23 +33,15 @@ export function useReports(initialFilters = {}) {
 
   useEffect(() => { refresh() }, [refresh])
 
-  // ── Filters ───────────────────────────────────────────────────────────────
-
-  function applyFilters(newFilters) {
-    setFilters(f => ({ ...f, ...newFilters }))
-  }
-
-  function clearFilters() {
-    setFilters(initialFilters)
-  }
-
-  // ── Teacher actions ───────────────────────────────────────────────────────
+  function applyFilters(newFilters) { setFilters(f => ({ ...f, ...newFilters })) }
+  function clearFilters()           { setFilters(initialFilters) }
 
   function createDraft(data) {
     const result = saveDraft({
       ...data,
-      school_id:  session?.school_id,
-      teacher_id: session?.user_id,
+      school_id:    session?.school_id,
+      teacher_id:   session?.user_id,
+      teacher_name: session?.name,         // ← pass name from session
     })
     if (result.success) refresh()
     return result
@@ -95,8 +65,6 @@ export function useReports(initialFilters = {}) {
     return result
   }
 
-  // ── Admin actions ─────────────────────────────────────────────────────────
-
   function validate(reportId, notes) {
     const result = validateReport(reportId, session?.user_id, notes, 'validated')
     if (result.success) refresh()
@@ -109,35 +77,14 @@ export function useReports(initialFilters = {}) {
     return result
   }
 
-  // ── Reads ─────────────────────────────────────────────────────────────────
-
-  function getById(reportId) {
-    return getReportById(reportId)
-  }
-
-  function getFiltered(extraFilters) {
-    return getReports(buildScopedFilters({ ...filters, ...extraFilters }))
-  }
+  function getById(reportId)            { return getReportById(reportId) }
+  function getFiltered(extraFilters)    { return getReports(buildScopedFilters({ ...filters, ...extraFilters })) }
 
   return {
-    reports,
-    activityTypes,
-    pendingCount,
-    loading,
-    filters,
-    applyFilters,
-    clearFilters,
-    refresh,
-    // Teacher
-    createDraft,
-    editDraft,
-    removeDraft,
-    submit,
-    // Admin
-    validate,
-    reject,
-    // Reads
-    getById,
-    getFiltered,
+    reports, activityTypes, pendingCount, loading, filters,
+    applyFilters, clearFilters, refresh,
+    createDraft, editDraft, removeDraft, submit,
+    validate, reject,
+    getById, getFiltered,
   }
 }

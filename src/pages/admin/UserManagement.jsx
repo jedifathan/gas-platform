@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { Search, Users, Plus, Eye, EyeOff, Edit2 } from 'lucide-react'
 import { getAllUsers, toggleUserActive, createUser, updateUser } from '../../services/authService'
 import { getAllRegions } from '../../services/regionService'
-import schoolsData from '../../data/schools.json'
+import { getAllSchools } from '../../services/schoolService'
 import { useApp }    from '../../hooks/useApp'
 import Card          from '../../components/ui/Card'
 import Badge         from '../../components/ui/Badge'
@@ -16,8 +16,7 @@ import { getRoleLabel, formatDateTime } from '../../utils/formatters'
 
 const ROLE_COLOR = { admin: 'blue', teacher: 'green', gov_observer: 'purple' }
 const EMPTY_FORM = { name: '', email: '', password: '', role: 'teacher', school_id: '', region_id: '' }
-
-const ROLE_OPTS = [
+const ROLE_OPTS  = [
   { value: 'teacher',      label: 'Guru' },
   { value: 'gov_observer', label: 'Pengamat Dinas' },
   { value: 'admin',        label: 'Administrator' },
@@ -26,36 +25,39 @@ const ROLE_OPTS = [
 export default function UserManagement() {
   const { toast }                   = useApp()
   const [users,      setUsers]      = useState([])
+  const [schools,    setSchools]    = useState([])   // ← async from API
+  const [regions,    setRegions]    = useState([])   // ← async from API
   const [loading,    setLoading]    = useState(true)
   const [search,     setSearch]     = useState('')
   const [roleFilter, setRoleFilter] = useState('')
-  const [modal,      setModal]      = useState(null)   // 'create' | 'edit' | null
+  const [modal,      setModal]      = useState(null)
   const [editing,    setEditing]    = useState(null)
   const [form,       setForm]       = useState(EMPTY_FORM)
   const [errors,     setErrors]     = useState({})
   const [saving,     setSaving]     = useState(false)
   const [showPwd,    setShowPwd]    = useState(false)
 
-  const regions    = getAllRegions()
-  const schoolOpts = schoolsData.map(s => ({ value: s.id, label: s.name }))
-  const regionOpts = regions.map(r => ({ value: r.id, label: `${r.name} (${r.province})` }))
-
-  // ── Fetch users from API ──────────────────────────────────────────────────
-  const fetchUsers = useCallback(async () => {
+  // ── Load all data async ────────────────────────────────────────────────────
+  const fetchAll = useCallback(async () => {
     setLoading(true)
     try {
-      const data = await getAllUsers()
-      setUsers(data)
+      const [u, s, r] = await Promise.all([getAllUsers(), getAllSchools(), getAllRegions()])
+      setUsers(u)
+      setSchools(s)
+      setRegions(r)
     } catch {
-      toast.error('Gagal memuat data pengguna.')
+      toast.error('Gagal memuat data.')
     } finally {
       setLoading(false)
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  useEffect(() => { fetchUsers() }, [fetchUsers])
+  useEffect(() => { fetchAll() }, [fetchAll])
 
-  // ── Derived list ─────────────────────────────────────────────────────────
+  // Build options from async data (safe — both start as [])
+  const schoolOpts = schools.map(s => ({ value: s.id, label: s.name }))
+  const regionOpts = regions.map(r => ({ value: r.id, label: `${r.name} (${r.kota ?? ''})` }))
+
   const filtered = users.filter(u => {
     const q = search.toLowerCase()
     return (
@@ -64,18 +66,16 @@ export default function UserManagement() {
     )
   })
 
-  // ── Toggle active ─────────────────────────────────────────────────────────
   async function handleToggle(userId) {
     const result = await toggleUserActive(userId)
     if (result.success) {
-      await fetchUsers()
+      await fetchAll()
       toast.success(result.is_active ? 'Akun diaktifkan.' : 'Akun dinonaktifkan.')
     } else {
       toast.error(result.message ?? 'Gagal mengubah status.')
     }
   }
 
-  // ── Form helpers ──────────────────────────────────────────────────────────
   function set(field, value) {
     setForm(f => ({ ...f, [field]: value }))
     setErrors(e => ({ ...e, [field]: undefined }))
@@ -83,41 +83,28 @@ export default function UserManagement() {
 
   function setRole(value) {
     setForm(f => ({
-      ...f,
-      role:      value,
+      ...f, role: value,
       school_id: value === 'teacher'      ? f.school_id : '',
       region_id: value === 'gov_observer' ? f.region_id : '',
     }))
   }
 
   function openCreate() {
-    setEditing(null)
-    setForm(EMPTY_FORM)
-    setErrors({})
-    setShowPwd(false)
-    setModal('create')
+    setEditing(null); setForm(EMPTY_FORM); setErrors({}); setShowPwd(false); setModal('create')
   }
 
   function openEdit(e, user) {
     e.stopPropagation()
     setEditing(user)
     setForm({
-      name:      user.name,
-      email:     user.email,
-      password:  '',
-      role:      user.role,
-      school_id: user.school?.id  ?? '',
-      region_id: user.region?.id  ?? '',
+      name: user.name, email: user.email, password: '', role: user.role,
+      school_id: user.school?.id ?? '', region_id: user.region?.id ?? '',
     })
-    setErrors({})
-    setShowPwd(false)
-    setModal('edit')
+    setErrors({}); setShowPwd(false); setModal('edit')
   }
 
-  // ── Save (create or update) ───────────────────────────────────────────────
   async function handleSave() {
     setSaving(true)
-
     let result
     if (modal === 'create') {
       result = await createUser({
@@ -127,16 +114,13 @@ export default function UserManagement() {
       })
     } else {
       const payload = {
-        name:      form.name,
-        email:     form.email,
-        role:      form.role,
+        name: form.name, email: form.email, role: form.role,
         school_id: form.role === 'teacher'      ? form.school_id : null,
         region_id: form.role === 'gov_observer' ? form.region_id : null,
       }
       if (form.password.trim()) payload.password = form.password.trim()
       result = await updateUser(editing.id, payload)
     }
-
     setSaving(false)
 
     if (!result.success) {
@@ -144,11 +128,8 @@ export default function UserManagement() {
       else toast.error(result.message ?? 'Gagal menyimpan.')
       return
     }
-
-    await fetchUsers()
-    toast.success(modal === 'create'
-      ? `Akun ${result.user.name} berhasil dibuat.`
-      : 'Data pengguna berhasil diperbarui.')
+    await fetchAll()
+    toast.success(modal === 'create' ? `Akun ${result.user.name} berhasil dibuat.` : 'Data pengguna berhasil diperbarui.')
     setModal(null)
   }
 
@@ -161,12 +142,9 @@ export default function UserManagement() {
           <h1 className="page-title">Manajemen Pengguna</h1>
           <p className="text-sm text-gray-500 mt-0.5">{users.length} pengguna terdaftar</p>
         </div>
-        <Button variant="primary" icon={<Plus size={14} />} onClick={openCreate}>
-          Tambah Pengguna
-        </Button>
+        <Button variant="primary" icon={<Plus size={14} />} onClick={openCreate}>Tambah Pengguna</Button>
       </div>
 
-      {/* Filters */}
       <div className="flex flex-wrap gap-3 mb-5">
         <div className="relative">
           <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -181,12 +159,9 @@ export default function UserManagement() {
         </select>
       </div>
 
-      {/* Table */}
       <Card noPadding>
         {loading ? (
-          <div className="flex justify-center items-center py-16">
-            <Spinner />
-          </div>
+          <div className="flex justify-center items-center py-16"><Spinner /></div>
         ) : filtered.length === 0 ? (
           <EmptyState icon={<Users size={28} />} title="Tidak ada pengguna ditemukan" compact />
         ) : (
@@ -203,12 +178,10 @@ export default function UserManagement() {
             </thead>
             <tbody>
               {filtered.map(user => (
-                <tr key={user.id}
-                  className={`border-b border-gray-100 hover:bg-alabaster ${!user.is_active ? 'opacity-60' : ''}`}>
+                <tr key={user.id} className={`border-b border-gray-100 hover:bg-alabaster ${!user.is_active ? 'opacity-60' : ''}`}>
                   <td className="td">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center
-                                      text-gray-600 text-xs font-semibold shrink-0">
+                      <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 text-xs font-semibold shrink-0">
                         {user.name.charAt(0)}
                       </div>
                       <div className="min-w-0">
@@ -218,9 +191,7 @@ export default function UserManagement() {
                     </div>
                   </td>
                   <td className="td">
-                    <Badge color={ROLE_COLOR[user.role] ?? 'gray'} size="sm">
-                      {getRoleLabel(user.role)}
-                    </Badge>
+                    <Badge color={ROLE_COLOR[user.role] ?? 'gray'} size="sm">{getRoleLabel(user.role)}</Badge>
                   </td>
                   <td className="td text-sm text-gray-600">
                     {user.school?.name ?? user.region?.name ?? <span className="text-gray-400">—</span>}
@@ -233,13 +204,9 @@ export default function UserManagement() {
                   </td>
                   <td className="td text-center">
                     <div className="flex items-center justify-center gap-2">
-                      <Button size="sm" variant="secondary" icon={<Edit2 size={12} />}
-                        onClick={e => openEdit(e, user)}>
-                        Edit
-                      </Button>
+                      <Button size="sm" variant="secondary" icon={<Edit2 size={12} />} onClick={e => openEdit(e, user)}>Edit</Button>
                       {user.role !== 'admin' && (
-                        <Button size="sm" variant={user.is_active ? 'danger' : 'ghost'}
-                          onClick={() => handleToggle(user.id)}>
+                        <Button size="sm" variant={user.is_active ? 'danger' : 'ghost'} onClick={() => handleToggle(user.id)}>
                           {user.is_active ? 'Nonaktifkan' : 'Aktifkan'}
                         </Button>
                       )}
@@ -252,12 +219,8 @@ export default function UserManagement() {
         )}
       </Card>
 
-      {/* Create / Edit Modal */}
-      <Modal
-        open={!!modal}
-        onClose={() => setModal(null)}
-        title={isCreate ? 'Tambah Pengguna Baru' : `Edit — ${editing?.name}`}
-        size="md"
+      <Modal open={!!modal} onClose={() => setModal(null)}
+        title={isCreate ? 'Tambah Pengguna Baru' : `Edit — ${editing?.name}`} size="md"
         footer={
           <>
             <Button variant="secondary" onClick={() => setModal(null)}>Batal</Button>
@@ -269,14 +232,9 @@ export default function UserManagement() {
       >
         <div className="space-y-4">
           <TextInput label="Nama Lengkap" required value={form.name}
-            onChange={e => set('name', e.target.value)} error={errors.name}
-            placeholder="Nama lengkap pengguna" />
-
+            onChange={e => set('name', e.target.value)} error={errors.name} placeholder="Nama lengkap pengguna" />
           <TextInput label="Email" required type="email" value={form.email}
-            onChange={e => set('email', e.target.value)} error={errors.email}
-            placeholder="email@sekolah.id" />
-
-          {/* Password */}
+            onChange={e => set('email', e.target.value)} error={errors.email} placeholder="email@sekolah.id" />
           <div className="flex flex-col gap-1">
             <label className="label">
               Password {isCreate && <span className="text-red-500">*</span>}
@@ -294,10 +252,8 @@ export default function UserManagement() {
             </div>
             {errors.password && <p className="text-xs text-red-600">{errors.password}</p>}
           </div>
-
           <SelectInput label="Role" required options={ROLE_OPTS} value={form.role}
             onChange={e => setRole(e.target.value)} placeholder={null} />
-
           {!isCreate && form.role !== editing?.role && (
             <div className="flex gap-2 p-3 rounded-lg bg-amber-50 border border-amber-200">
               <span className="text-xs text-amber-700">
@@ -306,7 +262,6 @@ export default function UserManagement() {
               </span>
             </div>
           )}
-
           {form.role === 'teacher' && (
             <SelectInput label="Sekolah" options={schoolOpts} value={form.school_id}
               onChange={e => set('school_id', e.target.value)} placeholder="Pilih sekolah..." />

@@ -1,110 +1,842 @@
 [
   {
-    "id": "q-001",
-    "course_id": "crs-001",
-    "question": "Pada usia berapa gigi susu pertama biasanya mulai tumbuh?",
-    "options": ["3-4 bulan", "6-8 bulan", "12-15 bulan", "18-24 bulan"],
-    "correct_index": 1,
-    "weight": 20,
-    "explanation": "Gigi susu pertama umumnya mulai muncul pada usia 6-8 bulan, biasanya dimulai dari gigi seri tengah bawah."
-  },
-  {
-    "id": "q-002",
-    "course_id": "crs-001",
-    "question": "Apa penyebab utama terjadinya karies (gigi berlubang) pada anak?",
-    "options": ["Kurang tidur yang cukup", "Bakteri yang memakan sisa gula dan menghasilkan asam", "Terlalu banyak minum air putih", "Gigi susu yang terlalu keras"],
-    "correct_index": 1,
-    "weight": 20,
-    "explanation": "Karies disebabkan oleh bakteri (terutama Streptococcus mutans) yang memfermentasi sisa gula menjadi asam, yang kemudian melarutkan enamel gigi."
-  },
-  {
-    "id": "q-003",
-    "course_id": "crs-001",
-    "question": "Berapa jumlah gigi susu lengkap yang dimiliki anak pada usia 2-3 tahun?",
-    "options": ["16 gigi", "18 gigi", "20 gigi", "24 gigi"],
-    "correct_index": 2,
-    "weight": 20,
-    "explanation": "Pada usia 2-3 tahun, anak biasanya sudah memiliki 20 gigi susu yang lengkap."
-  },
-  {
-    "id": "q-004",
-    "course_id": "crs-001",
-    "question": "Salah satu fungsi penting gigi susu yang sering diabaikan adalah?",
-    "options": ["Memperindah penampilan wajah", "Menjaga ruang untuk gigi permanen", "Membantu anak lebih cepat berjalan", "Meningkatkan kemampuan matematika anak"],
-    "correct_index": 1,
-    "weight": 20,
-    "explanation": "Gigi susu berfungsi sebagai 'penjaga tempat' untuk gigi permanen. Jika gigi susu tanggal terlalu dini, gigi permanen dapat tumbuh tidak pada posisi yang tepat."
-  },
-  {
-    "id": "q-005",
-    "course_id": "crs-001",
-    "question": "Kapan sebaiknya mulai membersihkan gigi anak?",
-    "options": ["Menunggu semua gigi susu lengkap", "Sejak gigi pertama muncul", "Setelah anak berusia 2 tahun", "Setelah anak bisa berkumur sendiri"],
-    "correct_index": 1,
-    "weight": 20,
-    "explanation": "Pembersihan gigi harus dimulai sejak gigi pertama muncul. Sebelum gigi tumbuh, gusi bayi juga perlu dibersihkan dengan kain lembab."
-  },
-  {
-    "id": "q-006",
-    "course_id": "crs-002",
-    "question": "Berapa lama waktu yang dianjurkan untuk menyikat gigi yang efektif?",
-    "options": ["30 detik", "1 menit", "2 menit", "5 menit"],
-    "correct_index": 2,
-    "weight": 25,
-    "explanation": "Menyikat gigi minimal 2 menit dibutuhkan untuk membersihkan semua permukaan gigi secara efektif."
-  },
-  {
-    "id": "q-007",
-    "course_id": "crs-002",
-    "question": "Berapa banyak pasta gigi yang dianjurkan untuk anak usia 3-6 tahun?",
-    "options": ["Seukuran kacang polong", "Seukuran telur puyuh", "Setengah sikat gigi", "Satu sikat gigi penuh"],
+    "id": "quiz-course-01-q1",
+    "course_id": "course-01",
+    "question": "Pertanyaan 1 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
     "correct_index": 0,
-    "weight": 25,
-    "explanation": "Untuk anak usia 3-6 tahun, pasta gigi yang dianjurkan adalah sebesar biji kacang polong (sekitar 0,5cm). Untuk anak di bawah 3 tahun, cukup sebesar biji beras."
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
   },
   {
-    "id": "q-008",
-    "course_id": "crs-002",
-    "question": "Metode mengajar sikat gigi yang paling efektif untuk anak prasekolah adalah?",
-    "options": ["Hanya menjelaskan secara verbal", "Show, do together, observe", "Memberikan tugas rumah saja", "Menonton video tanpa praktik"],
-    "correct_index": 1,
-    "weight": 25,
-    "explanation": "Metode 'show, do together, observe' (tunjukkan, lakukan bersama, amati) paling efektif karena melibatkan anak secara aktif dan memberikan umpan balik langsung."
+    "id": "quiz-course-01-q2",
+    "course_id": "course-01",
+    "question": "Pertanyaan 2 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
   },
   {
-    "id": "q-009",
-    "course_id": "crs-002",
-    "question": "Strategi manajemen kelas mana yang TIDAK tepat saat kegiatan sikat gigi?",
-    "options": ["Membagi anak dalam kelompok kecil", "Menggunakan lagu untuk menghitung waktu", "Membiarkan semua anak menyikat serentak tanpa pengawasan", "Menunjuk 'Duta Sikat Gigi' dari murid"],
-    "correct_index": 2,
-    "weight": 25,
-    "explanation": "Membiarkan anak menyikat tanpa pengawasan tidak aman dan tidak efektif. Pengawasan guru diperlukan untuk memastikan teknik yang benar dan keamanan anak."
+    "id": "quiz-course-01-q3",
+    "course_id": "course-01",
+    "question": "Pertanyaan 3 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
   },
   {
-    "id": "q-010",
-    "course_id": "crs-003",
-    "question": "Media komunikasi yang paling efektif dan praktis untuk menghubungi orang tua murid saat ini adalah?",
-    "options": ["Surat fisik yang dikirim setiap hari", "Grup WhatsApp kelas", "Pertemuan tatap muka setiap minggu", "Pengumuman via radio sekolah"],
-    "correct_index": 1,
-    "weight": 34,
-    "explanation": "Grup WhatsApp kelas adalah media yang paling efektif saat ini karena hampir semua orang tua memiliki smartphone dan respons lebih cepat dibandingkan surat fisik."
+    "id": "quiz-course-01-q4",
+    "course_id": "course-01",
+    "question": "Pertanyaan 4 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
   },
   {
-    "id": "q-011",
-    "course_id": "crs-003",
-    "question": "Kapan undangan pertemuan orang tua sebaiknya dikirimkan?",
-    "options": ["Pada hari pertemuan", "1 hari sebelumnya", "Minimal 1 minggu sebelumnya", "1 bulan sebelumnya"],
-    "correct_index": 2,
-    "weight": 33,
-    "explanation": "Undangan sebaiknya dikirim minimal 1 minggu sebelumnya agar orang tua dapat mengatur jadwal dan hadir pada pertemuan."
+    "id": "quiz-course-01-q5",
+    "course_id": "course-01",
+    "question": "Pertanyaan 5 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
   },
   {
-    "id": "q-012",
-    "course_id": "crs-003",
-    "question": "Durasi ideal untuk sesi presentasi dalam pertemuan orang tua adalah?",
-    "options": ["5 menit saja", "10-15 menit", "45-60 menit", "Lebih dari 2 jam"],
-    "correct_index": 1,
-    "weight": 33,
-    "explanation": "Presentasi 10-15 menit cukup untuk menyampaikan poin-poin penting tanpa membuat orang tua bosan. Sisa waktu digunakan untuk demonstrasi dan diskusi interaktif."
+    "id": "quiz-course-02-q1",
+    "course_id": "course-02",
+    "question": "Pertanyaan 1 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-02-q2",
+    "course_id": "course-02",
+    "question": "Pertanyaan 2 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-02-q3",
+    "course_id": "course-02",
+    "question": "Pertanyaan 3 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-02-q4",
+    "course_id": "course-02",
+    "question": "Pertanyaan 4 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-02-q5",
+    "course_id": "course-02",
+    "question": "Pertanyaan 5 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-03-q1",
+    "course_id": "course-03",
+    "question": "Pertanyaan 1 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-03-q2",
+    "course_id": "course-03",
+    "question": "Pertanyaan 2 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-03-q3",
+    "course_id": "course-03",
+    "question": "Pertanyaan 3 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-03-q4",
+    "course_id": "course-03",
+    "question": "Pertanyaan 4 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-03-q5",
+    "course_id": "course-03",
+    "question": "Pertanyaan 5 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-04-q1",
+    "course_id": "course-04",
+    "question": "Pertanyaan 1 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-04-q2",
+    "course_id": "course-04",
+    "question": "Pertanyaan 2 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-04-q3",
+    "course_id": "course-04",
+    "question": "Pertanyaan 3 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-04-q4",
+    "course_id": "course-04",
+    "question": "Pertanyaan 4 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-04-q5",
+    "course_id": "course-04",
+    "question": "Pertanyaan 5 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-05-q1",
+    "course_id": "course-05",
+    "question": "Pertanyaan 1 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-05-q2",
+    "course_id": "course-05",
+    "question": "Pertanyaan 2 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-05-q3",
+    "course_id": "course-05",
+    "question": "Pertanyaan 3 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-05-q4",
+    "course_id": "course-05",
+    "question": "Pertanyaan 4 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-05-q5",
+    "course_id": "course-05",
+    "question": "Pertanyaan 5 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-06-q1",
+    "course_id": "course-06",
+    "question": "Pertanyaan 1 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-06-q2",
+    "course_id": "course-06",
+    "question": "Pertanyaan 2 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-06-q3",
+    "course_id": "course-06",
+    "question": "Pertanyaan 3 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-06-q4",
+    "course_id": "course-06",
+    "question": "Pertanyaan 4 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-06-q5",
+    "course_id": "course-06",
+    "question": "Pertanyaan 5 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-07-q1",
+    "course_id": "course-07",
+    "question": "Pertanyaan 1 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-07-q2",
+    "course_id": "course-07",
+    "question": "Pertanyaan 2 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-07-q3",
+    "course_id": "course-07",
+    "question": "Pertanyaan 3 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-07-q4",
+    "course_id": "course-07",
+    "question": "Pertanyaan 4 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-07-q5",
+    "course_id": "course-07",
+    "question": "Pertanyaan 5 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-08-q1",
+    "course_id": "course-08",
+    "question": "Pertanyaan 1 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-08-q2",
+    "course_id": "course-08",
+    "question": "Pertanyaan 2 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-08-q3",
+    "course_id": "course-08",
+    "question": "Pertanyaan 3 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-08-q4",
+    "course_id": "course-08",
+    "question": "Pertanyaan 4 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-08-q5",
+    "course_id": "course-08",
+    "question": "Pertanyaan 5 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-09-q1",
+    "course_id": "course-09",
+    "question": "Pertanyaan 1 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-09-q2",
+    "course_id": "course-09",
+    "question": "Pertanyaan 2 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-09-q3",
+    "course_id": "course-09",
+    "question": "Pertanyaan 3 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-09-q4",
+    "course_id": "course-09",
+    "question": "Pertanyaan 4 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-09-q5",
+    "course_id": "course-09",
+    "question": "Pertanyaan 5 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-10-q1",
+    "course_id": "course-10",
+    "question": "Pertanyaan 1 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-10-q2",
+    "course_id": "course-10",
+    "question": "Pertanyaan 2 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-10-q3",
+    "course_id": "course-10",
+    "question": "Pertanyaan 3 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-10-q4",
+    "course_id": "course-10",
+    "question": "Pertanyaan 4 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-10-q5",
+    "course_id": "course-10",
+    "question": "Pertanyaan 5 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-11-q1",
+    "course_id": "course-11",
+    "question": "Pertanyaan 1 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-11-q2",
+    "course_id": "course-11",
+    "question": "Pertanyaan 2 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-11-q3",
+    "course_id": "course-11",
+    "question": "Pertanyaan 3 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-11-q4",
+    "course_id": "course-11",
+    "question": "Pertanyaan 4 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-11-q5",
+    "course_id": "course-11",
+    "question": "Pertanyaan 5 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-12-q1",
+    "course_id": "course-12",
+    "question": "Pertanyaan 1 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-12-q2",
+    "course_id": "course-12",
+    "question": "Pertanyaan 2 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-12-q3",
+    "course_id": "course-12",
+    "question": "Pertanyaan 3 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-12-q4",
+    "course_id": "course-12",
+    "question": "Pertanyaan 4 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
+  },
+  {
+    "id": "quiz-course-12-q5",
+    "course_id": "course-12",
+    "question": "Pertanyaan 5 tentang materi kursus ini:",
+    "options": [
+      "Jawaban yang benar",
+      "Jawaban yang salah A",
+      "Jawaban yang salah B",
+      "Jawaban yang salah C"
+    ],
+    "correct_index": 0,
+    "weight": 20,
+    "explanation": "Pilihan pertama adalah jawaban yang tepat berdasarkan materi yang telah dipelajari."
   }
 ]

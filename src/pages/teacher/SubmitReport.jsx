@@ -1,36 +1,33 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FileText, AlertCircle } from 'lucide-react'
-import { useReports }    from '../../hooks/useReports'
-import { useApp }        from '../../hooks/useApp'
-import { useAuth }       from '../../hooks/useAuth'
-import Card              from '../../components/ui/Card'
-import Button            from '../../components/ui/Button'
-import SelectInput       from '../../components/forms/SelectInput'
-import TextInput         from '../../components/forms/TextInput'
-import TextArea          from '../../components/forms/TextArea'
-import Modal             from '../../components/ui/Modal'
+import { useReports }   from '../../hooks/useReports'
+import { useApp }       from '../../hooks/useApp'
+import { useAuth }      from '../../hooks/useAuth'
+import Card             from '../../components/ui/Card'
+import Button           from '../../components/ui/Button'
+import SelectInput      from '../../components/forms/SelectInput'
+import TextInput        from '../../components/forms/TextInput'
+import TextArea         from '../../components/forms/TextArea'
+import Modal            from '../../components/ui/Modal'
+import ImageUpload      from '../../components/ui/ImageUpload'
 import { formatPeriod, getPeriodOptions } from '../../utils/formatters'
 
-/**
- * BUG FIX: "Simpan Draft" previously called createDraft() every time, causing a
- * DUPLICATE_PERIOD error on the second press. Now it calls editDraft() on the
- * existing draftId if one already exists.
- */
 export default function SubmitReport() {
-  const navigate                   = useNavigate()
-  const { session }                = useAuth()
-  const { toast }                  = useApp()
+  const navigate                    = useNavigate()
+  const { session }                 = useAuth()
+  const { toast, globalPeriod }     = useApp()
   const { activityTypes, createDraft, editDraft, submit } = useReports()
 
   const periodOptions = getPeriodOptions(6)
 
   const [form, setForm] = useState({
     activity_type_id:  '',
-    report_period:     '2025-02',
+    report_period:     globalPeriod,
     participant_count: '',
     description:       '',
     evidence_notes:    '',
+    image_urls:        [],           // ← image support
   })
   const [errors,      setErrors]      = useState({})
   const [saving,      setSaving]      = useState(false)
@@ -61,12 +58,10 @@ export default function SubmitReport() {
 
     let result
     if (draftId) {
-      // BUG FIX: update existing draft instead of creating a duplicate
       result = editDraft(draftId, form)
     } else {
       result = createDraft(form)
     }
-
     setSaving(false)
 
     if (result.success) {
@@ -74,9 +69,7 @@ export default function SubmitReport() {
       toast.success('Draft laporan tersimpan.')
     } else {
       toast.error(result.message ?? 'Gagal menyimpan draft.')
-      if (result.error === 'DUPLICATE_PERIOD') {
-        setErrors({ activity_type_id: result.message })
-      }
+      if (result.error === 'DUPLICATE_PERIOD') setErrors({ activity_type_id: result.message })
     }
   }
 
@@ -100,6 +93,9 @@ export default function SubmitReport() {
       }
       id = draftResult.report.id
       setDraftId(id)
+    } else {
+      // Save latest form data (including images) to existing draft before submit
+      editDraft(id, form)
     }
 
     const result = submit(id)
@@ -128,23 +124,17 @@ export default function SubmitReport() {
 
       <Card>
         <div className="space-y-5">
-          {/* Period */}
           <SelectInput label="Periode Laporan" required options={periodOptions}
             value={form.report_period} onChange={e => set('report_period', e.target.value)}
             error={errors.report_period} placeholder={null} />
 
-          {/* Activity type */}
           <SelectInput
             label="Jenis Kegiatan" required
-            options={activityTypes.map(t => ({
-              value: t.id,
-              label: `${t.label} (${t.score_weight} pts)`,
-            }))}
+            options={activityTypes.map(t => ({ value: t.id, label: `${t.label} (${t.score_weight} pts)` }))}
             value={form.activity_type_id}
             onChange={e => set('activity_type_id', e.target.value)}
             error={errors.activity_type_id}
-            placeholder="Pilih jenis kegiatan..."
-          />
+            placeholder="Pilih jenis kegiatan..." />
 
           {selectedType && (
             <div className="flex gap-2 p-3 rounded-lg bg-primary-50 border border-primary-100">
@@ -170,6 +160,18 @@ export default function SubmitReport() {
             value={form.evidence_notes}
             onChange={e => set('evidence_notes', e.target.value)} />
 
+          {/* Image upload */}
+          <div>
+            <label className="label mb-2 block">
+              Dokumentasi Foto <span className="text-gray-400 font-normal text-xs">(opsional, maks. 5 gambar)</span>
+            </label>
+            <ImageUpload
+              value={form.image_urls}
+              onChange={urls => set('image_urls', urls)}
+              max={5}
+            />
+          </div>
+
           <div className="flex gap-2 p-3 rounded-lg bg-amber-50 border border-amber-200">
             <AlertCircle size={14} className="text-amber-600 shrink-0 mt-0.5" />
             <p className="text-xs text-amber-700">
@@ -179,22 +181,17 @@ export default function SubmitReport() {
           </div>
 
           <div className="flex items-center gap-3 pt-2 border-t border-gray-100">
-            <Button variant="secondary" onClick={() => navigate('/app/teacher/reports')}>
-              Batal
-            </Button>
-            <Button variant="ghost" loading={saving} onClick={handleSaveDraft}
-              icon={<FileText size={14} />}>
+            <Button variant="secondary" onClick={() => navigate('/app/teacher/reports')}>Batal</Button>
+            <Button variant="ghost" loading={saving} onClick={handleSaveDraft} icon={<FileText size={14} />}>
               {draftId ? 'Update Draft' : 'Simpan Draft'}
             </Button>
-            <Button variant="primary" loading={submitting} onClick={handleOpenConfirm}
-              className="ml-auto">
+            <Button variant="primary" loading={submitting} onClick={handleOpenConfirm} className="ml-auto">
               Kirim Laporan →
             </Button>
           </div>
         </div>
       </Card>
 
-      {/* Confirm modal */}
       <Modal
         open={confirmOpen}
         onClose={() => setConfirmOpen(false)}
@@ -207,9 +204,7 @@ export default function SubmitReport() {
         }
       >
         <div className="space-y-3">
-          <p className="text-sm text-gray-700">
-            Anda akan mengirimkan laporan berikut untuk divalidasi oleh admin:
-          </p>
+          <p className="text-sm text-gray-700">Anda akan mengirimkan laporan berikut untuk divalidasi:</p>
           <div className="bg-alabaster rounded-xl p-4 space-y-2 text-sm">
             <div className="flex justify-between">
               <span className="text-gray-500">Periode</span>
@@ -222,6 +217,10 @@ export default function SubmitReport() {
             <div className="flex justify-between">
               <span className="text-gray-500">Peserta</span>
               <span className="font-medium">{form.participant_count} anak</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Foto</span>
+              <span className="font-medium">{form.image_urls.length} gambar</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-500">Nilai</span>

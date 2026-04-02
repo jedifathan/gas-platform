@@ -41,7 +41,8 @@ import GovReports     from './pages/gov/GovReports'
 import GovLeaderboard from './pages/gov/GovLeaderboard'
 
 function ProtectedRoute({ children, requiredRole }) {
-  const { session, isAuthenticated } = useAuth()
+  const { session, isAuthenticated, isLoading } = useAuth()
+  if (isLoading) return null
   if (!isAuthenticated) return <Navigate to="/login" replace />
   if (requiredRole && session?.role !== requiredRole) return <Navigate to="/app/dashboard" replace />
   return children

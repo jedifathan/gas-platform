@@ -12,7 +12,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-    # ⚠ Port NOT exposed publicly — only accessible inside Docker network
+    # Port exposed publicly
     ports:
       - "5432:5432"
     healthcheck:
@@ -38,6 +38,8 @@ services:
       JWT_SECRET:  ${JWT_SECRET}
     expose:
       - "3001"
+    volumes:
+      - uploads_data:/app/uploads
     depends_on:
       db:
         condition: service_healthy
@@ -70,3 +72,4 @@ services:
 
 volumes:
   postgres_data:
+  uploads_data:

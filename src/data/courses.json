@@ -1,189 +1,122 @@
 [
   {
-    "id": "course-01", "order_num": 1,
+    "id": "course-01", "order_num": 1, "is_published": true,
     "title": "Petualangan Gigi", "month_label": "Juli 2025",
+    "category_label": "Pengenalan Dasar", "thumbnail_color": "#DCFCE7",
     "description": "Mengenal jenis-jenis gigi sulung dan fungsinya dalam proses makan.",
-    "objectives": [
-      "Mengidentifikasi jenis-jenis gigi sulung (gigi seri, taring, geraham)",
-      "Menjelaskan fungsi masing-masing jenis gigi sulung",
-      "Membedakan bentuk dan letak gigi pada gambar atau model gigi"
-    ],
-    "activities": [
-      "Menghitung dan mengamati gigi sendiri menggunakan cermin kecil",
-      "Tebak-tebakan jenis gigi sulung melalui kuis gambar",
-      "Pemberian stiker bintang untuk jawaban benar"
-    ],
+    "total_lessons": 4, "passing_score": 70,
+    "objectives": ["Mengidentifikasi jenis-jenis gigi sulung","Menjelaskan fungsi masing-masing jenis gigi sulung","Membedakan bentuk dan letak gigi"],
+    "activities": ["Menghitung dan mengamati gigi menggunakan cermin kecil","Tebak-tebakan jenis gigi sulung","Pemberian stiker bintang"],
     "tools": ["Poster edukasi gigi sulung"]
   },
   {
-    "id": "course-02", "order_num": 2,
+    "id": "course-02", "order_num": 2, "is_published": true,
     "title": "Perkenalan Alat Pembersih Gigi", "month_label": "Agustus 2025",
+    "category_label": "Kebersihan Gigi", "thumbnail_color": "#DBEAFE",
     "description": "Mengenal alat pembersih gigi dan fungsinya melalui media gambar dan benda nyata.",
-    "objectives": [
-      "Mengenal alat pembersih gigi (sikat gigi, pasta gigi)",
-      "Menyebutkan fungsi masing-masing alat pembersih gigi"
-    ],
-    "activities": [
-      "Anak membawa alat pembersih gigi pribadi",
-      "Menunjukkan berbagai jenis sikat gigi dengan ukuran berbeda",
-      "Demonstrasi takaran pasta gigi yang sesuai (sebesar biji kacang)"
-    ],
-    "tools": ["Berbagai jenis sikat gigi dengan ukuran berbeda"]
+    "total_lessons": 4, "passing_score": 70,
+    "objectives": ["Mengenal alat pembersih gigi","Menyebutkan fungsi masing-masing alat"],
+    "activities": ["Anak membawa alat pembersih gigi pribadi","Demonstrasi takaran pasta gigi"],
+    "tools": ["Berbagai jenis sikat gigi"]
   },
   {
-    "id": "course-03", "order_num": 3,
+    "id": "course-03", "order_num": 3, "is_published": true,
     "title": "Waktu dan Cara Menyikat Gigi", "month_label": "September 2025",
+    "category_label": "Kebersihan Gigi", "thumbnail_color": "#FEF9C3",
     "description": "Mengetahui manfaat, waktu yang tepat, dan teknik menyikat gigi yang benar.",
-    "objectives": [
-      "Mengetahui manfaat menyikat gigi secara teratur",
-      "Menyebutkan waktu yang tepat: setelah sarapan dan sebelum tidur",
-      "Menunjukkan teknik menyikat gigi yang benar (gerakan memutar dari gusi ke ujung gigi)",
-      "Mengetahui frekuensi ideal: dua kali sehari"
-    ],
-    "activities": [
-      "Demonstrasi oleh guru menggunakan phantom gigi",
-      "Praktik menyikat gigi bersama",
-      "Menggunakan lagu berdurasi dua menit sebagai panduan waktu"
-    ],
-    "tools": ["Phantom gigi", "Sikat gigi", "Lagu sikat gigi berdurasi 2 menit"]
+    "total_lessons": 4, "passing_score": 70,
+    "objectives": ["Mengetahui manfaat menyikat gigi","Menyebutkan waktu yang tepat","Teknik menyikat yang benar"],
+    "activities": ["Demonstrasi oleh guru","Praktik bersama","Lagu dua menit"],
+    "tools": ["Phantom gigi","Sikat gigi"]
   },
   {
-    "id": "course-04", "order_num": 4,
+    "id": "course-04", "order_num": 4, "is_published": true,
     "title": "Dokter Gigi, Sahabat Gigi", "month_label": "Oktober 2025",
+    "category_label": "Kesehatan Gigi", "thumbnail_color": "#FCE7F3",
     "description": "Mengenal profesi dokter gigi dan menumbuhkan sikap positif terhadap pemeriksaan gigi.",
-    "objectives": [
-      "Mengenal profesi dokter gigi",
-      "Mengetahui peran dokter gigi dalam merawat gigi",
-      "Menunjukkan sikap positif terhadap dokter gigi",
-      "Menumbuhkan rasa percaya diri saat menjadi pasien"
-    ],
-    "activities": [
-      "Bermain peran Dokter Gigi dan Pasien secara bergantian"
-    ],
+    "total_lessons": 4, "passing_score": 70,
+    "objectives": ["Mengenal profesi dokter gigi","Sikap positif terhadap dokter gigi"],
+    "activities": ["Bermain peran Dokter Gigi dan Pasien"],
     "tools": ["Mainan alat dokter gigi"]
   },
   {
-    "id": "course-05", "order_num": 5,
+    "id": "course-05", "order_num": 5, "is_published": true,
     "title": "Perkenalan Gigi Berlubang", "month_label": "November 2025",
+    "category_label": "Kesehatan Gigi", "thumbnail_color": "#FEE2E2",
     "description": "Mengenali perbedaan gigi sehat dan berlubang serta pentingnya perawatan.",
-    "objectives": [
-      "Mengenali perbedaan gigi sehat dan gigi berlubang",
-      "Mengetahui ciri-ciri gigi tidak sehat (berlubang, menghitam, sakit, goyang)",
-      "Memahami bahwa gigi berlubang perlu dirawat dokter gigi",
-      "Mengenal kondisi rongga mulut yang sehat"
-    ],
-    "activities": [
-      "Menempel kertas pada gambar gigi berlubang agar menjadi gigi sehat kembali"
-    ],
-    "tools": ["Poster perbedaan gigi sehat dan gigi berlubang"]
+    "total_lessons": 4, "passing_score": 70,
+    "objectives": ["Mengenali perbedaan gigi sehat dan berlubang","Memahami pentingnya perawatan"],
+    "activities": ["Menempel kertas pada gigi berlubang"],
+    "tools": ["Poster perbedaan gigi"]
   },
   {
-    "id": "course-06", "order_num": 6,
+    "id": "course-06", "order_num": 6, "is_published": true,
     "title": "Makanan yang Jadi Musuh Gigi", "month_label": "Desember 2025",
-    "description": "Mengenal jenis makanan dan minuman yang dapat menyebabkan gigi berlubang.",
-    "objectives": [
-      "Mengenali makanan kariogenik yang menyebabkan gigi berlubang",
-      "Mengetahui dampak makanan manis terhadap gigi",
-      "Membedakan makanan baik dan buruk untuk gigi",
-      "Menumbuhkan sikap berhati-hati dalam memilih makanan"
-    ],
-    "activities": [
-      "Permainan kotak Sahabat Gigi dan Musuh Gigi",
-      "Anak memasukkan kartu bergambar makanan ke kotak yang sesuai"
-    ],
-    "tools": ["Dua kotak berlabel Sahabat Gigi dan Musuh Gigi", "Kartu bergambar makanan"]
+    "category_label": "Gizi & Gigi", "thumbnail_color": "#FFF7ED",
+    "description": "Mengenal jenis makanan yang dapat menyebabkan gigi berlubang.",
+    "total_lessons": 4, "passing_score": 70,
+    "objectives": ["Mengenali makanan kariogenik","Membedakan makanan baik dan buruk"],
+    "activities": ["Permainan kotak Sahabat Gigi dan Musuh Gigi"],
+    "tools": ["Kartu bergambar makanan"]
   },
   {
-    "id": "course-07", "order_num": 7,
+    "id": "course-07", "order_num": 7, "is_published": true,
     "title": "Minuman yang Jadi Musuh Gigi", "month_label": "Januari 2026",
+    "category_label": "Gizi & Gigi", "thumbnail_color": "#EDE9FE",
     "description": "Mengenal jenis minuman yang baik dan buruk untuk kesehatan gigi.",
-    "objectives": [
-      "Membedakan minuman yang baik dan buruk untuk gigi"
-    ],
-    "activities": [
-      "Permainan klasifikasi gambar minuman menggunakan klip",
-      "Anak menjepit gambar minuman ke gambar gigi sehat atau berlubang"
-    ],
-    "tools": ["Gambar gigi sehat dan berlubang berukuran besar", "Klip bergambar minuman"]
+    "total_lessons": 4, "passing_score": 70,
+    "objectives": ["Membedakan minuman baik dan buruk untuk gigi"],
+    "activities": ["Permainan klasifikasi gambar minuman"],
+    "tools": ["Gambar gigi sehat dan berlubang","Klip bergambar minuman"]
   },
   {
-    "id": "course-08", "order_num": 8,
+    "id": "course-08", "order_num": 8, "is_published": true,
     "title": "Akibat Gigi Berlubang", "month_label": "Februari 2026",
+    "category_label": "Kesehatan Gigi", "thumbnail_color": "#FEF2F2",
     "description": "Memahami dampak gigi berlubang terhadap kesehatan dan aktivitas sehari-hari.",
-    "objectives": [
-      "Menjelaskan bahwa gigi berlubang dapat menyebabkan rasa sakit",
-      "Memahami dampak gigi berlubang yang dibiarkan",
-      "Mengetahui bahwa sakit gigi mengganggu makan dan pertumbuhan",
-      "Menunjukkan sikap peduli terhadap kesehatan gigi"
-    ],
-    "activities": [
-      "Pembacaan cerita perjalanan gigi berlubang melalui flashcard"
-    ],
-    "tools": ["Flashcard urutan terjadinya gigi berlubang dan akibatnya"]
+    "total_lessons": 4, "passing_score": 70,
+    "objectives": ["Menjelaskan dampak gigi berlubang","Sikap peduli kesehatan gigi"],
+    "activities": ["Pembacaan cerita melalui flashcard"],
+    "tools": ["Flashcard gigi berlubang"]
   },
   {
-    "id": "course-09", "order_num": 9,
+    "id": "course-09", "order_num": 9, "is_published": true,
     "title": "Peri Gigi", "month_label": "Maret 2026",
-    "description": "Memahami proses tanggalnya gigi sulung dan tumbuhnya gigi tetap sebagai bagian normal pertumbuhan.",
-    "objectives": [
-      "Mengetahui bahwa gigi sulung akan tanggal secara alami",
-      "Memahami bahwa gigi tanggal akan digantikan gigi tetap",
-      "Menyadari tanggalnya gigi adalah hal normal",
-      "Mengetahui pentingnya merawat gigi sulung"
-    ],
-    "activities": [
-      "Membuat Kotak Peri Gigi untuk menyimpan gigi sulung yang copot",
-      "Bermain peran menukar gigi ke Peri Gigi — guru mengganti dengan hadiah kecil"
-    ],
+    "category_label": "Tumbuh Kembang", "thumbnail_color": "#F0FDF4",
+    "description": "Memahami proses tanggalnya gigi sulung dan tumbuhnya gigi tetap.",
+    "total_lessons": 4, "passing_score": 70,
+    "objectives": ["Mengetahui proses tanggalnya gigi","Menyadari ini hal normal"],
+    "activities": ["Membuat Kotak Peri Gigi","Bermain peran Peri Gigi"],
     "tools": ["Mainan cabut gigi"]
   },
   {
-    "id": "course-10", "order_num": 10,
+    "id": "course-10", "order_num": 10, "is_published": true,
     "title": "Ayo ke Dokter Gigi", "month_label": "April 2026",
+    "category_label": "Kesehatan Gigi", "thumbnail_color": "#F0F9FF",
     "description": "Memahami pentingnya memeriksakan gigi secara rutin ke dokter gigi.",
-    "objectives": [
-      "Memahami pentingnya periksa gigi rutin meskipun tidak sakit",
-      "Mengetahui bahwa dokter gigi membantu merawat gigi",
-      "Mengembangkan sikap berani saat ke dokter gigi",
-      "Menumbuhkan kebiasaan menjaga kesehatan gigi sejak dini"
-    ],
-    "activities": [
-      "Membaca pop up book bersama"
-    ],
+    "total_lessons": 4, "passing_score": 70,
+    "objectives": ["Memahami pentingnya periksa gigi rutin","Sikap berani saat ke dokter gigi"],
+    "activities": ["Membaca pop up book bersama"],
     "tools": ["Pop up book"]
   },
   {
-    "id": "course-11", "order_num": 11,
+    "id": "course-11", "order_num": 11, "is_published": true,
     "title": "Gigi Sehat, Tubuh Kuat", "month_label": "Mei 2026",
+    "category_label": "Gizi & Gigi", "thumbnail_color": "#ECFDF5",
     "description": "Mengaitkan kesehatan gigi dengan kesehatan tubuh secara keseluruhan.",
-    "objectives": [
-      "Mengenal pentingnya menjaga kesehatan gigi",
-      "Menyebutkan cara menjaga gigi tetap sehat",
-      "Memahami bahwa gigi sehat membantu makan sehingga tubuh kuat",
-      "Mengetahui makanan dan minuman yang sehat untuk gigi dan tubuh"
-    ],
-    "activities": [
-      "Sikat Gigi Bersama mengikuti panduan lagu selama 2 menit",
-      "Buka Bekal Sehat — anak membawa bekal makanan sehat",
-      "Tebak-Tebakan Gigi Sehat menggunakan mainan makanan"
-    ],
-    "tools": ["Sikat gigi", "Pasta gigi", "Phantom gigi", "Mainan makanan dan minuman"]
+    "total_lessons": 4, "passing_score": 70,
+    "objectives": ["Mengenal pentingnya kesehatan gigi","Makanan sehat untuk gigi dan tubuh"],
+    "activities": ["Sikat Gigi Bersama","Buka Bekal Sehat"],
+    "tools": ["Sikat gigi","Phantom gigi"]
   },
   {
-    "id": "course-12", "order_num": 12,
+    "id": "course-12", "order_num": 12, "is_published": true,
     "title": "Jagalah Gigimu", "month_label": "Juni 2026",
-    "description": "Mengulas dan memperkuat seluruh materi kesehatan gigi yang telah dipelajari selama setahun.",
-    "objectives": [
-      "Mengingat waktu yang tepat menyikat gigi",
-      "Menjelaskan cara menyikat gigi yang benar",
-      "Mengetahui pentingnya menyikat gigi dua kali sehari",
-      "Mengenali makanan yang merusak gigi",
-      "Memahami bahwa gigi tidak terawat bisa berlubang dan sakit",
-      "Mengetahui pentingnya periksa gigi rutin ke dokter gigi"
-    ],
-    "activities": [
-      "Tanya Jawab Interaktif dengan Poster — guru memberi pertanyaan terbuka, anak menjawab lisan"
-    ],
-    "tools": ["Poster waktu sikat gigi, cara sikat gigi yang benar, kunjungan ke dokter gigi"]
+    "category_label": "Review", "thumbnail_color": "#FFF7ED",
+    "description": "Mengulas dan memperkuat seluruh materi kesehatan gigi selama setahun.",
+    "total_lessons": 4, "passing_score": 70,
+    "objectives": ["Mengingat semua materi","Mengetahui pentingnya periksa rutin"],
+    "activities": ["Tanya Jawab Interaktif dengan Poster"],
+    "tools": ["Poster ringkasan"]
   }
 ]

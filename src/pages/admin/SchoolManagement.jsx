@@ -1,17 +1,17 @@
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Search, School, MapPin, ChevronRight, Plus, X } from 'lucide-react'
+import { Search, School, MapPin, Plus } from 'lucide-react'
 import { getAllSchools, createSchool, updateSchool } from '../../services/schoolService'
-import regionsData from '../../data/regions.json'
+import { getAllRegions } from '../../services/regionService'
 import { useApp }    from '../../hooks/useApp'
 import Card          from '../../components/ui/Card'
 import Badge         from '../../components/ui/Badge'
 import Button        from '../../components/ui/Button'
 import Modal         from '../../components/ui/Modal'
 import EmptyState    from '../../components/ui/EmptyState'
+import Spinner       from '../../components/ui/Spinner'
 import TextInput     from '../../components/forms/TextInput'
 import SelectInput   from '../../components/forms/SelectInput'
-import { formatDate } from '../../utils/formatters'
 
 const STATUS_CONFIG = {
   active:   { label: 'Aktif',    color: 'green'  },
@@ -21,47 +21,57 @@ const STATUS_CONFIG = {
 
 const EMPTY_FORM = {
   name: '', region_id: '', district: '', address: '',
-  principal_name: '', phone: '', program_start_date: '', status: 'pending',
+  total_students: '', total_teachers: '',
 }
 
 export default function SchoolManagement() {
-  const navigate          = useNavigate()
-  const { toast }         = useApp()
-  const [schools, setSchools] = useState(() => getAllSchools())
-  const [search, setSearch]   = useState('')
-  const [region, setRegion]   = useState('')
-  const [status, setStatus]   = useState('')
+  const navigate      = useNavigate()
+  const { toast }     = useApp()
 
-  const [modal,    setModal]    = useState(null)  // 'create' | 'edit' | null
-  const [editing,  setEditing]  = useState(null)  // school object being edited
-  const [form,     setForm]     = useState(EMPTY_FORM)
-  const [errors,   setErrors]   = useState({})
-  const [saving,   setSaving]   = useState(false)
+  const [schools,  setSchools]  = useState([])
+  const [regions,  setRegions]  = useState([])
+  const [loading,  setLoading]  = useState(true)
+  const [search,   setSearch]   = useState('')
+  const [regionF,  setRegionF]  = useState('')
+
+  const [modal,   setModal]   = useState(null)
+  const [editing, setEditing] = useState(null)
+  const [form,    setForm]    = useState(EMPTY_FORM)
+  const [errors,  setErrors]  = useState({})
+  const [saving,  setSaving]  = useState(false)
+
+  const fetchAll = useCallback(async () => {
+    setLoading(true)
+    const [s, r] = await Promise.all([getAllSchools(), getAllRegions()])
+    setSchools(s)
+    setRegions(r)
+    setLoading(false)
+  }, [])
+
+  useEffect(() => { fetchAll() }, [fetchAll])
 
   const filtered = schools.filter(s => {
     const q = search.toLowerCase()
     return (
-      (!search || s.name.toLowerCase().includes(q) || s.district.toLowerCase().includes(q)) &&
-      (!region || s.region_id === region) &&
-      (!status || s.status === status)
+      (!search || s.name.toLowerCase().includes(q) || (s.district ?? '').toLowerCase().includes(q)) &&
+      (!regionF || s.region_id === regionF)
     )
   })
 
   function openCreate() {
-    setEditing(null)
-    setForm(EMPTY_FORM)
-    setErrors({})
-    setModal('create')
+    setEditing(null); setForm(EMPTY_FORM); setErrors({}); setModal('create')
   }
 
   function openEdit(e, school) {
     e.stopPropagation()
     setEditing(school)
     setForm({
-      name: school.name, region_id: school.region_id, district: school.district,
-      address: school.address ?? '', principal_name: school.principal_name ?? '',
-      phone: school.phone ?? '', program_start_date: school.program_start_date ?? '',
-      status: school.status,
+      name:           school.name,
+      region_id:      school.region_id  ?? '',
+      district:       school.district   ?? '',
+      address:        school.address    ?? '',
+      total_students: school.total_students ?? '',
+      total_teachers: school.total_teachers ?? '',
     })
     setErrors({})
     setModal('edit')
@@ -74,12 +84,9 @@ export default function SchoolManagement() {
 
   async function handleSave() {
     setSaving(true)
-    await new Promise(r => setTimeout(r, 400))
-
     const result = modal === 'create'
-      ? createSchool(form)
-      : updateSchool(editing.id, form)
-
+      ? await createSchool(form)
+      : await updateSchool(editing.id, form)
     setSaving(false)
 
     if (!result.success) {
@@ -88,17 +95,14 @@ export default function SchoolManagement() {
       return
     }
 
-    setSchools(getAllSchools())
+    await fetchAll()
     toast.success(modal === 'create' ? 'Sekolah berhasil ditambahkan.' : 'Sekolah berhasil diperbarui.')
     setModal(null)
   }
 
-  const regionOpts = regionsData.map(r => ({ value: r.id, label: r.name }))
-  const statusOpts = [
-    { value: 'active',   label: 'Aktif' },
-    { value: 'pending',  label: 'Pending' },
-    { value: 'inactive', label: 'Nonaktif' },
-  ]
+  const regionOpts = regions.map(r => ({ value: r.id, label: `${r.name} — ${r.kota}` }))
+
+  if (loading) return <Spinner center />
 
   return (
     <div className="page-wrapper">
@@ -119,15 +123,9 @@ export default function SchoolManagement() {
           <input value={search} onChange={e => setSearch(e.target.value)}
             placeholder="Cari nama atau kecamatan..." className="input pl-9 text-sm w-56" />
         </div>
-        <select value={region} onChange={e => setRegion(e.target.value)} className="input text-sm w-48">
+        <select value={regionF} onChange={e => setRegionF(e.target.value)} className="input text-sm w-56">
           <option value="">Semua Wilayah</option>
-          {regionsData.map(r => <option key={r.id} value={r.id}>{r.name}</option>)}
-        </select>
-        <select value={status} onChange={e => setStatus(e.target.value)} className="input text-sm w-36">
-          <option value="">Semua Status</option>
-          <option value="active">Aktif</option>
-          <option value="pending">Pending</option>
-          <option value="inactive">Nonaktif</option>
+          {regions.map(r => <option key={r.id} value={r.id}>{r.name} — {r.kota}</option>)}
         </select>
       </div>
 
@@ -140,16 +138,16 @@ export default function SchoolManagement() {
             <thead>
               <tr>
                 <th className="th">Nama Sekolah</th>
-                <th className="th">Wilayah</th>
-                <th className="th w-28">Bergabung</th>
+                <th className="th">Kecamatan / Wilayah</th>
+                <th className="th w-24 text-center">Murid</th>
+                <th className="th w-24 text-center">Guru</th>
                 <th className="th w-24 text-center">Status</th>
                 <th className="th w-16 text-center">Aksi</th>
               </tr>
             </thead>
             <tbody>
               {filtered.map(school => {
-                const reg       = regionsData.find(r => r.id === school.region_id)
-                const statusCfg = STATUS_CONFIG[school.status] ?? STATUS_CONFIG.inactive
+                const reg = regions.find(r => r.id === school.region_id)
                 return (
                   <tr key={school.id}
                     className="border-b border-gray-100 hover:bg-alabaster cursor-pointer group"
@@ -160,30 +158,34 @@ export default function SchoolManagement() {
                         <div className="w-8 h-8 rounded-lg bg-primary-50 flex items-center justify-center shrink-0">
                           <School size={14} className="text-primary-600" />
                         </div>
-                        <div className="min-w-0">
-                          <p className="text-sm font-medium text-gray-900 truncate group-hover:text-primary-700">
-                            {school.name}
-                          </p>
-                          <p className="text-xs text-gray-400">{school.principal_name}</p>
-                        </div>
+                        <p className="text-sm font-medium text-gray-900 truncate group-hover:text-primary-700">
+                          {school.name}
+                        </p>
                       </div>
                     </td>
                     <td className="td">
                       <div className="flex items-center gap-1.5 text-sm text-gray-600">
                         <MapPin size={12} className="text-gray-400 shrink-0" />
-                        <span className="truncate">{school.district}, {reg?.name}</span>
+                        <span className="truncate">
+                          {school.district}{reg ? `, ${reg.name}` : ''}
+                        </span>
                       </div>
                     </td>
-                    <td className="td text-xs text-gray-500">{formatDate(school.program_start_date)}</td>
+                    <td className="td text-center text-sm text-gray-700">
+                      {school.total_students ?? '—'}
+                    </td>
+                    <td className="td text-center text-sm text-gray-700">
+                      {school.total_teachers ?? '—'}
+                    </td>
                     <td className="td text-center">
-                      <Badge color={statusCfg.color} size="sm">{statusCfg.label}</Badge>
+                      <Badge color={school.is_active ? 'green' : 'gray'} size="sm">
+                        {school.is_active ? 'Aktif' : 'Nonaktif'}
+                      </Badge>
                     </td>
                     <td className="td text-center" onClick={e => e.stopPropagation()}>
-                      <button
-                        onClick={e => openEdit(e, school)}
-                        className="text-xs text-primary-600 hover:text-primary-800 font-medium px-2 py-1
-                                   rounded hover:bg-primary-50 transition-colors"
-                      >
+                      <button onClick={e => openEdit(e, school)}
+                        className="text-xs text-primary-600 hover:text-primary-800 font-medium
+                                   px-2 py-1 rounded hover:bg-primary-50 transition-colors">
                         Edit
                       </button>
                     </td>
@@ -215,28 +217,22 @@ export default function SchoolManagement() {
             onChange={e => set('name', e.target.value)} error={errors.name}
             placeholder="contoh: TK Harapan Bangsa" />
           <div className="grid grid-cols-2 gap-4">
-            <SelectInput label="Wilayah" required options={regionOpts} value={form.region_id}
-              onChange={e => set('region_id', e.target.value)} error={errors.region_id}
-              placeholder="Pilih wilayah..." />
-            <TextInput label="Kecamatan" required value={form.district}
-              onChange={e => set('district', e.target.value)} error={errors.district}
-              placeholder="contoh: Ciputat" />
+            <SelectInput label="Wilayah (Kecamatan)" required options={regionOpts}
+              value={form.region_id} onChange={e => set('region_id', e.target.value)}
+              error={errors.region_id} placeholder="Pilih wilayah..." />
+            <TextInput label="Kecamatan" value={form.district}
+              onChange={e => set('district', e.target.value)}
+              placeholder="contoh: Pasar Rebo" />
           </div>
           <TextInput label="Alamat" value={form.address}
-            onChange={e => set('address', e.target.value)}
-            placeholder="Jl. ..." />
+            onChange={e => set('address', e.target.value)} placeholder="Jl. ..." />
           <div className="grid grid-cols-2 gap-4">
-            <TextInput label="Kepala Sekolah" value={form.principal_name}
-              onChange={e => set('principal_name', e.target.value)}
-              placeholder="Nama kepala sekolah" />
-            <TextInput label="Telepon" value={form.phone}
-              onChange={e => set('phone', e.target.value)} placeholder="021-..." />
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <TextInput label="Tanggal Mulai Program" type="date" value={form.program_start_date}
-              onChange={e => set('program_start_date', e.target.value)} />
-            <SelectInput label="Status" options={statusOpts} value={form.status}
-              onChange={e => set('status', e.target.value)} placeholder={null} />
+            <TextInput label="Total Murid" type="number" min="0"
+              value={form.total_students} onChange={e => set('total_students', e.target.value)}
+              placeholder="contoh: 60" />
+            <TextInput label="Total Guru" type="number" min="0"
+              value={form.total_teachers} onChange={e => set('total_teachers', e.target.value)}
+              placeholder="contoh: 4" />
           </div>
         </div>
       </Modal>
