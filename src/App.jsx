@@ -34,6 +34,7 @@ import SchoolDetail      from './pages/admin/SchoolDetail'
 import UserManagement    from './pages/admin/UserManagement'
 import RegionManagement  from './pages/admin/RegionManagement'
 import AdminLeaderboard  from './pages/admin/AdminLeaderboard'
+import CourseManagement  from './pages/admin/CourseManagement'
 
 import GovDashboard   from './pages/gov/GovDashboard'
 import GovMonitoring  from './pages/gov/GovMonitoring'
@@ -96,6 +97,7 @@ export default function App() {
         <Route path="admin/users"             element={<ProtectedRoute requiredRole="admin"><UserManagement /></ProtectedRoute>} />
         <Route path="admin/regions"           element={<ProtectedRoute requiredRole="admin"><RegionManagement /></ProtectedRoute>} />
         <Route path="admin/leaderboard"       element={<ProtectedRoute requiredRole="admin"><AdminLeaderboard /></ProtectedRoute>} />
+	<Route path="admin/courses"           element={<ProtectedRoute requiredRole="admin"><CourseManagement /></ProtectedRoute>} />
 
         {/* Gov */}
         <Route path="gov/dashboard"   element={<ProtectedRoute requiredRole="gov_observer"><GovDashboard /></ProtectedRoute>} />

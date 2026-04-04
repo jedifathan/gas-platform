@@ -1,24 +1,11 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useAuth } from './useAuth'
 import {
-  getCourses,
-  getCourseWithLessons,
-  getLessonById,
-  getTeacherProgress,
-  startCourse,
-  completeLesson,
-  scoreQuiz,
-  getQuizQuestions,
-  isQuizUnlocked,
+  getCourses, getCourseWithLessons,
+  getTeacherProgress, startCourse, completeLesson,
+  scoreQuiz, getQuizQuestions, isQuizUnlocked,
 } from '../services/lmsService'
 
-/**
- * useLMS — teacher-scoped LMS hook.
- * Provides courses enriched with per-teacher progress, and all mutating actions.
- *
- * Usage:
- *   const { courses, loading, enroll, markLessonDone, submitQuiz } = useLMS()
- */
 export function useLMS() {
   const { session } = useAuth()
   const teacherId   = session?.user_id
@@ -27,8 +14,9 @@ export function useLMS() {
   const [progress, setProgress] = useState([])
   const [loading,  setLoading]  = useState(true)
 
-  const refresh = useCallback(() => {
-    const raw  = getCourses()
+  const refresh = useCallback(async () => {
+    setLoading(true)
+    const raw  = await getCourses()          // async API call
     const prog = teacherId ? getTeacherProgress(teacherId) : []
 
     const enriched = raw.map(course => {
@@ -37,9 +25,7 @@ export function useLMS() {
         ...course,
         progress: p ?? null,
         status:   p?.status ?? 'not_started',
-        pct: p
-          ? Math.round((p.lessons_completed.length / course.total_lessons) * 100)
-          : 0,
+        pct: p ? Math.round((p.lessons_completed.length / (course.total_lessons || 1)) * 100) : 0,
       }
     })
 
@@ -49,8 +35,6 @@ export function useLMS() {
   }, [teacherId])
 
   useEffect(() => { refresh() }, [refresh])
-
-  // ── Actions ──────────────────────────────────────────────────────────────
 
   function enroll(courseId) {
     const result = startCourse(teacherId, courseId)
@@ -64,24 +48,32 @@ export function useLMS() {
     return result
   }
 
-  function submitQuiz(courseId, answers) {
-    const result = scoreQuiz(teacherId, courseId, answers)
+  function submitQuiz(courseId, answers, passingScore) {
+    const result = scoreQuiz(teacherId, courseId, answers, passingScore)
     if (result.success) refresh()
     return result
   }
 
-  // ── Reads ─────────────────────────────────────────────────────────────────
+  // Async — fetches course+lessons from API
+  async function getCourse(courseId) {
+    return getCourseWithLessons(courseId)
+  }
 
-  function getCourse(courseId)   { return getCourseWithLessons(courseId) }
-  function getLesson(lessonId)   { return getLessonById(lessonId) }
-  function getProgress(courseId) { return progress.find(p => p.course_id === courseId) ?? null }
-  function quizUnlocked(courseId){ return isQuizUnlocked(teacherId, courseId) }
-  function getQuestions(courseId){ return getQuizQuestions(courseId) }
+  function getProgress(courseId) {
+    return progress.find(p => p.course_id === courseId) ?? null
+  }
+
+  function quizUnlocked(courseId) {
+    const course = courses.find(c => c.id === courseId)
+    const nonQuizRequired = (course?.total_lessons ?? 4) - 1   // total minus quiz lesson
+    return isQuizUnlocked(teacherId, courseId, nonQuizRequired)
+  }
+
+  function getQuestions(courseId) { return getQuizQuestions(courseId) }
 
   return {
-    courses, progress, loading,
-    refresh,
+    courses, progress, loading, refresh,
     enroll, markLessonDone, submitQuiz,
-    getCourse, getLesson, getProgress, quizUnlocked, getQuestions,
+    getCourse, getProgress, quizUnlocked, getQuestions,
   }
 }

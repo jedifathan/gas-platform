@@ -23,6 +23,7 @@ const ADMIN_NAV = [
   { to: '/app/admin/schools',     icon: School,          label: 'Sekolah' },
   { to: '/app/admin/regions',     icon: Globe,           label: 'Wilayah' },
   { to: '/app/admin/users',       icon: Users,           label: 'Pengguna' },
+  { to: '/app/admin/courses',     icon: BookOpen,        label: 'Kursus' },
   { to: '/app/admin/leaderboard', icon: Trophy,          label: 'Peringkat' },
 ]
 
